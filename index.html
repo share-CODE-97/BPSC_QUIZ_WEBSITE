@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BPSC Preparation — BPSC Study Hub</title>
+<meta name="description" content="Local offline dashboard for BPSC preparation — PYQ, quizzes, test series, mains and current affairs." />
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root{
+  --bg:#eef1f7;
+  --bg-elev:#ffffff;
+  --bg-soft:#f5f7fc;
+  --bg-sunken:#e7ecf5;
+  --text:#141d2b;
+  --text-soft:#556377;
+  --text-mute:#8794a8;
+  --border:#dce3ef;
+  --border-strong:#c3cfe1;
+  --shadow-sm:0 1px 2px rgba(15,30,60,.06);
+  --shadow-md:0 8px 22px rgba(15,30,60,.10);
+  --shadow-lg:0 18px 44px rgba(15,30,60,.16);
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-xs:7px;
+  --font: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Cascadia Mono", "SF Mono", Consolas, "Courier New", monospace;
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --focus:#2f6fd0;
+}
+
+/* ---------- DARK THEME (primary experience) ---------- */
+[data-theme="dark"]{
+  --bg:#31362b;
+  --bg-elev:#232b38;
+  --bg-soft:#141d2c;
+  --bg-sunken:#0a1119;
+  --text:#eaf1fb;
+  --text-soft:#ffffff;
+  --text-mute:#ffffff;
+  --border:#1d283b;
+  --border-strong:#2c3a53;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.55);
+  --shadow-md:0 10px 26px rgba(0,0,0,.55);
+  --shadow-lg:0 22px 52px rgba(0,0,0,.7);
+  --focus:#5b9bff;
+}
+
+/* ---- accent identities for major sections (LIGHT) ---- */
+[data-accent="quick"]  { --accent:#d4a017; --accent-soft:rgba(212,160,23,.13); --accent-ink:#8a6608; }
+[data-accent="mixed"]  { --accent:#4a6fa5; --accent-soft:rgba(74,111,165,.12); --accent-ink:#2f4d7a; }
+[data-accent="subject"]{ --accent:#2563c9; --accent-soft:rgba(37,99,201,.12);  --accent-ink:#17418a; }
+[data-accent="mains"]  { --accent:#d97706; --accent-soft:rgba(217,119,6,.13);  --accent-ink:#8f4d02; }
+[data-accent="current"]{ --accent:#c9a000; --accent-soft:rgba(201,160,0,.14);  --accent-ink:#7d6300; }
+[data-accent="special"]{ --accent:#7c3aed; --accent-soft:rgba(124,58,237,.13); --accent-ink:#52209e; }
+[data-accent="upsc"]   { --accent:#c0392b; --accent-soft:rgba(192,57,43,.12);  --accent-ink:#8a2318; }
+
+/* ---- accent identities (DARK — brighter, warmer, glowing) ---- */
+[data-theme="dark"] [data-accent="quick"]  { --accent:#f0b93a; --accent-soft:rgba(240,185,58,.09); --accent-ink:#ffd98a; }
+[data-theme="dark"] [data-accent="mixed"]  { --accent:#7aa5e0; --accent-soft:rgba(122,165,224,.09); --accent-ink:#b8d0f5; }
+[data-theme="dark"] [data-accent="subject"]{ --accent:#5f96ee; --accent-soft:rgba(95,150,238,.09); --accent-ink:#b7cdfb; }
+[data-theme="dark"] [data-accent="mains"]  { --accent:#f2a54c; --accent-soft:rgba(242,165,76,.09); --accent-ink:#fbd3a0; }
+[data-theme="dark"] [data-accent="current"]{ --accent:#e6c34b; --accent-soft:rgba(230,195,75,.09); --accent-ink:#f6e3a3; }
+[data-theme="dark"] [data-accent="special"]{ --accent:#a97cf5; --accent-soft:rgba(169,124,245,.09); --accent-ink:#d5befa; }
+[data-theme="dark"] [data-accent="upsc"]   { --accent:#e77465; --accent-soft:rgba(231,116,101,.09); --accent-ink:#f7b8ae; }
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; scroll-padding-top:120px; }
+
+body{
+  margin:0;
+  font-family:var(--font);
+  font-size:15.5px;
+  line-height:1.55;
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  transition:background .25s ease, color .25s ease;
+}
+
+[data-theme="dark"] body{
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(74,111,165,.07), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(240,185,58,.04), transparent 55%),
+    var(--bg);
+  background-attachment:fixed;
+}
+
+h1,h2,h3,h4,p{ margin:0; }
+a{ color:inherit; }
+button{ font-family:inherit; font-size:inherit; color:inherit; }
+
+:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:2px;
+  border-radius:6px;
+}
+
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:999;
+  background:#fff; color:#111; padding:10px 16px; border-radius:0 0 8px 0;
+  font-weight:600; text-decoration:none;
+}
+.skip-link:focus{ left:0; }
+
+.is-hidden{ display:none !important; }
+
+/* ============================================================
+   3. HEADER
+   ============================================================ */
+.site-header{
+  background:
+    radial-gradient(1200px 400px at 12% -30%, rgba(255,255,255,.16), transparent 60%),
+    linear-gradient(135deg,#0e2b57 0%, #17457f 45%, #1d5aa6 100%);
+  color:#fff;
+  border-bottom:1px solid rgba(0,0,0,.25);
+  transition:background .25s ease;
+}
+
+[data-theme="dark"] .site-header{
+  background:
+    radial-gradient(1000px 380px at 15% -40%, rgba(95,150,238,.18), transparent 65%),
+    radial-gradient(800px 300px at 100% 100%, rgba(240,185,58,.10), transparent 60%),
+    linear-gradient(135deg,#060a13 0%, #0a1524 45%, #101f38 100%);
+  border-bottom:1px solid rgba(95,150,238,.15);
+}
+
+.header-inner{
+  max-width:1460px;
+  margin:0 auto;
+  padding:30px 32px 28px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:28px;
+  flex-wrap:wrap;
+}
+
+.brand-kicker{
+  font-size:11.5px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:rgba(255,255,255,.62);
+  margin-bottom:6px;
+}
+[data-theme="dark"] .brand-kicker{ color:rgba(180,200,235,.55); }
+
+.brand-title{
+  font-size:38px;
+  line-height:1.06;
+  letter-spacing:.035em;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.brand-subtitle{
+  font-size:19px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:#ffd98a;
+  margin-top:6px;
+}
+[data-theme="dark"] .brand-subtitle{
+  color:#f0b93a;
+  text-shadow:0 0 24px rgba(240,185,58,.35);
+}
+
+.brand-tagline{
+  margin-top:12px;
+  font-size:13px;
+  letter-spacing:.09em;
+  color:rgba(255,255,255,.72);
+}
+[data-theme="dark"] .brand-tagline{ color:rgba(180,200,235,.65); }
+
+.header-stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.stat-chip{
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:999px;
+  padding:7px 15px;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.04em;
+  backdrop-filter:blur(6px);
+  white-space:nowrap;
+}
+[data-theme="dark"] .stat-chip{
+  background:rgba(95,150,238,.10);
+  border-color:rgba(95,150,238,.25);
+  color:#cfe0fb;
+}
+.stat-chip b{ color:#ffd98a; font-weight:800; }
+[data-theme="dark"] .stat-chip b{ color:#f0b93a; }
+
+/* ============================================================
+   4. TOOLBAR
+   ============================================================ */
+.toolbar{
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:color-mix(in srgb, var(--bg-elev) 88%, transparent);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);
+}
+
+[data-theme="dark"] .toolbar{
+  background:rgba(10,17,25,.78);
+  border-bottom-color:rgba(95,150,238,.14);
+  box-shadow:0 1px 0 rgba(255,255,255,.02), 0 8px 24px -12px rgba(0,0,0,.8);
+}
+
+.toolbar-inner{
+  max-width:1460px;
+  margin:0 auto;
+  padding:11px 32px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.search-wrap{
+  position:relative;
+  flex:1 1 380px;
+  min-width:260px;
+  display:flex;
+  align-items:center;
+}
+
+.search-icon{
+  position:absolute;
+  left:14px;
+  font-size:15px;
+  opacity:.6;
+  pointer-events:none;
+}
+
+.search-input{
+  width:100%;
+  padding:11px 42px 11px 42px;
+  font-size:14.5px;
+  font-family:inherit;
+  color:var(--text);
+  background:var(--bg-soft);
+  border:1px solid var(--border-strong);
+  border-radius:10px;
+  transition:border-color .16s, box-shadow .16s, background .16s;
+}
+.search-input::placeholder{ color:var(--text-mute); }
+.search-input:focus{
+  outline:none;
+  background:var(--bg-elev);
+  border-color:var(--focus);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--focus) 20%, transparent);
+}
+[data-theme="dark"] .search-input{
+  background:#0a1119;
+  border-color:#1f2c42;
+}
+[data-theme="dark"] .search-input:focus{
+  background:#0d1622;
+  border-color:#5f96ee;
+  box-shadow:0 0 0 4px rgba(95,150,238,.18), 0 0 24px -8px rgba(95,150,238,.5);
+}
+.search-input::-webkit-search-cancel-button{ display:none; }
+
+.search-clear{
+  position:absolute;
+  right:8px;
+  width:28px; height:28px;
+  display:grid; place-items:center;
+  border:none;
+  background:var(--bg-sunken);
+  color:var(--text-soft);
+  border-radius:50%;
+  cursor:pointer;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.search-clear:hover{ background:var(--border-strong); color:var(--text); }
+
+.toolbar-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.search-meta{
+  font-size:12.5px;
+  color:var(--text-soft);
+  font-weight:600;
+  white-space:nowrap;
+}
+
+/* ============================================================
+   5. BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 15px;
+  font-size:13.5px;
+  font-weight:600;
+  border-radius:9px;
+  border:1px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background .15s, border-color .15s, color .15s, transform .1s, box-shadow .15s;
+}
+.btn:active{ transform:translateY(1px); }
+
+.btn-ghost{
+  background:var(--bg-soft);
+  border-color:var(--border);
+  color:var(--text-soft);
+}
+.btn-ghost:hover{ background:var(--bg-sunken); color:var(--text); border-color:var(--border-strong); }
+[data-theme="dark"] .btn-ghost{
+  background:#0f1826;
+  border-color:#1f2c42;
+  color:#b6c3da;
+}
+[data-theme="dark"] .btn-ghost:hover{
+  background:#162335;
+  border-color:#2f4260;
+  color:#eaf1fb;
+  box-shadow:0 0 20px -8px rgba(95,150,238,.4);
+}
+
+.btn-outline{
+  background:transparent;
+  border-color:var(--border-strong);
+  color:var(--text-soft);
+}
+.btn-outline:hover{ background:var(--bg-soft); color:var(--text); }
+
+.btn-danger{
+  background:rgba(192,57,43,.10);
+  border-color:rgba(192,57,43,.35);
+  color:#b03024;
+}
+.btn-danger:hover{ background:rgba(192,57,43,.18); }
+[data-theme="dark"] .btn-danger{
+  background:rgba(231,116,101,.10);
+  border-color:rgba(231,116,101,.4);
+  color:#ef8b7d;
+}
+[data-theme="dark"] .btn-danger:hover{ background:rgba(231,116,101,.18); }
+
+.btn-sm{ padding:6px 11px; font-size:12.5px; }
+
+/* ============================================================
+   6. LAYOUT
+   ============================================================ */
+.container{
+  max-width:1460px;
+  margin:0 auto;
+  padding:26px 32px 80px;
+}
+
+.panel{
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+}
+
+/* ============================================================
+   7. PREFERENCES PANEL
+   ============================================================ */
+.settings-panel{
+  border:1px solid var(--border);
+  background:var(--bg-elev);
+  border-radius:var(--radius);
+  padding:18px 22px 20px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow-sm);
+  animation:slideDown .2s var(--ease);
+}
+@keyframes slideDown{ from{opacity:0; transform:translateY(-6px);} to{opacity:1; transform:none;} }
+
+.panel-heading{
+  font-size:12.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:var(--text-soft);
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.settings-grid{
+  margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:12px;
+}
+
+.setting-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 16px;
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+}
+[data-theme="dark"] .setting-item{
+  background:#0b1220;
+  border-color:#1a2537;
+}
+.setting-title{ font-size:14px; font-weight:700; }
+.setting-desc{ font-size:12.5px; color:var(--text-soft); margin-top:2px; max-width:44ch; }
+
+/* ============================================================
+   8. QUICK ACCESS
+   ============================================================ */
+.quick-panel{
+  padding:18px 22px 22px;
+  margin-bottom:20px;
+  border-left:4px solid var(--accent, #d4a017);
+  --accent:#d4a017;
+  --accent-soft:rgba(212,160,23,.13);
+  --accent-ink:#8a6608;
+  background:
+    linear-gradient(180deg, var(--accent-soft), transparent 90px),
+    var(--bg-elev);
+  position:relative;
+}
+
+[data-theme="dark"] .quick-panel{
+  --accent:#f0b93a;
+  --accent-soft:rgba(240,185,58,.09);
+  --accent-ink:#ffd98a;
+  border-left-color:#f0b93a;
+  box-shadow:
+    0 0 0 1px rgba(240,185,58,.12),
+    0 0 60px -30px rgba(240,185,58,.4),
+    var(--shadow-sm);
+}
+
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.panel-heading-icon{ font-size:15px; }
+
+.count-pill{
+  display:inline-grid;
+  place-items:center;
+  min-width:23px;
+  height:22px;
+  padding:0 8px;
+  font-size:11.5px;
+  font-weight:800;
+  letter-spacing:.02em;
+  border-radius:999px;
+  background:var(--bg-sunken);
+  color:var(--text-soft);
+  border:1px solid var(--border);
+  text-transform:none;
+}
+.count-pill-gold{
+  background:rgba(212,160,23,.18);
+  color:var(--accent-ink,#8a6608);
+  border-color:rgba(212,160,23,.35);
+}
+[data-theme="dark"] .count-pill-gold{
+  background:rgba(240,185,58,.16);
+  color:#ffd98a;
+  border-color:rgba(240,185,58,.35);
+  box-shadow:0 0 16px -6px rgba(240,185,58,.6);
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(255px,1fr));
+  gap:10px;
+}
+
+.quick-card{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:stretch;
+  background:var(--bg-elev);
+  border:1px solid rgba(212,160,23,.45);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  transition:box-shadow .16s, transform .16s, border-color .16s;
+}
+[data-theme="dark"] .quick-card{
+  background:linear-gradient(180deg, rgba(240,185,58,.05), transparent 70%), #0e1725;
+  border-color:rgba(240,185,58,.35);
+}
+.quick-card:hover{
+  box-shadow:var(--shadow-md);
+  transform:translateY(-2px);
+  border-color:#d4a017;
+}
+[data-theme="dark"] .quick-card:hover{
+  border-color:#f0b93a;
+  box-shadow:0 10px 28px rgba(0,0,0,.55), 0 0 32px -10px rgba(240,185,58,.55);
+}
+
+.quick-main{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding:11px 13px;
+  text-decoration:none;
+  min-width:0;
+}
+.quick-title{
+  font-size:13.8px;
+  font-weight:700;
+  line-height:1.32;
+  overflow-wrap:anywhere;
+}
+.quick-path{
+  font-size:11.5px;
+  color:var(--text-mute);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.quick-remove{
+  width:40px;
+  border:none;
+  border-left:1px solid rgba(212,160,23,.35);
+  background:rgba(212,160,23,.10);
+  color:#b8860b;
+  cursor:pointer;
+  font-size:15px;
+  display:grid;
+  place-items:center;
+  transition:background .15s,color .15s;
+}
+.quick-remove:hover{ background:rgba(192,57,43,.16); color:#b03024; }
+[data-theme="dark"] .quick-remove{
+  border-left-color:rgba(240,185,58,.28);
+  background:rgba(240,185,58,.08);
+  color:#f0b93a;
+}
+[data-theme="dark"] .quick-remove:hover{
+  background:rgba(231,116,101,.18);
+  color:#ef8b7d;
+}
+
+.empty-state{
+  font-size:13.5px;
+  color:var(--text-soft);
+  background:var(--bg-soft);
+  border:1px dashed var(--border-strong);
+  border-radius:var(--radius-sm);
+  padding:18px 20px;
+  text-align:center;
+  line-height:1.7;
+}
+.empty-state strong{ color:var(--text); }
+.star-glyph{ color:#d4a017; font-size:15px; font-weight:700; }
+[data-theme="dark"] .star-glyph{ color:#f0b93a; text-shadow:0 0 12px rgba(240,185,58,.55); }
+
+/* ============================================================
+   9. RECENT STRIP
+   ============================================================ */
+.recent-strip{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:10px 16px;
+  margin-bottom:20px;
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow-sm);
+}
+.recent-label{
+  font-size:11.5px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--text-mute);
+  white-space:nowrap;
+}
+.recent-items{ display:flex; gap:8px; flex-wrap:wrap; }
+.recent-item{
+  font-size:12.5px;
+  font-weight:600;
+  padding:5px 12px;
+  border-radius:999px;
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  text-decoration:none;
+  color:var(--text-soft);
+  max-width:280px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.recent-item:hover{ background:var(--bg-sunken); color:var(--text); border-color:var(--border-strong); }
+[data-theme="dark"] .recent-item{
+  background:#0d1523;
+  border-color:#1c283d;
+  color:#a9b7cd;
+}
+[data-theme="dark"] .recent-item:hover{
+  background:#132033;
+  border-color:#2f4260;
+  color:#eaf1fb;
+}
+
+/* ============================================================
+   10. SECTIONS
+   ============================================================ */
+.section{
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent,#4a6fa5);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+  margin-bottom:16px;
+  overflow:hidden;
+  transition:box-shadow .22s, border-color .22s;
+}
+.section:hover{ box-shadow:var(--shadow-md); }
+
+[data-theme="dark"] .section{
+  background:linear-gradient(180deg, rgba(255,255,255,.012), transparent 60%), var(--bg-elev);
+  border-color:#1a2438;
+  border-left-color:var(--accent);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+[data-theme="dark"] .section:hover{
+  border-color:#243149;
+  box-shadow:
+    0 12px 30px -10px rgba(0,0,0,.6),
+    0 0 40px -22px var(--accent),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.section-h2,.group-h3{ margin:0; font-size:inherit; font-weight:inherit; }
+
+.section-head{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:16px 20px;
+  background:linear-gradient(90deg, var(--accent-soft,#4a6fa51a), transparent 55%);
+  border:none;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  text-align:left;
+  transition:background .16s, border-color .2s;
+}
+.section-head:hover{ background:linear-gradient(90deg, var(--accent-soft,#4a6fa526), transparent 62%); }
+
+[data-theme="dark"] .section-head{
+  border-bottom-color:#162031;
+  background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%);
+}
+[data-theme="dark"] .section-head:hover{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 16%, transparent), transparent 68%);
+}
+
+.chev{
+  flex:0 0 auto;
+  width:16px;
+  font-size:11px;
+  color:var(--accent,#4a6fa5);
+  transition:transform .25s var(--ease);
+  transform:rotate(90deg);
+  display:inline-block;
+  text-align:center;
+  line-height:1;
+}
+.chev::before{ content:"\25B6"; }
+[data-theme="dark"] .chev{ text-shadow:0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
+
+.is-collapsed > .section-head .chev,
+.is-collapsed > .group-head .chev{ transform:rotate(0deg); }
+
+.section-icon{ font-size:19px; line-height:1; }
+
+.section-title{
+  flex:1 1 auto;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:var(--text);
+}
+
+.section-count{
+  flex:0 0 auto;
+  font-size:11.5px;
+  font-weight:800;
+  padding:3px 10px;
+  border-radius:999px;
+  background:var(--accent-soft,#4a6fa51a);
+  color:var(--accent-ink,#2f4d7a);
+  border:1px solid color-mix(in srgb, var(--accent,#4a6fa5) 32%, transparent);
+}
+[data-theme="dark"] .section-count{
+  background:color-mix(in srgb, var(--accent) 14%, transparent);
+  color:var(--accent-ink);
+  border-color:color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.section-body{ padding:16px 20px 20px; }
+
+/* ---- groups ---- */
+.group{
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:var(--bg-soft);
+  margin-bottom:12px;
+  overflow:hidden;
+  transition:border-color .18s;
+}
+.group:last-child{ margin-bottom:0; }
+
+[data-theme="dark"] .group{
+  background:#0c1320;
+  border-color:#1a2438;
+}
+
+.group-head{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 15px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  text-align:left;
+  transition:background .15s;
+}
+.group-head:hover{ background:var(--bg-sunken); }
+[data-theme="dark"] .group-head:hover{ background:#111a2a; }
+
+.group-title{
+  flex:1 1 auto;
+  font-size:12.8px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-soft);
+}
+.group-icon{ font-size:14px; }
+
+.group-count{
+  font-size:11px;
+  font-weight:800;
+  color:var(--text-mute);
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:2px 9px;
+}
+[data-theme="dark"] .group-count{
+  background:#0a1119;
+  border-color:#1f2c42;
+  color:#8b9ab5;
+}
+
+.group-body{ padding:0 15px 15px; }
+
+/* nested groups */
+.group .group{
+  background:var(--bg-elev);
+  margin-bottom:10px;
+}
+[data-theme="dark"] .group .group{
+  background:#0a1119;
+  border-color:#182236;
+}
+.group .group .group-head{ padding:9px 13px; }
+.group .group .group-title{ font-size:12px; }
+
+/* ---- collapse mechanism ---- */
+.collapsible{
+  display:grid;
+  grid-template-rows:1fr;
+  transition:grid-template-rows .28s var(--ease);
+}
+.collapsible > .collapsible-inner{
+  overflow:hidden;
+  min-height:0;
+}
+.is-collapsed > .collapsible{ grid-template-rows:0fr; }
+.is-collapsed > .section-head,
+.is-collapsed > .group-head{ border-bottom-color:transparent; }
+
+/* while searching, force everything open */
+.search-active .collapsible{ grid-template-rows:1fr !important; }
+.search-active .chev{ transform:rotate(90deg) !important; }
+
+/* ============================================================
+   11. RESOURCE CARDS
+   ============================================================ */
+.leaf-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:10px;
+}
+
+.leaf{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:stretch;
+  background:var(--bg-elev);
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs);
+  overflow:hidden;
+  transition:border-color .16s, box-shadow .16s, transform .14s;
+}
+[data-theme="dark"] .leaf{
+  background:linear-gradient(180deg, rgba(255,255,255,.014), transparent 70%), #0d1624;
+  border-color:#1c283d;
+}
+.leaf:hover{
+  border-color:var(--accent,#4a6fa5);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-2px);
+}
+[data-theme="dark"] .leaf:hover{
+  border-color:var(--accent);
+  background:linear-gradient(180deg, rgba(255,255,255,.025), transparent 70%), #111c2d;
+  box-shadow:
+    0 10px 24px -8px rgba(0,0,0,.7),
+    0 0 32px -16px var(--accent);
+}
+
+.leaf.is-quick{
+  border-color:color-mix(in srgb, #d4a017 55%, var(--border));
+  background:linear-gradient(180deg, rgba(212,160,23,.07), transparent 60%), var(--bg-elev);
+}
+[data-theme="dark"] .leaf.is-quick{
+  border-color:rgba(240,185,58,.4);
+  background:linear-gradient(180deg, rgba(240,185,58,.07), transparent 70%), #0f1826;
+  box-shadow:inset 0 0 40px -20px rgba(240,185,58,.35);
+}
+
+.leaf-main{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:12px 14px;
+  text-decoration:none;
+  color:inherit;
+  min-width:0;
+}
+
+.leaf-top{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.leaf-title{
+  font-size:13.9px;
+  font-weight:700;
+  line-height:1.35;
+  color:var(--text);
+  overflow-wrap:anywhere;
+}
+
+.badge{
+  flex:0 0 auto;
+  font-size:9.6px;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  padding:2.5px 7px;
+  border-radius:5px;
+  white-space:nowrap;
+  margin-top:1px;
+}
+.badge-preferred{ background:rgba(37,99,201,.14); color:#1c4da5; border:1px solid rgba(37,99,201,.3); }
+.badge-internet  { background:rgba(192,57,43,.12); color:#a02c20; border:1px solid rgba(192,57,43,.28); }
+.badge-updated   { background:rgba(46,140,90,.13); color:#1f6b45; border:1px solid rgba(46,140,90,.3); }
+[data-theme="dark"] .badge-preferred{ background:rgba(95,150,238,.16); color:#b7cdfb; border-color:rgba(95,150,238,.35); }
+[data-theme="dark"] .badge-internet { background:rgba(231,116,101,.16); color:#f7b8ae; border-color:rgba(231,116,101,.35); }
+[data-theme="dark"] .badge-updated  { background:rgba(76,190,128,.16); color:#96e0b8; border-color:rgba(76,190,128,.35); }
+
+.leaf-meta{
+  font-size:12.2px;
+  color:var(--text-soft);
+  line-height:1.45;
+}
+
+.leaf-file{
+  font-family:var(--mono);
+  font-size:10.6px;
+  color:var(--text-mute);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  margin-top:2px;
+}
+
+.star-btn{
+  width:46px;
+  border:none;
+  border-left:1px solid var(--border);
+  background:var(--bg-soft);
+  color:var(--text-mute);
+  font-size:16px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:background .15s, color .15s, transform .12s, box-shadow .2s;
+}
+.star-btn:hover{ background:rgba(212,160,23,.16); color:#b8860b; transform:scale(1.06); }
+.star-btn.is-on{
+  background:rgba(212,160,23,.18);
+  color:#d4a017;
+  text-shadow:0 0 10px rgba(212,160,23,.5);
+}
+
+[data-theme="dark"] .star-btn{
+  border-left-color:#bf92df;
+  background:#31475f;
+  color:#ffc312;
+}
+[data-theme="dark"] .star-btn:hover{
+  background:rgba(240,185,58,.14);
+  color:#f0b93a;
+}
+[data-theme="dark"] .star-btn.is-on{
+  background:rgba(240,185,58,.16);
+  color:#f0b93a;
+  text-shadow:0 0 14px rgba(240,185,58,.7);
+  box-shadow:inset 0 0 24px -8px rgba(240,185,58,.6);
+}
+
+/* ============================================================
+   12. NO RESULTS
+   ============================================================ */
+.no-results{
+  text-align:center;
+  padding:64px 24px;
+  background:var(--bg-elev);
+  border:1px dashed var(--border-strong);
+  border-radius:var(--radius);
+}
+.no-results-icon{ font-size:40px; opacity:.55; }
+.no-results-title{ font-size:17px; font-weight:700; margin-top:12px; }
+.no-results-desc{ font-size:13.5px; color:var(--text-soft); margin-top:6px; margin-bottom:18px; }
+
+/* ============================================================
+   13. FOOTER
+   ============================================================ */
+.site-footer{
+  border-top:1px solid var(--border);
+  background:var(--bg-elev);
+  padding:22px 32px;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--text-mute);
+}
+[data-theme="dark"] .site-footer{
+  background:#080d16;
+  border-top-color:#162031;
+}
+
+/* ============================================================
+   14. RESPONSIVE
+   ============================================================ */
+@media (max-width:900px){
+  .header-inner{ padding:24px 20px 22px; }
+  .brand-title{ font-size:29px; }
+  .brand-subtitle{ font-size:15px; letter-spacing:.18em; }
+  .toolbar-inner{ padding:10px 20px; }
+  .container{ padding:20px 20px 64px; }
+  .leaf-grid{ grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
+}
+
+@media (max-width:620px){
+  body{ font-size:15px; }
+  .brand-title{ font-size:24px; letter-spacing:.02em; }
+  .brand-subtitle{ font-size:13px; letter-spacing:.14em; }
+  .toolbar-inner{ flex-direction:column; align-items:stretch; }
+  .toolbar-actions{ justify-content:space-between; }
+  .section-head{ padding:14px 15px; gap:10px; }
+  .section-title{ font-size:13px; letter-spacing:.07em; }
+  .section-body{ padding:13px 13px 15px; }
+  .leaf-grid{ grid-template-columns:1fr; }
+  .quick-grid{ grid-template-columns:1fr; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  html{ scroll-behavior:auto; }
+}
+</style>
+</head>
+
+<body>
+
+<a class="skip-link" href="#hubSections">Skip to resources</a>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <p class="brand-kicker">Bihar Public Service Commission</p>
+      <h1 class="brand-title">BPSC Preparation</h1>
+      <p class="brand-subtitle">BPSC Study Hub</p>
+      <p class="brand-tagline">PYQ &bull; Quiz &bull; Test Series &bull; Revision &bull; Practice</p>
+    </div>
+    <div class="header-stats" id="headerStats" aria-live="polite"></div>
+  </div>
+</header>
+
+<!-- ============================================================
+     STICKY TOOLBAR
+     ============================================================ -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input
+        id="searchInput"
+        class="search-input"
+        type="search"
+        placeholder="Search resources, subjects, categories…   ( press / )"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search resources" />
+      <button id="searchClear" class="search-clear" type="button" hidden aria-label="Clear search">✕</button>
+    </div>
+
+    <div class="toolbar-actions">
+      <span class="search-meta" id="searchMeta" aria-live="polite"></span>
+      <button class="btn btn-ghost" id="expandAllBtn" type="button" title="Expand all sections">
+        ⤢ <span>Expand All</span>
+      </button>
+      <button class="btn btn-ghost" id="collapseAllBtn" type="button" title="Collapse all sections">
+        ⤡ <span>Collapse All</span>
+      </button>
+      <button class="btn btn-ghost" id="themeToggle" type="button" title="Toggle light / dark theme">
+        <span id="themeIcon">☀️</span><span id="themeLabel">Light</span>
+      </button>
+      <button class="btn btn-ghost" id="settingsToggle" type="button" aria-expanded="false" aria-controls="settingsPanel">
+        ⚙ <span>Preferences</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+<main class="container">
+
+  <!-- ---------- Preferences ---------- -->
+  <section class="settings-panel" id="settingsPanel" hidden aria-label="Preferences">
+    <h2 class="panel-heading">⚙ Preferences</h2>
+    <div class="settings-grid">
+
+      <div class="setting-item">
+        <div class="setting-text">
+          <p class="setting-title">Clear Quick Access</p>
+          <p class="setting-desc">Remove every shortcut from the Quick Access panel. Your resources stay exactly where they are.</p>
+        </div>
+        <button class="btn btn-outline" id="clearQuickBtn" type="button">Clear All</button>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-text">
+          <p class="setting-title">Collapse all sections</p>
+          <p class="setting-desc">Return the hierarchy to its default collapsed state.</p>
+        </div>
+        <button class="btn btn-outline" id="resetCollapseBtn" type="button">Collapse All</button>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-text">
+          <p class="setting-title">Reset all saved preferences</p>
+          <p class="setting-desc">Clears Quick Access, expanded state, recently opened history and theme choice.</p>
+        </div>
+        <button class="btn btn-danger" id="resetAllBtn" type="button">Reset Everything</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---------- Quick Access ---------- -->
+  <section class="panel quick-panel" data-accent="quick" aria-labelledby="quickHeading">
+    <div class="panel-head">
+      <h2 class="panel-heading" id="quickHeading">
+        <span class="panel-heading-icon" aria-hidden="true">⭐</span>
+        Quick Access
+        <span class="count-pill count-pill-gold" id="quickCount">0</span>
+      </h2>
+      <button class="btn btn-ghost btn-sm" id="clearQuickInline" type="button" hidden>Clear All</button>
+    </div>
+
+    <div class="quick-grid" id="quickAccessGrid"></div>
+
+    <p class="empty-state" id="quickAccessEmpty">
+      <strong>No shortcuts added yet.</strong><br />
+      Add resources to Quick Access by clicking the <span class="star-glyph">☆</span> icon on any resource card.
+    </p>
+  </section>
+
+  <!-- ---------- Recently opened ---------- -->
+  <section class="recent-strip" id="recentStrip" hidden aria-label="Recently opened resources">
+    <span class="recent-label">🕘 Recently opened</span>
+    <div class="recent-items" id="recentItems"></div>
+  </section>
+
+  <!-- ---------- Hub hierarchy (rendered by JS) ---------- -->
+  <div id="hubSections"></div>
+
+  <!-- ---------- No results ---------- -->
+  <div class="no-results" id="noResults" hidden>
+    <p class="no-results-icon" aria-hidden="true">🔎</p>
+    <p class="no-results-title">No resources matched your search.</p>
+    <p class="no-results-desc">Try a different keyword — for example <em>history</em>, <em>PYQ</em>, <em>polity</em>, <em>current</em> or <em>mains</em>.</p>
+    <button class="btn btn-outline" id="noResultsClear" type="button">Clear Search</button>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p>BPSC STUDY HUB &mdash; local offline dashboard. Existing resource files are never modified.</p>
+</footer>
+
+<noscript>
+  <p style="max-width:900px;margin:24px auto;padding:16px;border:1px solid #d33;background:#fff3f3;border-radius:8px;">
+    This hub needs JavaScript enabled to render the resource hierarchy, Quick Access and search.
+  </p>
+</noscript>
+
+<script>
+/* ================================================================
+   BPSC STUDY HUB — single-file local dashboard
+   ----------------------------------------------------------------
+   ARCHITECTURE
+   ------------
+   HUB_DATA       -> authoritative hierarchy (sections > groups > leaves)
+   LEAF_INDEX     -> flat Map: leafId -> { node, section, crumbs }
+   quickIds[]     -> ordered array of leafIds pinned to Quick Access
+   expandedIds[]  -> ordered array of section/group ids that are EXPANDED
+                     (default is EMPTY => everything starts collapsed)
+   recentIds[]    -> most-recently-opened leafIds
+
+   TO ADD A NEW RESOURCE LATER
+   ---------------------------
+   Add another object to the appropriate `children` array:
+     { kind:'leaf', id:'unique-id', title:'Readable Title',
+       subtitle:'Short description', file:'Actual_File_Name.html',
+       type:'PYQ', badge:'preferred' }
+   Search, counts and Quick Access update automatically.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. THE HIERARCHY (authoritative — do not reorder)
+   ---------------------------------------------------------------- */
+const HUB_DATA = [
+
+  /* ============ 📚 GENERAL STUDIES / MIXED ============ */
+  {
+    kind:'section', id:'sec-general', title:'General Studies / Mixed',
+    icon:'📚', accent:'mixed',
+    children:[
+      { kind:'group', id:'g-gen-pyq', title:'PYQ', children:[
+        { kind:'leaf', id:'r-gs-pyq-preferred',
+          title:'BPSC PYQ — General Studies QuizMode',
+          subtitle:'Previous year questions in quiz mode',
+          file:'GENERAL-STUDIES-OR-MIXED/PYQ/BPSC PYQ - General_Studies_QuizMode - PREFERED MORE.html',
+          type:'PYQ', badge:'preferred' },
+        { kind:'leaf', id:'r-gs-pyq',
+          title:'BPSC PYQ — General Studies QuizMode',
+          subtitle:'Previous year questions in quiz mode',
+          file:'GENERAL-STUDIES-OR-MIXED/PYQ/BPSC PYQ - General_Studies_QuizMode.html',
+          type:'PYQ' }
+      ]},
+
+      { kind:'group', id:'g-gen-test', title:'Test Series', children:[
+        { kind:'leaf', id:'r-nexus-test',
+          title:'BPSC Prelims Nexus Test Series',
+          subtitle:'Full-length prelims test series',
+          file:'GENERAL-STUDIES-OR-MIXED/TEST SERIESE/Bpsc_PRELIMS_Nexus_Test_Series.html',
+          type:'Test Series' },
+        { kind:'leaf', id:'r-nexus-test-updated',
+          title:'BPSC Prelims Nexus Test Series — Updated',
+          subtitle:'Updated edition of the prelims test series',
+          file:'GENERAL-STUDIES-OR-MIXED/TEST SERIESE/Bpsc_PRELIMS_Nexus_Test_Series_Updated.html',
+          type:'Test Series', badge:'updated' }
+      ]},
+
+      { kind:'group', id:'g-gen-vault', title:'Question Vault', children:[
+        { kind:'leaf', id:'r-prelims-vault',
+          title:'BPSC Prelims Question Vault with AI chatbot',
+          subtitle:'Large question bank — requires internet connection',
+          file:'GENERAL-STUDIES-OR-MIXED/QUESTION VAULT/Bpsc_Prelims_Vault - INTERNET.html',
+          type:'Question Vault', badge:'internet' }
+      ]},
+
+      { kind:'group', id:'g-gen-annual', title:'Annual PYQ', children:[
+        { kind:'leaf', id:'r-tarkash-annual',
+          title:'Tarkash Annual GS PYQ Plus 2026',
+          subtitle:'Annual General Studies PYQ compilation',
+          file:'GENERAL-STUDIES-OR-MIXED/ANNUAL PYQ/Tarkash_Annual_GS_PYQ_Plus_2026.html',
+          type:'Annual PYQ' }
+      ]},
+
+      { kind:'group', id:'g-gen-ncert', title:'NCERT', icon:'📚', children:[
+        { kind:'leaf', id:'r-ncert-allout',
+          title:'Eduteria NCERT Objective AllOut — BPSC Nexus',
+          subtitle:'NCERT-based objective practice',
+          file:'GENERAL-STUDIES-OR-MIXED/NCERT/Eduteria_NCERT_Objective_AllOut_BpscNexus.html',
+          type:'NCERT' }
+      ]}
+    ]
+  },
+
+  /* ============ 🟦 BPSC SUBJECTWISE ============ */
+  {
+    kind:'section', id:'sec-subjectwise', title:'BPSC Subjectwise',
+    icon:'🟦', accent:'subject',
+    children:[
+
+      /* ---- HISTORY ---- */
+      { kind:'group', id:'g-subj-history', title:'History', icon:'📜', children:[
+        { kind:'group', id:'g-hist-pyq', title:'PYQ', children:[
+          { kind:'leaf', id:'r-indian-history-pyq',
+            title:'Indian History PYQ',
+            subtitle:'Previous year questions — Indian History',
+            file:'BPSC-SUBJECTWISE/HISTORY/Indian_History_PYQ.html',
+            type:'PYQ' }
+        ]},
+        { kind:'group', id:'g-hist-topicwise', title:'Topic-wise Quiz', children:[
+          { kind:'leaf', id:'r-quiz-carnatic',
+            title:'The Carnatic Wars & the Fall of Bengal',
+            subtitle:'Topic-wise quiz — only questions',
+            file:'BPSC-SUBJECTWISE/HISTORY/The Carnatic Wars & the Fall of Bengal ONLY QUIZ.html',
+            type:'Topic Quiz' },
+          { kind:'leaf', id:'r-quiz-sikh',
+            title:'Sikh Empire, Company Raj & the Reform Awakening',
+            subtitle:'Topic-wise quiz — only questions',
+            file:'BPSC-SUBJECTWISE/HISTORY/Sikh Empire, Company Raj & the Reform Awakening ONLY QUIZ.html',
+            type:'Topic Quiz' },
+          { kind:'leaf', id:'r-quiz-later-mughals',
+            title:'Later Mughals & Maratha Administration',
+            subtitle:'Topic-wise quiz — only questions',
+            file:'BPSC-SUBJECTWISE/HISTORY/Later Mughals & Maratha Administration ONLY QUIZ.html',
+            type:'Topic Quiz' }
+        ]}
+      ]},
+
+      /* ---- POLITY & GOVERNANCE ---- */
+      { kind:'group', id:'g-subj-polity', title:'Polity & Governance', icon:'🏛️', children:[
+        { kind:'group', id:'g-polity-interactive', title:'Interactive', children:[
+          { kind:'leaf', id:'r-polity-interactive',
+            title:'BPSC Nexus Objective Indian Polity — Interactive Edition',
+            subtitle:'Interactive objective practice on Indian Polity',
+            file:'BPSC-SUBJECTWISE/POLITY AND GOVERNANCE/BPSC_NEXUS_Objective_Indian_Polity_Interactive_Edition.html',
+            type:'Interactive' }
+        ]},
+        { kind:'group', id:'g-polity-premium', title:'Premium Quiz', children:[
+          { kind:'leaf', id:'r-polity-premium',
+            title:'Indian Polity & Governance — Premium Quiz',
+            subtitle:'Premium question set on Polity & Governance',
+            file:'BPSC-SUBJECTWISE/POLITY AND GOVERNANCE/Indian_Polity_Governance_Premium_Quiz.html',
+            type:'Premium Quiz' }
+        ]}
+      ]},
+
+      /* ---- GEOGRAPHY ---- */
+      { kind:'group', id:'g-subj-geography', title:'Geography', icon:'🌍', children:[
+        { kind:'leaf', id:'r-geography-adaptive',
+          title:'General Geography 2026 — Adaptive Learning System',
+          subtitle:'Adaptive geography practice system',
+          file:'BPSC-SUBJECTWISE/GEOGRAPHY/General_Geography_2026_Adaptive_Learning_System.html',
+          type:'Adaptive Quiz' }
+      ]},
+
+      /* ---- GENERAL SCIENCE ---- */
+      { kind:'group', id:'g-subj-science', title:'General Science', icon:'🔬', children:[
+        { kind:'leaf', id:'r-science-premium',
+          title:'General Science 2026 — Premium Quiz',
+          subtitle:'Premium general science question set',
+          file:'BPSC-SUBJECTWISE/GENERAL SCIENCE/General_Science_2026_Premium_Quiz.html',
+          type:'Premium Quiz' }
+      ]},
+
+      /* ---- ENVIRONMENT & ECOLOGY ---- */
+      { kind:'group', id:'g-subj-environment', title:'Environment & Ecology', icon:'🌱', children:[
+        { kind:'leaf', id:'r-environment-adaptive',
+          title:'Environment & Ecology — Premium Adaptive 2026 (Final)',
+          subtitle:'Adaptive environment & ecology practice',
+          file:'BPSC-SUBJECTWISE/ENVIRONMENT AND ECOLOGY/Environment_Ecology_Premium_Adaptive_2026_FINAL.html',
+          type:'Adaptive Quiz' }
+      ]},
+
+      /* ---- ECONOMY & SOCIAL DEVELOPMENT ---- */
+      { kind:'group', id:'g-subj-economy', title:'Economy & Social Development', icon:'💰', children:[
+        { kind:'leaf', id:'r-economy-adaptive',
+          title:'Economic & Social Development 2026 — Premium Adaptive Quiz',
+          subtitle:'Adaptive economy & social development practice',
+          file:'BPSC-SUBJECTWISE/ECONOMY AND SOCIAL DEVELOPMENT/Economic_Social_Development_2026_Premium_Adaptive_Quiz.html',
+          type:'Adaptive Quiz' }
+      ]}
+    ]
+  },
+
+  /* ============ 🟧 BPSC MAINS ============ */
+  {
+    kind:'section', id:'sec-mains', title:'BPSC Mains',
+    icon:'🟧', accent:'mains',
+    children:[
+      { kind:'group', id:'g-mains-essay', title:'Essay', icon:'✍️', children:[
+        { kind:'leaf', id:'r-mains-essay',
+          title:'Essay Guide — 68th to 71st',
+          subtitle:'Essay guidance covering 68th–71st BPSC',
+          file:'BPSC-MAINS/ESSAY/Essay_Guide_68th_to_71st.html',
+          type:'Essay' }
+      ]},
+
+      { kind:'group', id:'g-mains-pyq', title:'Mains PYQ', icon:'📖', children:[
+        { kind:'leaf', id:'r-mains-pyq-70',
+          title:'BPSC Mains PYQ — Redesigned ~70th',
+          subtitle:'Redesigned mains previous year questions',
+          file:'BPSC-MAINS/MAINS PYQ/BPSC_Mains_PYQ_Redesigned~70th.html',
+          type:'Mains PYQ' },
+        { kind:'leaf', id:'r-mains-pyq-ai',
+          title:'BPSC Mains PYQs + AI Evaluator — by BPSC Nexus',
+          subtitle:'Mains PYQs with AI evaluation — requires internet',
+          file:'BPSC-MAINS/MAINS PYQ/BpscMains_PYQs_+AI Evaluator_by_BPSCNEXUS - INTERNET.html',
+          type:'Mains PYQ', badge:'internet' }
+      ]},
+
+      { kind:'group', id:'g-mains-micro', title:'Micro Themes', icon:'🧠', children:[
+        { kind:'leaf', id:'r-mains-micro-themes',
+          title:'BPSC Mains Micro Themes — BPSC Nexus',
+          subtitle:'Micro-theme based mains preparation',
+          file:'BPSC-MAINS/MICRO THEMES/Bpsc_Mains_Micro_Themes_bpscNexus.html',
+          type:'Micro Themes' }
+      ]}
+    ]
+  },
+
+  /* ============ 🟨 CURRENT AFFAIRS ============ */
+  {
+    kind:'section', id:'sec-current', title:'Current Affairs',
+    icon:'🟨', accent:'current',
+    children:[
+      { kind:'group', id:'g-ca-2026', title:'2026 Current Affairs', icon:'📅', children:[
+        { kind:'leaf', id:'r-ca-2026',
+          title:'Current Affairs Quiz 2026',
+          subtitle:'Current affairs quiz for 2026',
+          file:'CURRENT-AFFAIRS/Current Affairs Quiz_2026.html',
+          type:'Current Affairs' }
+      ]},
+
+      { kind:'group', id:'g-ca-monthly', title:'Monthly / Batch-wise', icon:'📆', children:[
+        { kind:'leaf', id:'r-ca-samagra',
+          title:'Current Affairs 2026 — SAMAGRA Batch (Jan • Feb • Mar 2026)',
+          subtitle:'Month-wise current affairs quiz — only questions',
+          file:'CURRENT-AFFAIRS/Current_Affairs_2026_SAMAGRA_BATCH-JAN • FEB • MAR 2026 QUIZ ONLY.html',
+          type:'Monthly Quiz' }
+      ]},
+
+      { kind:'group', id:'g-ca-rapid', title:'Rapid / Speed Revision', icon:'⚡', children:[
+        { kind:'leaf', id:'r-ca-speedy',
+          title:'Speedy Current Affairs 2026 (till Sep 2026)',
+          subtitle:'Fast revision of current affairs up to September 2026',
+          file:'CURRENT-AFFAIRS/Speedy_Current_Affairs_2026 (TILL SEP 2026).html',
+          type:'Rapid Revision' }
+      ]},
+
+      { kind:'group', id:'g-ca-other', title:'Other Current Affairs', icon:'📰', children:[
+        { kind:'leaf', id:'r-ca-bcw',
+          title:'BCW Current Affairs Quiz',
+          subtitle:'Additional current affairs question set',
+          file:'CURRENT-AFFAIRS/BCW Current Affairs Quiz.html',
+          type:'Current Affairs' },
+
+        { kind:'leaf', id:'b-7-yo-hi',
+          title:'Bihar 7 Nishchay Yojana MCQ',
+          subtitle:'3rd Edition from 2025 to 2030 (HINDI)',
+          file:'CURRENT-AFFAIRS/Bihar_7_Nishchay_Yojana_MCQ.html',
+          type:'Current Affairs' },
+
+        { kind:'leaf', id:'nfhs-7-hi',
+          title:'NFHS - 6 2023 - 2024',
+          subtitle:'National Family Health Survey (NFHS-6) 2023-2024 (HINDI)',
+          file:'CURRENT-AFFAIRS/National Family Health Survey (NFHS-6) 2023-2024.html',
+          type:'Current Affairs' }
+
+      ]}
+    ]
+  },
+
+  /* ============ 🟪 SPECIALIZED GS ============ */
+  {
+    kind:'section', id:'sec-specialized', title:'Specialized GS',
+    icon:'🟪', accent:'special',
+    children:[
+      { kind:'group', id:'g-spec-international', title:'International', icon:'🌐', children:[
+        { kind:'leaf', id:'r-international-theme',
+          title:'International Theme-Based Questions',
+          subtitle:'Theme-based international relations questions',
+          file:'SPECIALIZED-GS/International Theame Based Question.html',
+          type:'Specialized' }
+      ]}
+    ]
+  },
+
+  /* ============ 🟥 UPSC / ADDITIONAL PYQ ============ */
+  {
+    kind:'section', id:'sec-upsc', title:'UPSC / Additional PYQ',
+    icon:'🟥', accent:'upsc',
+    children:[
+      { kind:'group', id:'g-upsc-group', title:'UPSC', children:[
+        { kind:'leaf', id:'r-upsc-31y',
+          title:'UPSC 31 Years PYQs — 1995 to 2025',
+          subtitle:'31 years of UPSC previous year questions',
+          file:'UPSC-OR-ADDITIONAL-PYQ/UPSC_31Y_PYQs_1995~2025.html',
+          type:'UPSC PYQ' }
+      ]}
+    ]
+  }
+];
+
+/* ----------------------------------------------------------------
+   2. STORAGE + STATE
+   ---------------------------------------------------------------- */
+const STORAGE = {
+  quick    : 'bpscStudyHub.quickAccess.v2',
+  expanded : 'bpscStudyHub.expanded.v1',   // NEW: stores EXPANDED ids; empty = all collapsed
+  recent   : 'bpscStudyHub.recent.v2',
+  theme    : 'bpscStudyHub.theme.v2'
+};
+
+const RECENT_LIMIT = 8;
+
+function storageGet(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    if(raw === null) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed === null || parsed === undefined ? fallback : parsed;
+  }catch(err){
+    console.warn('[BPSC Hub] Could not read', key, err);
+    return fallback;
+  }
+}
+
+function storageSet(key, value){
+  try{ localStorage.setItem(key, JSON.stringify(value)); }
+  catch(err){ console.warn('[BPSC Hub] Could not write', key, err); }
+}
+
+let quickIds    = storageGet(STORAGE.quick,    []);
+let expandedIds = storageGet(STORAGE.expanded, []);   // default: EMPTY = all collapsed
+let recentIds   = storageGet(STORAGE.recent,   []);
+
+if(!Array.isArray(quickIds))    quickIds = [];
+if(!Array.isArray(expandedIds)) expandedIds = [];
+if(!Array.isArray(recentIds))   recentIds = [];
+
+/** Convenience: is this node currently expanded? */
+function isExpanded(id){ return expandedIds.includes(id); }
+
+/* ----------------------------------------------------------------
+   3. FLAT INDEX OF EVERY LEAF
+   ---------------------------------------------------------------- */
+const LEAF_INDEX = new Map();
+
+(function buildIndex(nodes, sectionTitle, parentCrumbs){
+  for(const node of nodes){
+    if(node.kind === 'section'){
+      buildIndex(node.children, node.title, []);
+    }else if(node.kind === 'group'){
+      buildIndex(node.children, sectionTitle, parentCrumbs.concat(node.title));
+    }else{
+      LEAF_INDEX.set(node.id, {
+        node    : node,
+        section : sectionTitle,
+        crumbs  : parentCrumbs
+      });
+    }
+  }
+})(HUB_DATA, '', []);
+
+const TOTAL_RESOURCES = LEAF_INDEX.size;
+
+/* ----------------------------------------------------------------
+   4. HELPERS
+   ---------------------------------------------------------------- */
+/* Turn a real file path into a safe URL for href.
+   Handles:
+     - relative paths          : "folder/file.html"
+     - absolute Windows paths  : "C:\Users\...\file.html"
+     - already file:// URLs    : "file:///C:/..."
+*/
+function toHref(file){
+  let s = String(file).replace(/\\/g, '/');   // backslashes → forward slashes
+
+  // Case 1: Absolute Windows path  →  "C:/Users/..."
+  if(/^[a-zA-Z]:\//.test(s)){
+    const drive = s.slice(0, 2);               // "C:"
+    const rest  = s.slice(3);                  // "Users/Dell/..."
+    const encoded = rest.split('/').map(encodeURIComponent).join('/');
+    return 'file:///' + drive + '/' + encoded;
+  }
+
+  // Case 2: Already an absolute file:// URL  →  leave untouched
+  if(/^file:\/\//i.test(s)){
+    return s;
+  }
+
+  // Case 3: Relative path  →  encode each segment, keep slashes
+  return s.split('/').map(encodeURIComponent).join('/');
+}
+
+
+function displayName(leaf){ return leaf.title || leaf.file.replace(/\.html?$/i, ''); }
+
+function buildHaystack(leaf, section, crumbs){
+  return [
+    leaf.title, leaf.subtitle, leaf.type, leaf.file,
+    section, crumbs.join(' ')
+  ].filter(Boolean).join(' ').toLowerCase();
+}
+
+function esc(str){
+  return String(str == null ? '' : str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function countLeaves(node){
+  if(node.kind === 'leaf') return 1;
+  return (node.children || []).reduce((s, c) => s + countLeaves(c), 0);
+}
+
+/* ----------------------------------------------------------------
+   5. RENDER HIERARCHY
+   ---------------------------------------------------------------- */
+const hubRoot = document.getElementById('hubSections');
+
+function leafHTML(leaf, sectionTitle, crumbs){
+  const href     = toHref(leaf.file);
+  const haystack = buildHaystack(leaf, sectionTitle, crumbs);
+  const isQuick  = quickIds.includes(leaf.id);
+
+  let badge = '';
+  if(leaf.badge === 'preferred') badge = '<span class="badge badge-preferred">Preferred</span>';
+  else if(leaf.badge === 'internet') badge = '<span class="badge badge-internet">Internet</span>';
+  else if(leaf.badge === 'updated')  badge = '<span class="badge badge-updated">Updated</span>';
+
+  const trail = [sectionTitle].concat(crumbs).join(' › ');
+
+  return `
+  <article class="leaf${isQuick ? ' is-quick' : ''}"
+           data-leaf-id="${esc(leaf.id)}"
+           data-search="${esc(haystack)}">
+    <a class="leaf-main" href="${href}" target="_blank" rel="noopener" data-open-id="${esc(leaf.id)}"
+       title="Open ${esc(leaf.file)}">
+      <span class="leaf-top">
+        <span class="leaf-title">${esc(displayName(leaf))}</span>
+        ${badge}
+      </span>
+      ${leaf.subtitle ? `<span class="leaf-meta">${esc(leaf.subtitle)}</span>` : ''}
+      <span class="leaf-file">${esc(trail)}</span>
+    </a>
+    <button class="star-btn${isQuick ? ' is-on' : ''}" type="button"
+            data-star-id="${esc(leaf.id)}"
+            aria-pressed="${isQuick ? 'true' : 'false'}"
+            title="${isQuick ? 'Remove from Quick Access' : 'Add to Quick Access'}"
+            aria-label="${isQuick ? 'Remove from Quick Access' : 'Add to Quick Access'}: ${esc(displayName(leaf))}">
+      ${isQuick ? '★' : '☆'}
+    </button>
+  </article>`;
+}
+
+function groupHTML(group, sectionTitle, parentCrumbs){
+  const crumbs    = parentCrumbs.concat(group.title);
+  // DEFAULT COLLAPSED: only expanded if id is in expandedIds
+  const collapsed = !isExpanded(group.id);
+  const total     = countLeaves(group);
+  const bodyId    = 'body-' + group.id;
+
+  let inner = '';
+  const subGroups = group.children.filter(c => c.kind === 'group');
+  const leaves    = group.children.filter(c => c.kind === 'leaf');
+
+  if(leaves.length){
+    inner += '<div class="leaf-grid">' +
+      leaves.map(l => leafHTML(l, sectionTitle, crumbs)).join('') +
+      '</div>';
+  }
+  if(subGroups.length){
+    inner += subGroups.map(g => groupHTML(g, sectionTitle, crumbs)).join('');
+  }
+
+  return `
+  <div class="group${collapsed ? ' is-collapsed' : ''}" data-node-id="${esc(group.id)}">
+    <h3 class="group-h3">
+      <button class="group-head" type="button"
+              aria-expanded="${collapsed ? 'false' : 'true'}"
+              aria-controls="${esc(bodyId)}">
+        <span class="chev" aria-hidden="true"></span>
+        ${group.icon ? `<span class="group-icon" aria-hidden="true">${group.icon}</span>` : ''}
+        <span class="group-title">${esc(group.title)}</span>
+        <span class="group-count">${total}</span>
+      </button>
+    </h3>
+    <div class="collapsible" id="${esc(bodyId)}">
+      <div class="collapsible-inner">
+        <div class="group-body">${inner}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function sectionHTML(section){
+  // DEFAULT COLLAPSED: only expanded if id is in expandedIds
+  const collapsed = !isExpanded(section.id);
+  const total     = countLeaves(section);
+  const bodyId    = 'body-' + section.id;
+  const body      = section.children
+    .map(g => groupHTML(g, section.title, []))
+    .join('');
+
+  return `
+  <section class="section${collapsed ? ' is-collapsed' : ''}" data-accent="${esc(section.accent)}"
+           data-node-id="${esc(section.id)}" aria-labelledby="h-${esc(section.id)}">
+    <h2 class="section-h2" id="h-${esc(section.id)}">
+      <button class="section-head" type="button"
+              aria-expanded="${collapsed ? 'false' : 'true'}"
+              aria-controls="${esc(bodyId)}">
+        <span class="chev" aria-hidden="true"></span>
+        <span class="section-icon" aria-hidden="true">${section.icon}</span>
+        <span class="section-title">${esc(section.title)}</span>
+        <span class="section-count">${total}</span>
+      </button>
+    </h2>
+    <div class="collapsible" id="${esc(bodyId)}">
+      <div class="collapsible-inner">
+        <div class="section-body">${body}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderHierarchy(){
+  hubRoot.innerHTML = HUB_DATA.map(sectionHTML).join('');
+}
+
+/* ----------------------------------------------------------------
+   6. QUICK ACCESS
+   ---------------------------------------------------------------- */
+const quickGrid    = document.getElementById('quickAccessGrid');
+const quickEmpty   = document.getElementById('quickAccessEmpty');
+const quickCountEl = document.getElementById('quickCount');
+const clearQuickInline = document.getElementById('clearQuickInline');
+
+function renderQuickAccess(){
+  quickIds = quickIds.filter(id => LEAF_INDEX.has(id));
+
+  quickCountEl.textContent = String(quickIds.length);
+  clearQuickInline.hidden  = quickIds.length === 0;
+
+  if(quickIds.length === 0){
+    quickGrid.innerHTML = '';
+    quickEmpty.hidden = false;
+    return;
+  }
+
+  quickEmpty.hidden = true;
+  quickGrid.innerHTML = quickIds.map(id => {
+    const entry = LEAF_INDEX.get(id);
+    const leaf  = entry.node;
+    const trail = [entry.section].concat(entry.crumbs).join(' › ');
+    return `
+      <div class="quick-card" data-quick-id="${esc(id)}">
+        <a class="quick-main" href="${toHref(leaf.file)}" target="_blank" rel="noopener"
+           data-open-id="${esc(id)}" title="Open ${esc(leaf.file)}">
+          <span class="quick-title">${esc(displayName(leaf))}</span>
+          <span class="quick-path">${esc(trail)}</span>
+        </a>
+        <button class="quick-remove" type="button" data-remove-id="${esc(id)}"
+                title="Remove from Quick Access"
+                aria-label="Remove from Quick Access: ${esc(displayName(leaf))}">★</button>
+      </div>`;
+  }).join('');
+}
+
+/* ----------------------------------------------------------------
+   7. RECENTLY OPENED
+   ---------------------------------------------------------------- */
+const recentStrip = document.getElementById('recentStrip');
+const recentItems = document.getElementById('recentItems');
+
+function renderRecent(){
+  recentIds = recentIds.filter(id => LEAF_INDEX.has(id)).slice(0, RECENT_LIMIT);
+
+  if(recentIds.length === 0){
+    recentStrip.hidden = true;
+    recentItems.innerHTML = '';
+    return;
+  }
+
+  recentStrip.hidden = false;
+  recentItems.innerHTML = recentIds.map(id => {
+    const leaf = LEAF_INDEX.get(id).node;
+    return `<a class="recent-item" href="${toHref(leaf.file)}" target="_blank" rel="noopener"
+               data-open-id="${esc(id)}"
+               title="Open ${esc(leaf.file)}">${esc(displayName(leaf))}</a>`;
+  }).join('');
+}
+
+function rememberOpened(id){
+  recentIds = [id].concat(recentIds.filter(x => x !== id)).slice(0, RECENT_LIMIT);
+  storageSet(STORAGE.recent, recentIds);
+  renderRecent();
+}
+
+/* ----------------------------------------------------------------
+   8. QUICK ACCESS TOGGLE
+   ---------------------------------------------------------------- */
+function isQuick(id){ return quickIds.includes(id); }
+
+function updateStarButtons(id){
+  const on = isQuick(id);
+  hubRoot.querySelectorAll(`.star-btn[data-star-id="${CSS.escape(id)}"]`)
+    .forEach(btn => {
+      btn.classList.toggle('is-on', on);
+      btn.textContent = on ? '★' : '☆';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      const label = (on ? 'Remove from Quick Access: ' : 'Add to Quick Access: ') +
+                    displayName(LEAF_INDEX.get(id).node);
+      btn.setAttribute('aria-label', label);
+      btn.title = on ? 'Remove from Quick Access' : 'Add to Quick Access';
+    });
+  hubRoot.querySelectorAll(`.leaf[data-leaf-id="${CSS.escape(id)}"]`)
+    .forEach(card => card.classList.toggle('is-quick', on));
+}
+
+function toggleQuick(id){
+  if(!LEAF_INDEX.has(id)) return;
+  if(isQuick(id)) quickIds = quickIds.filter(x => x !== id);
+  else            quickIds = quickIds.concat(id);
+  storageSet(STORAGE.quick, quickIds);
+  updateStarButtons(id);
+  renderQuickAccess();
+  updateHeaderStats();
+}
+
+function removeQuick(id){
+  if(!isQuick(id)) return;
+  quickIds = quickIds.filter(x => x !== id);
+  storageSet(STORAGE.quick, quickIds);
+  updateStarButtons(id);
+  renderQuickAccess();
+  updateHeaderStats();
+}
+
+/* ----------------------------------------------------------------
+   9. COLLAPSE / EXPAND  (INVERTED: expandedIds tracks what is open)
+   ---------------------------------------------------------------- */
+function toggleCollapse(nodeId, containerEl){
+  const nowCollapsed = containerEl.classList.toggle('is-collapsed');
+  const head = containerEl.querySelector(':scope > .section-h2 > .section-head, :scope > .group-h3 > .group-head');
+  if(head) head.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
+
+  if(nowCollapsed){
+    // remove from expanded list
+    expandedIds = expandedIds.filter(x => x !== nodeId);
+  }else{
+    // add to expanded list
+    if(!expandedIds.includes(nodeId)) expandedIds.push(nodeId);
+  }
+  storageSet(STORAGE.expanded, expandedIds);
+}
+
+/** Programmatically set every section + group to a state. */
+function setAllExpanded(expand){
+  const allNodes = [];
+  (function walk(nodes){
+    for(const n of nodes){
+      if(n.kind === 'section' || n.kind === 'group'){
+        allNodes.push(n.id);
+        walk(n.children || []);
+      }
+    }
+  })(HUB_DATA);
+
+  expandedIds = expand ? allNodes.slice() : [];
+  storageSet(STORAGE.expanded, expandedIds);
+
+  hubRoot.querySelectorAll('.section, .group').forEach(el => {
+    const id = el.dataset.nodeId;
+    const shouldCollapse = !expand;
+    el.classList.toggle('is-collapsed', shouldCollapse);
+    const head = el.querySelector(':scope > .section-h2 > .section-head, :scope > .group-h3 > .group-head');
+    if(head) head.setAttribute('aria-expanded', shouldCollapse ? 'false' : 'true');
+  });
+}
+
+/* ----------------------------------------------------------------
+   10. HEADER STATS
+   ---------------------------------------------------------------- */
+const headerStats = document.getElementById('headerStats');
+function updateHeaderStats(){
+  headerStats.innerHTML = `
+    <span class="stat-chip"><b>${TOTAL_RESOURCES}</b> Resources</span>
+    <span class="stat-chip"><b>${HUB_DATA.length}</b> Sections</span>
+    <span class="stat-chip"><b>${quickIds.length}</b> Quick Access</span>`;
+}
+
+/* ----------------------------------------------------------------
+   11. SEARCH
+   ---------------------------------------------------------------- */
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+const searchMeta  = document.getElementById('searchMeta');
+const noResults   = document.getElementById('noResults');
+
+function applySearch(rawQuery){
+  const query = rawQuery.trim().toLowerCase();
+
+  if(!query){
+    hubRoot.classList.remove('search-active');
+    hubRoot.querySelectorAll('.is-hidden').forEach(el => el.classList.remove('is-hidden'));
+    searchClear.hidden = true;
+    searchMeta.textContent = '';
+    noResults.hidden = true;
+    return;
+  }
+
+  hubRoot.classList.add('search-active');
+  searchClear.hidden = false;
+
+  const tokens = query.split(/\s+/).filter(Boolean);
+  let visibleLeaves = 0;
+
+  hubRoot.querySelectorAll('.leaf').forEach(card => {
+    const hay = card.dataset.search || '';
+    const match = tokens.every(tok => hay.includes(tok));
+    card.classList.toggle('is-hidden', !match);
+    if(match) visibleLeaves++;
+  });
+
+  hubRoot.querySelectorAll('.group').forEach(group => {
+    const hasVisible = group.querySelector('.leaf:not(.is-hidden)');
+    group.classList.toggle('is-hidden', !hasVisible);
+  });
+
+  hubRoot.querySelectorAll('.section').forEach(section => {
+    const hasVisible = section.querySelector('.leaf:not(.is-hidden)');
+    section.classList.toggle('is-hidden', !hasVisible);
+  });
+
+  searchMeta.textContent = visibleLeaves === 0
+    ? 'No matches'
+    : `${visibleLeaves} match${visibleLeaves === 1 ? '' : 'es'}`;
+
+  noResults.hidden = visibleLeaves !== 0;
+}
+
+function clearSearch(){
+  searchInput.value = '';
+  applySearch('');
+  searchInput.focus();
+}
+
+let searchTimer = null;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => applySearch(searchInput.value), 90);
+});
+searchClear.addEventListener('click', clearSearch);
+document.getElementById('noResultsClear').addEventListener('click', clearSearch);
+
+document.addEventListener('keydown', (e) => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  const typing = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
+  if(e.key === '/' && !typing){
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  }
+  if(e.key === 'Escape' && document.activeElement === searchInput){
+    if(searchInput.value){ clearSearch(); }
+    else{ searchInput.blur(); }
+  }
+});
+
+/* ----------------------------------------------------------------
+   12. EVENT DELEGATION
+   ---------------------------------------------------------------- */
+hubRoot.addEventListener('click', (e) => {
+  // A) Star
+  const star = e.target.closest('.star-btn');
+  if(star){
+    e.preventDefault(); e.stopPropagation();
+    toggleQuick(star.dataset.starId);
+    return;
+  }
+
+  // B) Section head
+  const sectionHead = e.target.closest('.section-head');
+  if(sectionHead){
+    const sectionEl = sectionHead.closest('.section');
+    toggleCollapse(sectionEl.dataset.nodeId, sectionEl);
+    return;
+  }
+
+  // C) Group head
+  const groupHead = e.target.closest('.group-head');
+  if(groupHead){
+    const groupEl = groupHead.closest('.group');
+    toggleCollapse(groupEl.dataset.nodeId, groupEl);
+    return;
+  }
+
+  // D) Opening a resource
+  const opener = e.target.closest('[data-open-id]');
+  if(opener){ rememberOpened(opener.dataset.openId); }
+});
+
+quickGrid.addEventListener('click', (e) => {
+  const removeBtn = e.target.closest('.quick-remove');
+  if(removeBtn){
+    e.preventDefault(); e.stopPropagation();
+    removeQuick(removeBtn.dataset.removeId);
+    return;
+  }
+  const opener = e.target.closest('[data-open-id]');
+  if(opener){ rememberOpened(opener.dataset.openId); }
+});
+
+recentItems.addEventListener('click', (e) => {
+  const opener = e.target.closest('[data-open-id]');
+  if(opener){ rememberOpened(opener.dataset.openId); }
+});
+
+/* ----------------------------------------------------------------
+   13. THEME
+   ---------------------------------------------------------------- */
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon   = document.getElementById('themeIcon');
+const themeLabel  = document.getElementById('themeLabel');
+
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  const dark = theme === 'dark';
+  themeIcon.textContent  = dark ? '☀️' : '🌙';
+  themeLabel.textContent = dark ? 'Light' : 'Dark';
+  storageSet(STORAGE.theme, theme);
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+/* ----------------------------------------------------------------
+   14. PREFERENCES
+   ---------------------------------------------------------------- */
+const settingsPanel  = document.getElementById('settingsPanel');
+const settingsToggle = document.getElementById('settingsToggle');
+
+settingsToggle.addEventListener('click', () => {
+  const open = settingsPanel.hidden;
+  settingsPanel.hidden = !open;
+  settingsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+function clearAllQuick(skipConfirm){
+  if(quickIds.length === 0) return;
+  if(!skipConfirm && !confirm('Remove all ' + quickIds.length + ' item(s) from Quick Access?\n\nYour resources will remain in their original sections.')) return;
+  const previous = quickIds.slice();
+  quickIds = [];
+  storageSet(STORAGE.quick, quickIds);
+  previous.forEach(updateStarButtons);
+  renderQuickAccess();
+  updateHeaderStats();
+}
+
+document.getElementById('clearQuickBtn').addEventListener('click', () => clearAllQuick(false));
+clearQuickInline.addEventListener('click', () => clearAllQuick(false));
+
+/* Toolbar: Expand All / Collapse All */
+document.getElementById('expandAllBtn').addEventListener('click', () => setAllExpanded(true));
+document.getElementById('collapseAllBtn').addEventListener('click', () => setAllExpanded(false));
+
+/* Preferences: collapse all */
+document.getElementById('resetCollapseBtn').addEventListener('click', () => setAllExpanded(false));
+
+/* Reset everything */
+document.getElementById('resetAllBtn').addEventListener('click', () => {
+  if(!confirm('Reset ALL saved preferences?\n\nThis clears Quick Access, expanded/collapsed state, recently opened history and the theme choice.')) return;
+
+  quickIds = [];
+  expandedIds = [];
+  recentIds = [];
+
+  storageSet(STORAGE.quick, quickIds);
+  storageSet(STORAGE.expanded, expandedIds);
+  storageSet(STORAGE.recent, recentIds);
+  try{ localStorage.removeItem(STORAGE.theme); }catch(err){}
+
+  applyTheme('dark');        // default theme on reset is dark
+  renderHierarchy();
+  renderQuickAccess();
+  renderRecent();
+  updateHeaderStats();
+  applySearch(searchInput.value);
+});
+
+/* ----------------------------------------------------------------
+   15. BOOT
+   ---------------------------------------------------------------- */
+(function init(){
+  // Default theme = dark if nothing saved yet
+  applyTheme(storageGet(STORAGE.theme, 'dark'));
+
+  renderHierarchy();
+  renderQuickAccess();
+  renderRecent();
+  updateHeaderStats();
+  applySearch('');
+
+  console.info(
+    '%cBPSC STUDY HUB%c  ' + TOTAL_RESOURCES + ' resources loaded. Default state: collapsed.',
+    'background:#0a1524;color:#f0b93a;padding:3px 8px;border-radius:4px;font-weight:700',
+    'color:#556377'
+  );
+})();
+</script>
+</body>
+</html>

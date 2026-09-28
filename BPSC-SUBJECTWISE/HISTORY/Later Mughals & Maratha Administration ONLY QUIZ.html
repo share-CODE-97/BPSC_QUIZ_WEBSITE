@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIRMOHI BPSC — HIS-1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Marcellus&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2A1810;
+  --ink-soft:#5c4632;
+  --parchment:#F6EEDD;
+  --parchment-2:#EFE2C6;
+  --card:#FFFBF2;
+  --maroon:#7A1F2B;
+  --maroon-deep:#5A1620;
+  --gold:#C9992E;
+  --gold-bright:#E3B94D;
+  --emerald:#1E6F5C;
+  --emerald-deep:#164F42;
+  --marigold:#E08A2E;
+  --scarlet:#B23A2E;
+  --line: rgba(122,31,43,0.18);
+  --shadow: 0 18px 40px -18px rgba(90,22,32,0.35);
+  --radius-arch: 22px 22px 6px 6px;
+  --bg: var(--parchment);
+  --surface: var(--card);
+  --text: var(--ink);
+  --text-soft: var(--ink-soft);
+  --hairline: var(--line);
+}
+[data-theme="dark"]{
+  --ink:#F2E6CC;
+  --ink-soft:#C9B99A;
+  --parchment:#181013;
+  --parchment-2:#20151A;
+  --card:#221720;
+  --maroon:#B23A45;
+  --maroon-deep:#7A1F2B;
+  --gold:#E3B94D;
+  --gold-bright:#F3D583;
+  --emerald:#37A98A;
+  --emerald-deep:#1E6F5C;
+  --marigold:#F0A44C;
+  --scarlet:#E0665A;
+  --line: rgba(227,185,77,0.18);
+  --shadow: 0 22px 50px -18px rgba(0,0,0,0.6);
+  --bg: var(--parchment);
+  --surface: var(--card);
+  --text: var(--ink);
+  --text-soft: var(--ink-soft);
+  --hairline: var(--line);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--marigold) 10%, transparent), transparent 40%),
+    radial-gradient(circle at 88% 6%, color-mix(in srgb, var(--emerald) 10%, transparent), transparent 45%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  transition: background .4s ease, color .4s ease;
+  padding-bottom: 80px;
+}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+::selection{ background: var(--gold); color:var(--maroon-deep); }
+
+/* ---------- Ornament bits ---------- */
+.brocade{
+  height:10px;
+  width:100%;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--maroon) 0 14px,
+      var(--marigold) 14px 28px,
+      var(--gold) 28px 42px,
+      var(--emerald) 42px 56px);
+  opacity:.9;
+}
+
+/* ---------- Header ---------- */
+header.top{
+  max-width:980px;
+  margin:0 auto;
+  padding:38px 24px 18px;
+  text-align:center;
+  position:relative;
+}
+.crest{
+  width:64px;height:64px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background: conic-gradient(from 200deg, var(--maroon), var(--marigold), var(--gold), var(--emerald), var(--maroon));
+  box-shadow: var(--shadow);
+  position:relative;
+}
+.crest::before{
+  content:"";
+  position:absolute; inset:5px;
+  border-radius:50%;
+  background:var(--surface);
+}
+.crest span{
+  position:relative;
+  font-family:'Marcellus',serif;
+  font-size:20px;
+  letter-spacing:1px;
+  color:var(--maroon);
+  z-index:2;
+}
+[data-theme="dark"] .crest span{ color: var(--gold-bright); }
+
+.brandline{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--text-soft);
+  margin:0 0 6px;
+}
+h1.title{
+  font-family:'Cormorant Garamond', serif;
+  font-weight:700;
+  font-size:clamp(34px,5.4vw,58px);
+  line-height:1.05;
+  margin:0 0 10px;
+  background: linear-gradient(100deg, var(--maroon) 0%, var(--marigold) 45%, var(--gold) 65%, var(--emerald) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.subtitle{
+  font-size:15px;
+  color:var(--text-soft);
+  max-width:560px;
+  margin:0 auto;
+  font-weight:500;
+}
+.subtitle b{ color:var(--maroon); font-weight:700;}
+[data-theme="dark"] .subtitle b{ color:var(--gold-bright); }
+
+/* theme toggle */
+.toggle-wrap{
+  position:absolute;
+  top:34px; right:24px;
+  display:flex; align-items:center; gap:8px;
+}
+.toggle{
+  width:56px;height:30px;
+  border-radius:30px;
+  background: linear-gradient(90deg,var(--maroon),var(--emerald));
+  position:relative;
+  cursor:pointer;
+  border:1px solid var(--hairline);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.25);
+}
+.toggle .knob{
+  position:absolute; top:3px; left:3px;
+  width:22px;height:22px;
+  border-radius:50%;
+  background: var(--gold-bright);
+  box-shadow:0 2px 6px rgba(0,0,0,.35);
+  transition: left .3s ease;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;
+}
+[data-theme="dark"] .toggle .knob{ left:31px; }
+
+/* ---------- Section shells ---------- */
+.section{
+  max-width:980px;
+  margin:0 auto;
+  padding:36px 24px 10px;
+}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin-bottom:22px;
+  border-bottom:1px solid var(--hairline);
+  padding-bottom:14px;
+}
+.section-head .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--marigold);
+  letter-spacing:2px;
+  font-weight:700;
+}
+.section-head h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;
+  font-weight:700;
+  margin:0;
+  color:var(--text);
+}
+.section-head p{
+  margin:2px 0 0;
+  font-size:13.5px;
+  color:var(--text-soft);
+}
+
+/* ---------- Arch Card (signature element) ---------- */
+.arch-card{
+  position:relative;
+  background: var(--surface);
+  border:1px solid var(--hairline);
+  border-radius: var(--radius-arch);
+  box-shadow: var(--shadow);
+  padding:32px 30px 26px;
+  overflow:hidden;
+}
+.arch-card::before{
+  content:"";
+  position:absolute; top:0; left:0; right:0; height:6px;
+  background: linear-gradient(90deg, var(--maroon), var(--marigold), var(--gold), var(--emerald));
+}
+.arch-card::after{
+  content:"";
+  position:absolute;
+  top:-70px; left:50%; transform:translateX(-50%);
+  width:180px;height:180px;
+  border-radius:50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold) 18%, transparent), transparent 70%);
+  pointer-events:none;
+}
+
+/* ---------- Live quiz ---------- */
+#live{}
+.progress-row{
+  display:flex; align-items:center; gap:14px; margin-bottom:22px;
+}
+.progress-track{
+  flex:1; height:10px; border-radius:20px;
+  background: var(--parchment-2);
+  overflow:hidden;
+  border:1px solid var(--hairline);
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, var(--maroon), var(--marigold), var(--gold));
+  transition: width .4s ease;
+}
+.progress-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--text-soft);
+  white-space:nowrap;
+}
+.score-pill{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  padding:6px 12px;
+  border-radius:20px;
+  background: color-mix(in srgb, var(--emerald) 14%, transparent);
+  color: var(--emerald);
+  border:1px solid color-mix(in srgb, var(--emerald) 35%, transparent);
+  white-space:nowrap;
+}
+
+.qtag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--marigold);
+  font-weight:700;
+  margin-bottom:8px;
+  display:block;
+}
+.qtext{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(21px,2.6vw,27px);
+  font-weight:600;
+  line-height:1.35;
+  margin:0 0 22px;
+  color:var(--text);
+}
+.opts{ display:grid; gap:12px; }
+.opt{
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px;
+  border-radius:12px;
+  border:1.5px solid var(--hairline);
+  background: color-mix(in srgb, var(--parchment-2) 55%, transparent);
+  cursor:pointer;
+  font-size:15px;
+  font-weight:500;
+  transition: transform .15s ease, border-color .2s ease, background .2s ease;
+}
+.opt:hover{ transform: translateY(-1px); border-color: var(--marigold); }
+.opt .letter{
+  width:28px;height:28px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;
+  font-weight:700;
+  background: var(--parchment-2);
+  border:1px solid var(--hairline);
+  flex-shrink:0;
+}
+.opt.selected{ border-color: var(--marigold); background: color-mix(in srgb, var(--marigold) 12%, transparent); }
+.opt.correct{ border-color: var(--emerald); background: color-mix(in srgb, var(--emerald) 16%, transparent); }
+.opt.correct .letter{ background: var(--emerald); color:#fff; border-color:var(--emerald); }
+.opt.wrong{ border-color: var(--scarlet); background: color-mix(in srgb, var(--scarlet) 14%, transparent); }
+.opt.wrong .letter{ background: var(--scarlet); color:#fff; border-color:var(--scarlet); }
+.opt.disabled{ cursor:default; }
+.opt.disabled:hover{ transform:none; }
+
+.nav-row{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:26px;
+  gap:12px;
+}
+.btn{
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  font-size:14px;
+  padding:12px 22px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s;
+}
+.btn:active{ transform: scale(.97); }
+.btn-primary{
+  background: linear-gradient(100deg, var(--maroon), var(--scarlet) 60%, var(--marigold));
+  color:#fff;
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--maroon) 70%, transparent);
+}
+.btn-ghost{
+  background:transparent;
+  border:1.5px solid var(--hairline);
+  color:var(--text-soft);
+}
+.btn:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }
+
+/* sticky score bar */
+.sticky-bar{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom:1px solid var(--hairline);
+  padding:12px 24px;
+}
+.sticky-inner{
+  max-width:980px; margin:0 auto;
+  display:flex; align-items:center; gap:16px;
+}
+.sticky-inner .progress-track{ flex:1; }
+.reset-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px; font-weight:700;
+  padding:8px 14px; border-radius:20px;
+  border:1.3px solid var(--hairline);
+  background:transparent; color:var(--text-soft); cursor:pointer;
+  white-space:nowrap;
+}
+
+/* ---------- Practice / solutions list ---------- */
+.p-item{
+  background:var(--surface);
+  border:1px solid var(--hairline);
+  border-left:4px solid var(--marigold);
+  border-radius:12px;
+  padding:20px 22px;
+  margin-bottom:14px;
+  box-shadow: 0 6px 18px -12px rgba(0,0,0,.25);
+}
+.p-head{
+  display:flex; gap:12px; align-items:flex-start; margin-bottom:14px;
+}
+.p-num{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700; font-size:12.5px;
+  color:var(--marigold);
+  padding-top:3px;
+  flex-shrink:0;
+  min-width:38px;
+}
+.p-q{
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px; font-weight:600; line-height:1.4; color:var(--text);
+  margin:0;
+}
+.p-opts{ display:grid; gap:8px; grid-template-columns: 1fr; }
+@media(min-width:640px){ .p-opts{ grid-template-columns: 1fr 1fr; } }
+.p-opt{
+  padding:10px 13px;
+  border-radius:9px;
+  border:1.3px solid var(--hairline);
+  font-size:13.5px;
+  cursor:pointer;
+  background: color-mix(in srgb, var(--parchment-2) 45%, transparent);
+  display:flex; gap:8px; align-items:center;
+}
+.p-opt .letter{
+  width:22px;height:22px; border-radius:50%;
+  background:var(--parchment-2); border:1px solid var(--hairline);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700; flex-shrink:0;
+}
+.p-opt.p-correct{ border-color:var(--emerald); background:color-mix(in srgb, var(--emerald) 15%, transparent); font-weight:700;}
+.p-opt.p-correct .letter{ background:var(--emerald); color:#fff; border-color:var(--emerald);}
+.p-opt.p-wrong{ border-color:var(--scarlet); background:color-mix(in srgb, var(--scarlet) 13%, transparent);}
+.p-opt.p-wrong .letter{ background:var(--scarlet); color:#fff; border-color:var(--scarlet);}
+.p-solution{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:8px;
+  font-size:13px;
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border:1px dashed var(--gold);
+  color:var(--text-soft);
+  display:none;
+}
+.p-solution.show{ display:block; }
+.p-solution b{ color:var(--maroon); }
+[data-theme="dark"] .p-solution b{ color:var(--gold-bright); }
+
+.filter-row{ display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.chip-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px; font-weight:700; letter-spacing:.5px;
+  padding:8px 14px; border-radius:20px;
+  border:1.3px solid var(--hairline);
+  background:transparent; color:var(--text-soft); cursor:pointer;
+}
+.chip-btn.active{ background: var(--maroon); color:#fff; border-color:var(--maroon); }
+[data-theme="dark"] .chip-btn.active{ background: var(--gold); color:var(--maroon-deep); border-color:var(--gold);}
+.p-search{
+  flex:1; min-width:180px;
+  padding:9px 14px; border-radius:20px;
+  border:1.3px solid var(--hairline);
+  background:var(--surface); color:var(--text);
+  font-family:'Inter',sans-serif; font-size:13px;
+}
+
+footer{
+  max-width:980px; margin:50px auto 0; padding:26px 24px 0;
+  text-align:center;
+  border-top:1px solid var(--hairline);
+}
+.footer-brand{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; letter-spacing:3px; color:var(--text-soft);
+}
+.footer-brand b{ color:var(--maroon); }
+[data-theme="dark"] .footer-brand b{ color:var(--gold-bright); }
+</style>
+</head>
+<body data-theme="light">
+
+<div class="brocade"></div>
+
+<header class="top">
+  <div class="toggle-wrap">
+    <div class="toggle" id="themeToggle" role="button" aria-label="Toggle dark mode">
+      <div class="knob" id="knob">☀️</div>
+    </div>
+  </div>
+  <div class="crest"><span>N</span></div>
+  <p class="brandline">NIRMOHI BPSC</p>
+  <h1 class="title">HIS-1 · Later Mughals &amp; Maratha Administration</h1>
+  <p class="subtitle">109 questions on Maratha revenue &amp; village administration, the Pindaris, and the Later Mughal succession. Tap any option — the answer reveals <b>instantly</b>, right there.</p>
+</header>
+
+<div class="sticky-bar">
+  <div class="sticky-inner">
+    <span class="progress-label" id="progLabel">0 / 109 attempted</span>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+    <span class="score-pill" id="scorePill">Score: 0</span>
+    <button class="reset-btn" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<section class="section" id="live">
+  <div class="section-head">
+    <span class="num">01</span>
+    <div>
+      <h2>Live Quiz</h2>
+      <p>Click an option on any question — correct / wrong shows immediately, no submit needed</p>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <input class="p-search" id="pSearch" placeholder="Search a question, name or year…" />
+    <button class="chip-btn active" data-f="all">ALL</button>
+    <button class="chip-btn" data-f="unseen">UNATTEMPTED</button>
+    <button class="chip-btn" data-f="wrong">MARKED WRONG</button>
+  </div>
+
+  <div id="pList"></div>
+</section>
+
+<footer>
+  <p class="footer-brand"><b>NIRMOHI BPSC</b></p>
+</footer>
+
+<script>
+const DATA = [{"n": 1, "q": "What was the province called in the Maratha kingdom?", "opts": ["Palace", "province", "side", "Gram"], "ans": 1}, {"n": 2, "q": "What were Taraf or Pargana called in Maratha administration?", "opts": ["Gram", "Palace", "province", "valanadu"], "ans": 1}, {"n": 3, "q": "Under whose control were the big provinces?", "opts": ["Peshwa", "sergeant", "Sir-Subedar", "Deshmukh"], "ans": 2}, {"n": 4, "q": "To whom did the Mamlatdar report directly?", "opts": ["to Peshwa", "to central office", "to the constable", "to Deshmukh"], "ans": 1}, {"n": 5, "q": "Who were the district officers who controlled the Mamlatdar?", "opts": ["Kotwal", "carcoon", "Deshmukh and Deshpande", "Fadnavis"], "ans": 2}, {"n": 6, "q": "Who was the main worker of the palace?", "opts": ["Majumdar", "Fadnavis", "sergeant", "Kulkarni"], "ans": 2}, {"n": 7, "q": "Who helped the constable?", "opts": ["Deshmukh and Deshpande", "Majumdar and Fadnavis", "Kotwal and Karkoon", "Patel and Kulkarni"], "ans": 1}, {"n": 8, "q": "Who was the chief officer of the village?", "opts": ["Kulkarni", "Patel", "Chowgula", "porter"], "ans": 1}, {"n": 9, "q": "Who kept the accounts of the village land?", "opts": ["Chowgula", "porter", "Kulkarni", "sergeant"], "ans": 2}, {"n": 10, "q": "Who helped Patel?", "opts": ["Kulkarni", "Chowgula", "porter", "Kotwal"], "ans": 1}, {"n": 11, "q": "Who checked the purity and weight of the coins?", "opts": ["carcoon", "sergeant", "porter", "Fadnavis"], "ans": 2}, {"n": 12, "q": "Who was the chief administrator of the city?", "opts": ["carcoon", "Kotwal", "Patel", "Mamlatdar"], "ans": 1}, {"n": 13, "q": "Who was the officer who detected the criminals in the village?", "opts": ["Kotwal", "Chowgula", "jagla", "carcoon"], "ans": 2}, {"n": 14, "q": "What was the permanent landowner called?", "opts": ["overhead", "Mirasdar", "volute", "Alute"], "ans": 1}, {"n": 15, "q": "What was the sharecropper landowner called?", "opts": ["Mirasdar", "overhead", "jagla", "volute"], "ans": 1}, {"n": 16, "q": "By what tax were Pindaris exchanged with the Maratha army?", "opts": ["Chauth", "Sardeshmukhi", "sail bar", "rent"], "ans": 2}, {"n": 17, "q": "What percentage of their loot did the Pindaris give to the government?", "opts": ["10%", "20%", "25%", "50%"], "ans": 2}, {"n": 18, "q": "Who was the last Chhatrapati of Maratha Empire?", "opts": ["Sambhaji II", "Shahji Appasaheb", "Shivaji II", "King Rama"], "ans": 1}, {"n": 19, "q": "Gwalior was the capital of which Maratha dynasty?", "opts": ["Bhonsle", "Scindia", "Holkar", "Gaikwad"], "ans": 1}, {"n": 20, "q": "Indore was the capital of which Maratha dynasty?", "opts": ["Scindia", "Bhonsle", "Holkar", "Gaikwad"], "ans": 2}, {"n": 21, "q": "Baroda was the capital of which Maratha dynasty?", "opts": ["Bhonsle", "Gaikwad", "Scindia", "Peshwa"], "ans": 1}, {"n": 22, "q": "Nagpur was the capital of which Maratha dynasty?", "opts": ["Holkar", "Gaikwad", "Bhonsle", "Scindia"], "ans": 2}, {"n": 23, "q": "Poona was the capital of which Maratha ruler?", "opts": ["Bhonsle", "Peshwa", "Gaikwad", "Scindia"], "ans": 1}, {"n": 24, "q": "What was the real name of Bahadurshah I?", "opts": ["Kambakhsh", "muhammad azam", "muazzam", "Shah Alam"], "ans": 2}, {"n": 25, "q": "Bahadurshah I was the son of which Mughal emperor?", "opts": ["Akbar", "Aurangzeb", "Shahjahan", "Jahangir"], "ans": 1}, {"n": 26, "q": "Which brothers were killed by Bahadurshah I?", "opts": ["Akbar and Dara", "Muhammad Azam and Kambakhsh", "Dara and Shuja", "Shuja and Murad"], "ans": 1}, {"n": 27, "q": "Whom did Guru Gobind Singh support in the succession war?", "opts": ["Farrukhsiyar", "Jahandar Shah", "Bahadurshah", "Shah Alam"], "ans": 2}, {"n": 28, "q": "Who was the founder of Awadh state?", "opts": ["Murshidkuli Khan", "Saadat Khan", "Badan Singh", "Ali Muhammad Khan"], "ans": 1}, {"n": 29, "q": "Who was the founder of Hyderabad State?", "opts": ["Murshidkuli Khan", "Saadat Khan", "chinkilich khan", "Badan Singh"], "ans": 2}, {"n": 30, "q": "Who was the founder of Rohilkhand state?", "opts": ["Saadat Khan", "Veer Dawood and Ali Muhammad Khan", "Murshidkuli Khan", "Badan Singh"], "ans": 1}, {"n": 31, "q": "Who was the founder of Bengal state?", "opts": ["Badan Singh", "Murshidkuli Khan", "Saadat Khan", "Ali Muhammad Khan"], "ans": 1}, {"n": 32, "q": "Who was the founder of Karnataka state?", "opts": ["Badan Singh", "Saadat Khan", "Sadutullah Khan", "Murshidkuli Khan"], "ans": 2}, {"n": 33, "q": "Who was the founder of Bharatpur state?", "opts": ["Badan Singh", "Chooraman", "Saadat Khan", "Murshidkuli Khan"], "ans": 1}, {"n": 34, "q": "Which title was given to Saadat Khan by Mughal Emperor Muhammad Shah?", "opts": ["Nizam-ul-Mulk", "Burhan-ul-Mulk", "shah-e-bekhabar", "Qibla-e-Alam"], "ans": 1}, {"n": 35, "q": "What was the real name of Saadat Khan?", "opts": ["chinkilich khan", "Mir Muhammad Amin", "Badan Singh", "Ali Muhammad Khan"], "ans": 1}, {"n": 36, "q": "Which title did Khaki Khan give to Bahadur Shah I?", "opts": ["shah-e-bekhabar", "Qibla-e-Alam", "Nizam-ul-Mulk", "Rangeela"], "ans": 0}, {"n": 37, "q": "With whose help Jahandar Shah became the ruler?", "opts": ["Nizam-ul-Mulk", "zulfiqar khan", "Syed brothers", "Badan Singh"], "ans": 1}, {"n": 38, "q": "Who was the Prime Minister of Jahandar Shah?", "opts": ["Badan Singh", "zulfiqar khan", "Hussain Ali Khan", "Saadat Khan"], "ans": 1}, {"n": 39, "q": "Ijara system was started during the reign of which Mughal ruler?", "opts": ["Bahadurshah I", "Jahandar Shah", "Farrukhsiyar", "muhammadshah"], "ans": 1}, {"n": 40, "q": "Which tax was abolished by Jahandar Shah?", "opts": ["Chauth", "Sardeshmukhi", "jizya", "sail bar"], "ans": 2}, {"n": 41, "q": "Which prostitute was given the right to intervene during the rule of Jahandar Shah?", "opts": ["Udyam Bai", "Lal Kumari", "noorjehan", "light saw"], "ans": 1}, {"n": 42, "q": "By what name are the Syed brothers known in Mughal history?", "opts": ["king maker", "ruler maker", "commander producer", "policy maker"], "ans": 1}, {"n": 43, "q": "By which nickname was Jahandar Shah known?", "opts": ["Rangeela", "shah-e-bekhabar", "dissolute fool", "Qibla-e-Alam"], "ans": 2}, {"n": 44, "q": "With whose help Farrukhsiyar became the Mughal ruler?", "opts": ["Nizam-ul-Mulk", "zulfiqar khan", "Syed brothers", "Badan Singh"], "ans": 2}, {"n": 45, "q": "What is Farrukhsiyar said to be of the Mughal dynasty?", "opts": ["brave ruler", "great emperor", "disgusting coward", "Rangeela"], "ans": 2}, {"n": 46, "q": "Who led the English delegation that came to India in 1715?", "opts": ["clive", "John Surman", "Wellesley", "hamilton"], "ans": 1}, {"n": 47, "q": "Which doctor treated Farrukhsiyar?", "opts": ["clive", "hamilton", "Wellesley", "John Surman"], "ans": 1}, {"n": 48, "q": "What is the declaration issued by Farrukhsiyar called?", "opts": ["bengal charter", "plassey accord", "Magna Carta of East India", "charter act"], "ans": 2}, {"n": 49, "q": "With whose help did the Syed brothers depose Farrukhsiyar?", "opts": ["Nizam-ul-Mulk", "Bajirao I", "Peshwa Balaji Vishwanath", "Badan Singh"], "ans": 2}, {"n": 50, "q": "For how long did Rafi-ud-Darajat rule?", "opts": ["shortest time", "1 year", "5 year", "10 years"], "ans": 0}, {"n": 51, "q": "In what name was Rafi-ud-Dadaula installed on the throne?", "opts": ["Shah Alam II", "Shahjahan II", "Bahadurshah II", "Akbar II"], "ans": 1}, {"n": 52, "q": "What was Rafi-ud-Daula addicted to?", "opts": ["Liquor", "hemp", "opium", "Tobacco"], "ans": 2}, {"n": 53, "q": "The Syed brothers came to an end during the reign of which Mughal ruler?", "opts": ["Farrukhsiyar", "muhammadshah", "ahmedshah", "Alamgir II"], "ans": 1}, {"n": 54, "q": "Who murdered Hussain Ali Khan?", "opts": ["Badan Singh", "Nizam-ul-Mulk", "Haider Veg", "Bajirao I"], "ans": 2}, {"n": 55, "q": "When did Nizam-ul-Mulk become Wazir?", "opts": ["1719", "1720", "1724", "1737"], "ans": 2}, {"n": 56, "q": "When did Bajirao I attack Delhi?", "opts": ["1720", "1737", "1739", "1748"], "ans": 1}, {"n": 57, "q": "When did Nadir Shah attack Delhi?", "opts": ["1720", "1737", "1739", "1748"], "ans": 2}, {"n": 58, "q": "Between whom did the battle of Karnal take place?", "opts": ["Maratha-Mughal", "Nadir Shah-Mughal", "english-mughal", "Sikh-Mughal"], "ans": 1}, {"n": 59, "q": "By what name is Nadir Shah known?", "opts": ["lion of persia", "Napoleon of Iran", "shah-e-bekhabar", "Rangeela"], "ans": 1}, {"n": 60, "q": "How much money did Nadir Shah take with him from Delhi?", "opts": ["40 crores", "50 crores", "60 crores", "70 crores"], "ans": 3}, {"n": 61, "q": "Which throne did Nadir Shah take from Delhi?", "opts": ["diamond throne", "gem throne", "Takht-e-Taus", "golden throne"], "ans": 2}, {"n": 62, "q": "Who built Takht-e-Taus?", "opts": ["Akbar", "Aurangzeb", "Shahjahan", "Jahangir"], "ans": 2}, {"n": 63, "q": "Who was the last Mughal ruler to sit on the Takht-e-Taus?", "opts": ["Farrukhsiyar", "ahmedshah", "muhammadshah", "Shah Alam II"], "ans": 2}, {"n": 64, "q": "Which famous diamond was taken by Nadir Shah from Delhi?", "opts": ["Hope", "Kohinoor", "regent", "Orlov"], "ans": 1}, {"n": 65, "q": "By which nickname was Muhammad Shah known?", "opts": ["shah-e-bekhabar", "dissolute fool", "Rangeela", "Qibla-e-Alam"], "ans": 2}, {"n": 66, "q": "By what other name was Muhammad Shah known?", "opts": ["Bahadurshah", "ahmedshah", "Rangeela Badshah", "Alamgir"], "ans": 2}, {"n": 67, "q": "Which art was Muhammad Shah interested in?", "opts": ["drawing", "architecture", "music", "Drama"], "ans": 2}, {"n": 68, "q": "What type of music did Muhammad Shah compose?", "opts": ["Thumri", "Drupada", "care", "Tune"], "ans": 2}, {"n": 69, "q": "Who established the independent state of Hyderabad?", "opts": ["Saadat Khan", "Murshidkuli Khan", "Nizam-ul-Mulk", "Badan Singh"], "ans": 2}, {"n": 70, "q": "When was the independent state established in Hyderabad?", "opts": ["1719", "1720", "1725", "1737"], "ans": 2}, {"n": 71, "q": "To whom did Ahmed Shah hand over the tasks of governance?", "opts": ["Lal Kumari", "Udyam Bai", "noorjehan", "light saw"], "ans": 1}, {"n": 72, "q": "Which title was given to Udyam Bai?", "opts": ["shah-e-bekhabar", "Qibla-e-Alam", "Nizam-ul-Mulk", "Rangeela"], "ans": 1}, {"n": 73, "q": "Whose son was Alamgir-II?", "opts": ["Bahadurshah I", "Jahandar Shah", "ahmedshah", "Farrukhsiyar"], "ans": 1}, {"n": 74, "q": "The Battle of Plassey took place during the reign of which Mughal ruler?", "opts": ["muhammadshah", "ahmedshah", "Alamgir-II", "Shah Alam II"], "ans": 2}, {"n": 75, "q": "What was the reign of Bahadurshah Zafar?", "opts": ["1759–1806", "1806–1837", "1837–1857", "1719–1748"], "ans": 2}, {"n": 76, "q": "What was the reign of Shah Alam II?", "opts": ["1759–1806", "1806–1837", "1837–1857", "1748–1754"], "ans": 0}, {"n": 77, "q": "What was the reign of Akbar II?", "opts": ["1759–1806", "1806–1837", "1837–1857", "1748–1754"], "ans": 1}, {"n": 78, "q": "What was the reign of Ahmed Shah?", "opts": ["1719–1748", "1748–1754", "1754–1759", "1837–1857"], "ans": 1}, {"n": 79, "q": "What was the reign of Alamgir-II?", "opts": ["1748–1754", "1754–1759", "1759–1806", "1806–1837"], "ans": 1}, {"n": 80, "q": "Which ruler is considered to have started the later Mughal period?", "opts": ["Akbar", "Bahadurshah I", "Jahandar Shah", "Farrukhsiyar"], "ans": 1}, {"n": 81, "q": "What was the reign of Bahadurshah I?", "opts": ["1700–1707", "1707–1712", "1712–1719", "1719–1748"], "ans": 1}, {"n": 82, "q": "What was the reign of Jahandar Shah?", "opts": ["1707–1712", "1712–1713", "1713–1719", "1719–1748"], "ans": 1}, {"n": 83, "q": "What was the reign of Farrukhsiyar?", "opts": ["1712–1713", "1707–1712", "1713–1719", "1719–1748"], "ans": 2}, {"n": 84, "q": "What was the reign of Muhammad Shah?", "opts": ["1712–1713", "1713–1719", "1719–1748", "1748–1754"], "ans": 2}, {"n": 85, "q": "Which Mughal ruler ruled after Shah Alam II?", "opts": ["bahadurshah zafar", "Akbar II", "Alamgir II", "ahmedshah"], "ans": 1}, {"n": 86, "q": "Who became the Mughal ruler after Akbar II?", "opts": ["Shah Alam II", "Alamgir II", "ahmedshah", "bahadurshah zafar"], "ans": 3}, {"n": 87, "q": "What was the class of 12 craftsmen called in the Maratha administration?", "opts": ["Alute", "volute", "Mirasdar", "jagla"], "ans": 1}, {"n": 88, "q": "What was the class of 12 servants called in the Maratha village system?", "opts": ["Alute", "volute", "Mirasdar", "overhead"], "ans": 0}, {"n": 89, "q": "On what conditions did Pindari go with the Maratha army?", "opts": ["on salary", "on tax free land", "in exchange for the sails", "in government service"], "ans": 2}, {"n": 90, "q": "What percentage of their loot did the Pindaris give to the government?", "opts": ["10%", "20%", "25%", "50%"], "ans": 2}, {"n": 91, "q": "Approximately how old was Bahadur Shah I when he ascended the throne?", "opts": ["50", "55", "60", "63"], "ans": 3}, {"n": 92, "q": "What did the Syed brothers do with Farrukhsiyar?", "opts": ["exile", "captivity", "murder by blinding", "dismissed"], "ans": 2}, {"n": 93, "q": "Nadir Shah was the ruler of which country?", "opts": ["Türkiye", "afghanistan", "iran persia", "Uzbekistan"], "ans": 2}, {"n": 94, "q": "Hyderabad was founded by which community?", "opts": ["afghan", "Iranian", "turani", "Maratha"], "ans": 2}, {"n": 95, "q": "Awadh was founded by which community?", "opts": ["turani", "afghan", "Iranian", "Maratha"], "ans": 2}, {"n": 96, "q": "By what title did Khaki Khan call Bahadur Shah I?", "opts": ["Rangeela", "Qibla-e-Alam", "shah-e-bekhabar", "Alamgir"], "ans": 2}, {"n": 97, "q": "In which year did the English delegation reach the court of Farrukhsiyar?", "opts": ["1715", "1716", "1717", "1718"], "ans": 2}, {"n": 98, "q": "What recognition was given to the British by Farrukhsiyar?", "opts": ["British Parliament", "english coins", "charter act", "bengal charter"], "ans": 1}, {"n": 99, "q": "In which period was the reign of Rafi-ud-Darajat?", "opts": ["January–March 1719", "February–June 1719", "March–September 1719", "June–December 1719"], "ans": 1}, {"n": 100, "q": "Whom did Majumdar assist in Maratha palace administration?", "opts": ["Patel", "Mamlatdar", "sergeant", "Kotwal"], "ans": 2}, {"n": 101, "q": "Whom did Fadnavis assist in Maratha palace administration?", "opts": ["Mamlatdar", "sergeant", "Deshmukh", "Kotwal"], "ans": 1}, {"n": 102, "q": "What was the function of Chowgule in Maratha village system?", "opts": ["tax collection", "crime control", "Helping Patel and taking care of Kulkarni's accounts.", "coin checking"], "ans": 2}, {"n": 103, "q": "Potdar was related to which function in the Maratha village system?", "opts": ["land account", "checking coins", "crime investigation", "tax collection"], "ans": 1}, {"n": 104, "q": "What type of people were the Pindaris?", "opts": ["Businessman", "farmer", "robber by profession", "military officer"], "ans": 2}, {"n": 105, "q": "Which brothers were killed in the war of succession of Bahadur Shah I?", "opts": ["Dara and Shuja", "Muhammad Azam and Kambakhsh", "Shuja and Murad", "Akbar and Dara"], "ans": 1}, {"n": 106, "q": "What title did Bahadur Shah I hold?", "opts": ["Alamgir", "shah-e-bekhabar", "Bahadurshah", "Qibla-e-Alam"], "ans": 2}, {"n": 107, "q": "Which doctor treated Farrukhsiyar?", "opts": ["clive", "hamilton", "Wellesley", "John Surman"], "ans": 1}, {"n": 108, "q": "In which year was the independent state established in Hyderabad?", "opts": ["1719", "1720", "1725", "1737"], "ans": 2}, {"n": 109, "q": "The Battle of Plassey took place during the reign of which Mughal ruler?", "opts": ["muhammadshah", "ahmedshah", "Alamgir-II", "Shah Alam II"], "ans": 2}];
+
+/* ---------------- Theme ---------------- */
+const themeToggle = document.getElementById('themeToggle');
+const knob = document.getElementById('knob');
+function setTheme(t){
+  document.body.setAttribute('data-theme', t);
+  knob.textContent = t === 'dark' ? '🌙' : '☀️';
+}
+themeToggle.addEventListener('click', ()=>{
+  const cur = document.body.getAttribute('data-theme');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+setTheme('light');
+
+/* ---------------- Unified click-to-reveal quiz list ---------------- */
+const total = DATA.length;
+const LETTERS = ['A','B','C','D'];
+let choices = new Array(total).fill(null); // selected index or null, per question
+
+const progFill = document.getElementById('progFill');
+const progLabel = document.getElementById('progLabel');
+const scorePill = document.getElementById('scorePill');
+const pList = document.getElementById('pList');
+const pSearch = document.getElementById('pSearch');
+let activeFilter = 'all';
+
+function updateScoreBar(){
+  const attempted = choices.filter(c=>c!==null).length;
+  const correct = choices.reduce((s,c,i)=> s + (c!==null && c===DATA[i].ans ? 1 : 0), 0);
+  progFill.style.width = (attempted/total*100) + '%';
+  progLabel.textContent = attempted + ' / ' + total + ' attempted';
+  scorePill.textContent = 'Score: ' + correct;
+}
+
+function buildList(){
+  const term = pSearch.value.trim().toLowerCase();
+  pList.innerHTML = '';
+  DATA.forEach((d, i)=>{
+    if(activeFilter === 'unseen' && choices[i] !== null) return;
+    if(activeFilter === 'wrong' && !(choices[i] !== null && choices[i] !== d.ans)) return;
+    if(term){
+      const hay = (d.q + ' ' + d.opts.join(' ')).toLowerCase();
+      if(!hay.includes(term)) return;
+    }
+    const item = document.createElement('div');
+    item.className = 'p-item';
+    const head = document.createElement('div');
+    head.className = 'p-head';
+    head.innerHTML = '<span class="p-num">Q'+String(d.n).padStart(3,'0')+'</span><p class="p-q">'+d.q+'</p>';
+    item.appendChild(head);
+
+    const optsWrap = document.createElement('div');
+    optsWrap.className = 'p-opts';
+    d.opts.forEach((optText, idx)=>{
+      const o = document.createElement('div');
+      o.className = 'p-opt';
+      o.innerHTML = '<span class="letter">'+LETTERS[idx]+'</span><span>'+optText+'</span>';
+      if(choices[i] !== null){
+        if(idx === d.ans) o.classList.add('p-correct');
+        else if(idx === choices[i]) o.classList.add('p-wrong');
+      }
+      o.addEventListener('click', ()=>{
+        if(choices[i] !== null) return; // already answered, keep it locked
+        choices[i] = idx;
+        updateScoreBar();
+        buildList();
+      });
+      optsWrap.appendChild(o);
+    });
+    item.appendChild(optsWrap);
+
+    const sol = document.createElement('div');
+    sol.className = 'p-solution' + (choices[i] !== null ? ' show' : '');
+    sol.innerHTML = '<b>Correct answer: '+LETTERS[d.ans]+'.</b> ' + d.opts[d.ans];
+    item.appendChild(sol);
+
+    pList.appendChild(item);
+  });
+  if(!pList.children.length){
+    pList.innerHTML = '<p style="text-align:center;color:var(--text-soft);padding:30px 0;">No questions match here.</p>';
+  }
+}
+
+document.querySelectorAll('.chip-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.chip-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.f;
+    buildList();
+  });
+});
+pSearch.addEventListener('input', buildList);
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  choices = new Array(total).fill(null);
+  updateScoreBar();
+  buildList();
+});
+
+updateScoreBar();
+buildList();
+</script>
+
+</body>
+</html>

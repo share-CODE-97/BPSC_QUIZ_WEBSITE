@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIS-5 | Nirmohi Bpsc</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23D4AF37'/%3E%3Ccircle cx='50' cy='50' r='34' fill='%230F1410'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cinzel+Decorative:wght@700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"]{
+    --bg:#0F1410;
+    --bg-soft:#151B12;
+    --surface:#1B2118;
+    --surface-2:#232B1E;
+    --surface-3:#2A331F;
+    --border: rgba(212,175,55,0.20);
+    --border-strong: rgba(212,175,55,0.45);
+    --text:#F3ECD9;
+    --muted:#B3AA92;
+    --gold:#D9B54A;
+    --gold-deep:#A8791E;
+    --ruby:#C4525E;
+    --ruby-deep:#7A2430;
+    --emerald:#4FA57C;
+    --emerald-deep:#1F5C3E;
+    --sapphire:#6E9BC4;
+    --saffron:#E08A45;
+    --shadow: 0 24px 70px rgba(0,0,0,0.6);
+    --card-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+  :root[data-theme="light"]{
+    --bg:#FBF6EA;
+    --bg-soft:#F6EFDC;
+    --surface:#FFFFFF;
+    --surface-2:#F5EDD7;
+    --surface-3:#EFE3C4;
+    --border: rgba(140,100,20,0.22);
+    --border-strong: rgba(140,100,20,0.4);
+    --text:#241C10;
+    --muted:#6B6152;
+    --gold:#A8791E;
+    --gold-deep:#8A5F14;
+    --ruby:#8E2635;
+    --ruby-deep:#6B1B27;
+    --emerald:#1F5C3E;
+    --emerald-deep:#164630;
+    --sapphire:#234163;
+    --saffron:#A6501A;
+    --shadow: 0 24px 60px rgba(120,95,40,0.18);
+    --card-shadow: 0 8px 22px rgba(120,95,40,0.12);
+    color-scheme: light;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.55;
+    transition:background .35s ease, color .35s ease;
+  }
+  h1,h2,h3,.brand,.eyebrow,.seal span,.tier-label{font-family:'Cinzel',serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  ::selection{ background:var(--gold); color:#151B12; }
+
+  /* ---------- jewel ribbon ---------- */
+  .ribbon{
+    height:6px;
+    width:100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--gold) 0 22px,
+      var(--ruby) 22px 44px,
+      var(--emerald) 44px 66px,
+      var(--saffron) 66px 88px,
+      var(--sapphire) 88px 110px
+    );
+  }
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand-wrap{display:flex; align-items:center; gap:12px;}
+  .brand{
+    font-weight:700; letter-spacing:.14em; font-size:1.05rem;
+    background:linear-gradient(120deg, var(--gold-deep), var(--gold) 45%, var(--saffron) 75%, var(--gold-deep));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-transform:uppercase;
+  }
+  .tag-pill{
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.08em;
+    padding:4px 10px; border-radius:999px;
+    background:var(--ruby-deep); color:#F3ECD9; border:1px solid var(--border-strong);
+  }
+  .theme-btn{
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--border-strong);
+    background:conic-gradient(from 200deg, var(--gold), var(--saffron), var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .theme-btn span{
+    width:32px; height:32px; border-radius:50%; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; font-size:1rem;
+  }
+  .theme-btn:focus-visible, button:focus-visible, .opt:focus-visible{
+    outline:2px solid var(--gold); outline-offset:2px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:64px 24px 48px;
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 0%, color-mix(in srgb, var(--emerald) 22%, transparent), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 10%, color-mix(in srgb, var(--ruby) 18%, transparent), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 50% 100%, color-mix(in srgb, var(--sapphire) 16%, transparent), transparent 65%);
+  }
+  .hero .eyebrow{
+    display:inline-block; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--gold); border:1px solid var(--border-strong); padding:5px 14px; border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(1.9rem, 4.4vw, 3.1rem);
+    margin:0 0 14px; font-weight:800; letter-spacing:.01em;
+  }
+  .hero p.sub{
+    max-width:620px; margin:0 auto 26px; color:var(--muted); font-size:1.05rem;
+  }
+  .stat-row{
+    display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-bottom:30px;
+  }
+  .stat-chip{
+    font-family:'JetBrains Mono',monospace; font-size:.78rem; letter-spacing:.03em;
+    padding:9px 16px; border-radius:12px; border:1px solid var(--border);
+    background:var(--surface); box-shadow:var(--card-shadow);
+  }
+  .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    font-family:'Cinzel',serif; font-weight:600; letter-spacing:.05em; font-size:.85rem;
+    padding:14px 26px; border-radius:10px; border:1px solid var(--border-strong);
+    cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-primary{
+    background:linear-gradient(120deg, var(--gold-deep), var(--gold));
+    color:#171008; box-shadow:0 10px 26px color-mix(in srgb, var(--gold) 35%, transparent);
+  }
+  .btn-ghost{ background:var(--surface); color:var(--text); }
+
+  /* ---------- section nav ---------- */
+  .section-nav{
+    display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+    padding:0 24px 34px; max-width:980px; margin:0 auto;
+  }
+  .section-nav a{
+    font-family:'JetBrains Mono',monospace; font-size:.72rem; letter-spacing:.02em;
+    color:var(--muted); text-decoration:none; padding:7px 13px; border-radius:999px;
+    border:1px solid var(--border);
+  }
+  .section-nav a:hover{ color:var(--gold); border-color:var(--border-strong); }
+
+  main{ max-width:880px; margin:0 auto; padding:0 20px 100px; }
+
+  .block-head{ text-align:center; padding:38px 0 22px; }
+  .block-head .eyebrow{
+    font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold);
+  }
+  .block-head h2{ font-size:clamp(1.5rem,3vw,2rem); margin:8px 0 8px; }
+  .block-head p{ color:var(--muted); max-width:520px; margin:0 auto; font-size:.95rem; }
+
+  /* ---------- progress ---------- */
+  .progress-wrap{
+    position:sticky; top:73px; z-index:40;
+    background:var(--bg); padding:10px 0 16px;
+  }
+  .progress-track{
+    height:8px; border-radius:999px; background:var(--surface-2); overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:999px;
+    background:linear-gradient(90deg, var(--emerald-deep), var(--gold), var(--ruby));
+    transition:width .3s ease;
+  }
+  .progress-text{
+    display:flex; justify-content:space-between; margin-top:6px;
+    font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted);
+  }
+
+  /* ---------- section header inside list ---------- */
+  .sec-header{
+    display:flex; align-items:center; gap:14px; margin:44px 0 22px;
+  }
+  .sec-header .sec-line{ flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--border-strong), transparent); }
+  .sec-header h2{
+    font-size:.98rem; letter-spacing:.04em; margin:0; white-space:nowrap; color:var(--gold);
+  }
+
+  /* ---------- question card ---------- */
+  .q-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    padding:20px 20px 18px; margin-bottom:16px; box-shadow:var(--card-shadow);
+    position:relative;
+  }
+  .q-head{ display:flex; gap:14px; align-items:flex-start; margin-bottom:14px; }
+  .seal{
+    flex:none; width:40px; height:40px; border-radius:50%;
+    background:conic-gradient(from 180deg, var(--gold), var(--saffron) 40%, var(--gold) 80%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.25);
+  }
+  .seal span{
+    width:31px; height:31px; border-radius:50%; background:var(--surface);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.78rem; font-weight:700; color:var(--gold);
+  }
+  .q-head h3{ margin:6px 0 0; font-size:1.03rem; font-weight:600; line-height:1.4; }
+
+  .opts{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    display:flex; align-items:center; gap:12px; text-align:left;
+    padding:11px 14px; border-radius:11px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text); cursor:pointer;
+    font-family:'Source Serif 4', serif; font-size:.94rem;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    width:100%;
+  }
+  .opt:hover{ border-color:var(--border-strong); transform:translateX(2px); }
+  .opt-letter{
+    flex:none; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600;
+    background:var(--surface-3); color:var(--muted); border:1px solid var(--border);
+  }
+  .opt-text{ flex:1; }
+  .opt .mark{ font-family:'JetBrains Mono',monospace; font-weight:700; }
+
+  .opt.selected{ border-color:var(--gold); background:color-mix(in srgb, var(--gold) 14%, var(--surface-2)); }
+  .opt.selected .opt-letter{ background:var(--gold); color:#171008; border-color:var(--gold); }
+
+  .opt.correct{ border-color:var(--emerald); background:color-mix(in srgb, var(--emerald) 16%, var(--surface-2)); }
+  .opt.correct .opt-letter{ background:var(--emerald); color:#0c1a13; border-color:var(--emerald); }
+  .opt.correct .mark{ color:var(--emerald); margin-left:auto; }
+
+  .opt.wrong{ border-color:var(--ruby); background:color-mix(in srgb, var(--ruby) 16%, var(--surface-2)); }
+  .opt.wrong .opt-letter{ background:var(--ruby); color:#20080a; border-color:var(--ruby); }
+  .opt.wrong .mark{ color:var(--ruby); margin-left:auto; }
+
+  .opt[disabled], .solutions .opt{ cursor:default; }
+  .opt[disabled]:hover, .solutions .opt:hover{ transform:none; }
+
+  .insight{
+    margin-top:14px; padding:12px 14px; border-radius:10px;
+    background:var(--surface-3); border-left:3px solid var(--gold);
+  }
+  .insight-label{
+    display:block; font-family:'JetBrains Mono',monospace; font-size:.65rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:4px;
+  }
+  .insight p{ margin:0; font-size:.9rem; color:var(--muted); }
+
+  .not-attempted{
+    display:inline-block; margin-top:10px; font-family:'JetBrains Mono',monospace;
+    font-size:.68rem; letter-spacing:.06em; color:var(--ruby); text-transform:uppercase;
+  }
+
+  /* ---------- summary ---------- */
+  .summary-card{
+    margin:30px 0 10px; padding:30px 24px; border-radius:18px; text-align:center;
+    background:linear-gradient(160deg, var(--surface), var(--surface-2));
+    border:1px solid var(--border-strong); box-shadow:var(--shadow);
+  }
+  .summary-card.hidden{ display:none; }
+  .summary-seal{
+    width:96px; height:96px; margin:0 auto 14px; border-radius:50%;
+    background:conic-gradient(from 200deg, var(--gold), var(--ruby), var(--emerald), var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+  }
+  .summary-seal span{
+    width:76px; height:76px; border-radius:50%; background:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.3rem; color:var(--gold);
+  }
+  .summary-card h3{ font-size:1.4rem; margin:6px 0 18px; color:var(--gold); }
+  .summary-stats{ display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-bottom:16px; }
+  .stat{ display:flex; flex-direction:column; align-items:center; gap:2px; }
+  .stat .num{ font-family:'JetBrains Mono',monospace; font-size:1.5rem; font-weight:700; }
+  .stat.correct .num{ color:var(--emerald); }
+  .stat.wrong .num{ color:var(--ruby); }
+  .stat.unattempted .num{ color:var(--sapphire); }
+  .stat .lbl{ font-size:.72rem; color:var(--muted); letter-spacing:.05em; text-transform:uppercase; }
+  .summary-note{ color:var(--muted); font-size:.92rem; max-width:440px; margin:0 auto; }
+
+  /* ---------- chamber divider ---------- */
+  .chamber-divider{
+    display:flex; align-items:center; gap:16px; margin:56px 0 10px; max-width:880px; margin-left:auto; margin-right:auto; padding:0 20px;
+  }
+  .chamber-divider .line{ flex:1; height:2px; background:repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 14px); }
+  .chamber-divider span{
+    font-family:'Cinzel Decorative', 'Cinzel', serif; font-size:.85rem; letter-spacing:.08em;
+    color:var(--gold); white-space:nowrap; padding:8px 18px; border:1px solid var(--border-strong);
+    border-radius:999px; background:var(--surface);
+  }
+
+  /* ---------- floating submit ---------- */
+  .float-bar{
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:60;
+    display:flex; gap:10px;
+  }
+  .float-bar .btn{ box-shadow:0 12px 30px rgba(0,0,0,.35); }
+
+  footer{
+    text-align:center; padding:34px 20px 50px; color:var(--muted); font-size:.8rem;
+    border-top:1px solid var(--border);
+  }
+  footer .brand{ font-size:.85rem; display:block; margin-bottom:6px; }
+
+  @media (max-width:640px){
+    .progress-wrap{ top:65px; }
+    .q-head h3{ font-size:.97rem; }
+    .summary-stats{ gap:16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon"></div>
+<header class="topbar">
+  <div class="brand-wrap">
+    <span class="brand">Nirmohi Bpsc</span>
+    <span class="tag-pill">HIS-5</span>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle light and dark mode">
+    <span id="theme-icon">☾</span>
+  </button>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">History · Page 53</span>
+  <h1>Sikh Empire, Company Raj &amp; the Reform Awakening</h1>
+  <p class="sub">From the Dal Khalsa to the annexation of Punjab, and from the Diarchy to the Regulating Act — 106 questions across the rise of Ranjit Singh, the Anglo-Sikh Wars, the reform movements, and Company administration.</p>
+  <div class="stat-row">
+    <span class="stat-chip">106 Questions</span>
+    <span class="stat-chip">2 Study Modes</span>
+    <span class="stat-chip">Full Explanations</span>
+  </div>
+  <div class="cta-row">
+    <a href="#quiz-live" class="btn btn-primary">Begin the Live Quiz</a>
+    <a href="#quiz-solutions" class="btn btn-ghost">Jump to Solutions</a>
+  </div>
+</section>
+
+<nav class="section-nav">
+  <a href="#live-sec-1">Rise of the Sikh Empire</a>
+  <a href="#live-sec-25">Anglo-Sikh Wars</a>
+  <a href="#live-sec-43">Reform Movements</a>
+  <a href="#live-sec-63">Company Raj</a>
+</nav>
+
+<main>
+  <section id="quiz-live" class="quiz-block">
+    <div class="block-head">
+      <span class="eyebrow">Mode 01</span>
+      <h2>Live Quiz</h2>
+      <p>Tap an option to instantly reveal the correct answer — check your score and Darbar Tier anytime.</p>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-text">
+        <span id="progress-text">0 / 106 Answered</span>
+        <span class="mono">Live Quiz</span>
+      </div>
+    </div>
+    <div id="live-container"></div>
+    <div class="summary-card hidden" id="summary-card"></div>
+  </section>
+
+  <div class="chamber-divider">
+    <span class="line"></span>
+    <span>The Solutions Chamber</span>
+    <span class="line"></span>
+  </div>
+
+  <section id="quiz-solutions" class="quiz-block solutions">
+    <div class="block-head">
+      <span class="eyebrow">Mode 02</span>
+      <h2>Detailed Solutions</h2>
+      <p>Every question with the correct answer highlighted and a short insight — built for revision.</p>
+    </div>
+    <div id="solutions-container"></div>
+  </section>
+</main>
+
+<div class="float-bar">
+  <button class="btn btn-primary" id="submit-btn" onclick="submitQuiz()">View Score</button>
+  <a class="btn btn-ghost" id="goto-solutions-btn" href="#quiz-solutions" style="display:none;">View Solutions</a>
+</div>
+
+<footer>
+  <span class="brand">Nirmohi Bpsc</span>
+  HIS-5 · Sikh Empire &amp; Company Raj
+</footer>
+
+<script>
+const SECTIONS = [
+  {from:1,  title:"The Rise of the Sikh Empire"},
+  {from:25, title:"The Anglo-Sikh Wars & Annexation of Punjab"},
+  {from:43, title:"Reform Awakening — Singh Sabha & Kuka Movement"},
+  {from:63, title:"Company Raj — Diarchy to the Judicial System"},
+  {from:103,title:"Revision Round — Reform Movements Recap"}
+];
+
+const Q = [
+{t:"Who took the initiative to organize all the Sikh troops into Dal Khalsa in 1748 AD?", o:["Jassa Singh Ahluwalia","Nawab Kapoor Singh","Ranjit Singh","Charat Singh"], a:1, e:"Nawab Kapoor Singh organised the Sikh forces into the Dal Khalsa in 1748 AD."},
+{t:"In whose hands was the leadership of Dal Khalsa?", o:["Ranjit Singh","Mahasingh","Jassa Singh Ahluwalia","Charat Singh"], a:2, e:"The Dal Khalsa was led by Jassa Singh Ahluwalia."},
+{t:"Dal Khalsa was divided into how many parties?", o:["8","10","12","15"], a:2, e:"The Dal Khalsa was organised into 12 misls (parties)."},
+{t:"By what names were the twelve Sikh parties known?", o:["Akali","Mark","Misal","Khalsa"], a:2, e:"The twelve divisions were known as Misals."},
+{t:"From which language is the word 'Misal' taken?", o:["Persian","Arabic","Urdu","Turkish"], a:1, e:"The word 'Misal' is derived from Arabic."},
+{t:"What is the meaning of the word 'Misal'?", o:["Army","Similar","Group","Power"], a:1, e:"'Misal' literally means 'similar' or 'equal'."},
+{t:"Where was Maharaja Ranjit Singh born?", o:["Amritsar","Lahore","Gujranwala","Multan"], a:2, e:"Ranjit Singh was born at Gujranwala."},
+{t:"When was Maharaja Ranjit Singh born?", o:["10 October 1778","2 November 1780","15 January 1781","20 December 1779"], a:1, e:"He was born on 2 November 1780."},
+{t:"Maharaja Ranjit Singh belonged to which order (Misl)?", o:["Ahluwalia Misl","Bhangi Misl","Sukarchakia Misl","Nakai Misl"], a:2, e:"Ranjit Singh belonged to the Sukarchakia Misl."},
+{t:"What was the name of Ranjit Singh's father?", o:["Charat Singh","Mahasingh","Teja Singh","Gulab Singh"], a:1, e:"His father was Mahasingh, chief of the Sukarchakia Misl."},
+{t:"What was the name of Ranjit Singh's grandfather?", o:["Jassa Singh","Mahasingh","Charat Singh","Teja Singh"], a:2, e:"His grandfather was Charat Singh."},
+{t:"Who gave the Sukarchakia Misl a prominent place among the 12 Misals?", o:["Ranjit Singh","Mahasingh","Charat Singh","Jassa Singh"], a:2, e:"Charat Singh raised the Sukarchakia Misl to prominence among the twelve misls."},
+{t:"When did Ranjit Singh become the ruler of Lahore?", o:["1795–96 AD","1798–99 AD","1801–02 AD","1805–06 AD"], a:1, e:"Ranjit Singh became ruler of Lahore in 1798–99 AD."},
+{t:"Between whom was the Treaty of Amritsar signed?", o:["Dalhousie and Ranjit Singh","Charles Metcalfe and Ranjit Singh","Wellesley and Ranjit Singh","Elgin and Ranjit Singh"], a:1, e:"It was signed between Charles Metcalfe and Ranjit Singh."},
+{t:"On which date was the Treaty of Amritsar signed?", o:["25 April 1809","9 March 1846","22 December 1846","21 February 1849"], a:0, e:"The Treaty of Amritsar was signed on 25 April 1809."},
+{t:"Maharaja Ranjit Singh's kingdom was divided into how many provinces?", o:["2","3","4","5"], a:2, e:"His kingdom was organised into 4 provinces."},
+{t:"Which was NOT a province of Maharaja Ranjit Singh's kingdom?", o:["Peshawar","Kashmir","Lahore","Patiala"], a:3, e:"Patiala was a Cis-Sutlej state under British protection, not part of Ranjit Singh's kingdom."},
+{t:"Which was a province of Maharaja Ranjit Singh's kingdom?", o:["Peshawar","Sirhind","Jalandhar","Ambala"], a:0, e:"Peshawar was one of the four provinces of the Sikh kingdom."},
+{t:"Which was a province of Maharaja Ranjit Singh's kingdom?", o:["Amritsar","Kashmir","Patiala","Faridkot"], a:1, e:"Kashmir was a province of the Sikh kingdom."},
+{t:"Which was a province of Maharaja Ranjit Singh's kingdom?", o:["Ambala","Sirhind","Multan","Ludhiana"], a:2, e:"Multan was a province of the Sikh kingdom."},
+{t:"Which was a province of Maharaja Ranjit Singh's kingdom?", o:["Faridkot","Lahore","Amritsar","Jalandhar"], a:1, e:"Lahore, the capital, was a province of the Sikh kingdom."},
+{t:"Who was the Foreign Minister of Maharaja Ranjit Singh?", o:["Teja Singh","Dinanath","Fakir Azizuddin","Gulab Singh"], a:2, e:"Fakir Azizuddin served as Ranjit Singh's Foreign Minister."},
+{t:"Who was the Finance Minister of Maharaja Ranjit Singh?", o:["Gulab Singh","Fakir Azizuddin","Dinanath","Teja Singh"], a:2, e:"Dinanath served as Ranjit Singh's Finance Minister."},
+{t:"When did Maharaja Ranjit Singh die?", o:["7 June 1839","25 April 1809","9 March 1846","22 December 1846"], a:0, e:"Maharaja Ranjit Singh died on 7 June 1839."},
+{t:"When did the first Anglo-Sikh War take place?", o:["1842–43","1845–46","1847–48","1849–50"], a:1, e:"The First Anglo-Sikh War was fought in 1845–46."},
+{t:"When did the Second Anglo-Sikh War take place?", o:["1846","1847","1848","1849"], a:3, e:"The Second Anglo-Sikh War was fought through 1848–49, ending in 1849."},
+{t:"When was the Treaty of Lahore signed?", o:["25 April 1809","9 March 1846","22 December 1846","21 February 1849"], a:1, e:"The Treaty of Lahore was signed on 9 March 1846."},
+{t:"When was the Treaty of Bhaironwal signed?", o:["25 April 1809","9 March 1846","22 December 1846","21 February 1849"], a:2, e:"The Treaty of Bhaironwal was signed on 22 December 1846."},
+{t:"According to the Treaty of Bhaironwal, the stay of the British army in Punjab was considered for whose protection?", o:["Maharani Jind Kaur","Raja Dalip Singh","Ranjit Singh","Sher Singh"], a:1, e:"The treaty provided for British troops to remain in Punjab for the protection of the minor Maharaja Dalip Singh."},
+{t:"When was Maharani Jind Kaur sent to Sheikhupura?", o:["9 March 1846","20 August 1847","21 February 1849","29 March 1849"], a:1, e:"She was sent to Sheikhupura on 20 August 1847."},
+{t:"How much annual pension was given to Maharani Jind Kaur?", o:["₹24,000","₹36,000","₹48,000","₹50,000"], a:2, e:"She was granted an annual pension of ₹48,000."},
+{t:"During which war was the Battle of Chillianwala fought?", o:["First Anglo-Sikh War","Second Anglo-Sikh War","Third Anglo-Sikh War","Fourth Anglo-Sikh War"], a:1, e:"Chillianwala (January 1849) was fought during the Second Anglo-Sikh War."},
+{t:"Who fought the Battle of Chillianwala on behalf of the Sikhs?", o:["Dalip Singh","Gulab Singh","Sher Singh","Teja Singh"], a:2, e:"Sikh forces at Chillianwala were led by Sher Singh."},
+{t:"Who was the British commander in the Battle of Chillianwala?", o:["Charles Metcalfe","Lord Gough","Lord Dalhousie","Charles Napier"], a:1, e:"Lord Gough commanded the British forces at Chillianwala."},
+{t:"When was the second battle fought on the banks of the river Chenab?", o:["9 March 1846","20 August 1847","21 February 1849","29 March 1849"], a:2, e:"The battle on the Chenab (Gujrat) was fought on 21 February 1849."},
+{t:"Who led the battle on the banks of the river Chenab?", o:["Lord Gough","Lord Dalhousie","Charles Metcalfe","Charles Napier"], a:3, e:"Charles Napier is credited with leading the decisive action on the Chenab."},
+{t:"Who announced the proclamation of 29 March 1849?", o:["Lord Dalhousie","Lord Wellesley","Lord Elgin","Charles Metcalfe"], a:0, e:"Governor-General Lord Dalhousie issued the proclamation."},
+{t:"Which region was merged (annexed) by the proclamation of 29 March 1849?", o:["Awadh","Punjab","Delhi","Sindh"], a:1, e:"The proclamation formally annexed Punjab to British India."},
+{t:"How much annual pension was given to Maharaja Dalip Singh?", o:["£40,000","£45,000","£50,000","£55,000"], a:2, e:"Dalip Singh was granted an annual pension of £50,000."},
+{t:"Where was Maharaja Dalip Singh sent for education?", o:["France","Germany","England","Italy"], a:2, e:"He was sent to England for his upbringing and education."},
+{t:"Which was the famous diamond of the Sikh kingdom?", o:["Noor Jehan","Kohinoor","Crown","Patiala"], a:1, e:"The Kohinoor diamond belonged to the Sikh treasury at Lahore."},
+{t:"Who was the Kohinoor diamond sent to?", o:["King George","Queen Victoria","Prince Albert","Queen Elizabeth"], a:1, e:"The Kohinoor was presented to Queen Victoria in 1850."},
+{t:"When did the Singh Sabha movement start?", o:["1857","1869","1873","1879"], a:2, e:"The Singh Sabha Movement began in 1873."},
+{t:"Where did the Singh Sabha movement start?", o:["Lahore","Amritsar","Patiala","Jalandhar"], a:1, e:"It began at Amritsar."},
+{t:"What was the main objective of the Singh Sabha movement?", o:["Abolish tax","Recovering the lost prestige of Sikhism","Army recruitment","Land reform"], a:1, e:"Its chief aim was to restore Sikhism's lost prestige and reform Sikh society."},
+{t:"When was the Singh Sabha established in Lahore?", o:["1875","1877","1879","1881"], a:2, e:"The Lahore Singh Sabha was founded in 1879."},
+{t:"Who started the Kuka movement?", o:["Ram Singh","Balak Singh","Bhagat Jawahar Mal","Teja Singh"], a:2, e:"Bhagat Jawahar Mal founded the Kuka (Namdhari) Movement."},
+{t:"By what name was Bhagat Jawahar Mal also known?", o:["Ram Singh","Sian Sahib","Balak Singh","Teja Singh"], a:1, e:"He was also known as Sian Sahib."},
+{t:"Approximately in which year did the Kuka movement start?", o:["1820","1830","1840","1850"], a:2, e:"The Kuka Movement began around 1840."},
+{t:"In which part of Punjab did the Kuka movement start?", o:["Eastern Punjab","Western Punjab","Northern Punjab","Southern Punjab"], a:1, e:"It began in western Punjab."},
+{t:"Who cooperated with Bhagat Jawahar Mal in organizing the Kuka movement?", o:["Ram Singh","Jassa Singh","Balak Singh","Gulab Singh"], a:2, e:"Baba Balak Singh cooperated with him in organising the movement."},
+{t:"Where was the headquarters of the Kuka movement?", o:["Lahore","Amritsar","Hazro (Hazara)","Ludhiana"], a:2, e:"Its headquarters was at Hazro in the Hazara region."},
+{t:"Who were the main leaders of the Kuka movement?", o:["Teja Singh","Balak Singh","Ram Singh Kuka","Gulab Singh"], a:2, e:"Baba Ram Singh Kuka was its principal leader after the founders."},
+{t:"Where did Ram Singh hoist the white flag of independence?", o:["Amritsar","Ludhiana","Patiala","Jalandhar"], a:1, e:"Ram Singh hoisted it at Ludhiana."},
+{t:"In which year did Ram Singh hoist the white flag of independence?", o:["1857","1865","1870","1872"], a:0, e:"He raised it in 1857."},
+{t:"When did Kuka activists attack Malerkotla and Malaudh?", o:["1860","1868","1870","1872"], a:3, e:"The attacks on Malerkotla and Malaudh took place in 1872."},
+{t:"Where was Ram Singh sent (exiled)?", o:["Andaman","Mandalay/Rangoon","Delhi","Lahore"], a:1, e:"He was deported to Mandalay/Rangoon in Burma."},
+{t:"By what other name is the Kuka movement known?", o:["Nirankari Movement","Akali Movement","Namdhari Movement","Khalsa Movement"], a:2, e:"The Kuka Movement is also called the Namdhari Movement."},
+{t:"What was the social objective of the Kuka movement?", o:["Dowry abolition","Widow remarriage","Child marriage","Tradition of Sati"], a:1, e:"It promoted widow remarriage as a key social reform."},
+{t:"Eradication of which evil was emphasized in the Kuka movement?", o:["Dowry","Caste system","Child marriage","Tradition of Sati"], a:1, e:"The movement emphasised eradicating the caste system."},
+{t:"What was the emphasis on avoiding in the Kuka movement?", o:["Non-vegetarian food","Liquor","Intoxication","All of the above"], a:3, e:"It called for avoiding meat, liquor and intoxicants altogether."},
+{t:"Which reform related to women was promoted in the Kuka movement?", o:["Tradition of Sati","Abandoning the Veil (Purdah)","Child marriage","Dowry"], a:1, e:"It encouraged women to give up the veil (purdah)."},
+{t:"When was Robert Clive the Governor of Bengal (first term)?", o:["1747–50","1757–60","1760–63","1763–66"], a:1, e:"Clive's first governorship ran from 1757–60."},
+{t:"When did Robert Clive become the Governor of Bengal for the second time?", o:["1761–63","1763–65","1765–67","1767–69"], a:2, e:"His second governorship was 1765–67."},
+{t:"Who implemented the Dual Government (Diarchy) system?", o:["Warren Hastings","Lord Wellesley","Robert Clive","Cartier"], a:2, e:"Robert Clive introduced the Dual Government system in Bengal in 1765."},
+{t:"Under whom was revenue collection in the dual government system?", o:["Nawab","The Company","Mughal Emperor","Landlord"], a:1, e:"Revenue collection (Diwani) rested with the Company."},
+{t:"In whose hands was the administration in the Diarchy?", o:["The Company","Nawab","Mughal Emperor","Landlord"], a:1, e:"Civil administration (Nizamat) remained with the Nawab."},
+{t:"By which treaty was Shah Alam II taken under the protection of the Company?", o:["Treaty of Lahore","Treaty of Allahabad","Treaty of Bhaironwal","Treaty of Amritsar"], a:1, e:"The Treaty of Allahabad (1765) placed him under Company protection."},
+{t:"When was the Treaty of Allahabad signed?", o:["1757","1761","1765","1772"], a:2, e:"It was signed in 1765."},
+{t:"For which province was Muhammad Reza Khan appointed Deputy Diwan?", o:["Bihar","Bengal","Orissa","Awadh"], a:1, e:"He was appointed Deputy Diwan of Bengal."},
+{t:"Raja Shitab Rai was the Deputy Diwan of which province?", o:["Bengal","Orissa","Bihar","Awadh"], a:2, e:"He was Deputy Diwan of Bihar."},
+{t:"Who made the first map of India?", o:["Robert Clive","James Rennell","Warren Hastings","Cartier"], a:1, e:"James Rennell prepared the first detailed map of India."},
+{t:"When was the first map of India made?", o:["1757","1760","1765","1767"], a:3, e:"It was completed in 1767."},
+{t:"In which atlas was the first map of India published?", o:["India Atlas","Bengal Atlas","Madras Atlas","Calcutta Atlas"], a:1, e:"It appeared in the Bengal Atlas."},
+{t:"When was the Bengal Atlas published?", o:["1767","1770","1775","1779"], a:3, e:"The Bengal Atlas was published in 1779."},
+{t:"What is James Rennell known as?", o:["Father of Indian History","Father of Indian Geography","Father of Indian Map-Making","Father of Bengal"], a:1, e:"He is regarded as the 'Father of Indian Geography'."},
+{t:"In which year was the Regulating Act passed?", o:["1765","1772","1773","1775"], a:2, e:"The Regulating Act was passed in 1773."},
+{t:"According to the Regulating Act, what was the tenure of the Governor-General?", o:["3 years","4 years","5 years","6 years"], a:2, e:"The Act fixed a 5-year tenure for the Governor-General."},
+{t:"Who was the first Governor-General of India?", o:["Robert Clive","Warren Hastings","Cartier","Lord Wellesley"], a:1, e:"Warren Hastings became the first Governor-General under the Regulating Act."},
+{t:"When was Warren Hastings's tenure as Governor-General?", o:["1765–70","1770–75","1774–85","1780–90"], a:2, e:"He served as Governor-General from 1774–85."},
+{t:"When did Warren Hastings come to India?", o:["1745","1750","1755","1760"], a:1, e:"He first arrived in India in 1750."},
+{t:"Where did Warren Hastings transfer the state treasury?", o:["Dhaka","Patna","Murshidabad to Calcutta","Calcutta to Murshidabad"], a:2, e:"He shifted the treasury from Murshidabad to Calcutta."},
+{t:"Who established civil and criminal courts in 1772 AD?", o:["Robert Clive","Cartier","Warren Hastings","Lord Dalhousie"], a:2, e:"Warren Hastings set up the civil and criminal court system in 1772."},
+{t:"Who was the head of the District Civil Court?", o:["Nazim","Qazi","Collector","Mufti"], a:2, e:"The Collector headed the District Civil (Diwani) Court."},
+{t:"Who was the head of the District Criminal Court?", o:["Collector","Qazi","Inspector","Mufti"], a:1, e:"The Qazi presided over the District Criminal (Faujdari) Court."},
+{t:"What type of cases did the Sadar Nizamat Adalat supervise?", o:["Civil","Criminal","Revenue","Appeal"], a:1, e:"The Sadar Nizamat Adalat, Bengal's highest criminal appellate court, supervised the criminal court system."},
+{t:"Who supervised the district criminal courts?", o:["Qazi","Collector","Nazim","Governor"], a:1, e:"The Collector supervised the district criminal courts."},
+{t:"Which civil court was established in Calcutta?", o:["Sadar Diwani Adalat","District Civil Court","Provincial Court","Taluka Court"], a:0, e:"The Sadar Diwani Adalat, the highest civil court, was set up at Calcutta."},
+{t:"Which criminal court was established in Calcutta?", o:["Sadar Nizamat Adalat","District Criminal Court","Provincial Court","Panchayat"], a:0, e:"The Sadar Nizamat Adalat, the highest criminal court, was set up at Calcutta."},
+{t:"Who administered justice in the Sadar Diwani Adalat?", o:["Collector","Nazim","Governor-General-in-Council with two members","Governor"], a:2, e:"It was presided over by the Governor-General-in-Council along with two members."},
+{t:"Who administered justice in the Sadar Nizamat Adalat?", o:["Collector","Naib Nazim with the Chief Qazi, Chief Mufti and three Maulvis","Governor","King"], a:1, e:"It was presided over by the Naib Nazim, assisted by the Chief Qazi, Chief Mufti and three Maulvis."},
+{t:"Under which type of officer was the District Criminal Court?", o:["English officer","Indian officer","Collector","Governor"], a:1, e:"It functioned under an Indian officer (the Qazi), unlike the civil court."},
+{t:"Whose help was taken in the District Criminal Court?", o:["Pandit","Soldier","Qazi and Mufti","Advocate"], a:2, e:"The assistance of the Qazi and Mufti was taken."},
+{t:"Where were the cases of district courts sent for final decision?", o:["Governor","The Company","Sadar Adalats","Mughal Court"], a:2, e:"Appeals from district courts went to the Sadar Adalats."},
+{t:"Which law was followed in civil cases?", o:["English Law","Hindu Law Only","Personal Law (by Religion)","Roman Law"], a:2, e:"Civil disputes were decided using each community's personal law — Hindu law for Hindus, Muslim law for Muslims."},
+{t:"Which law applied in criminal cases?", o:["Hindu Law","Muslim Law","English Law","Roman Law"], a:1, e:"Islamic (Muslim) criminal law continued to apply in criminal cases."},
+{t:"From what position did Warren Hastings join the Company?", o:["Soldier","Clerk","Diwan","Qazi"], a:1, e:"He began his career with the Company as a clerk (writer)."},
+{t:"When was Verelst the Governor of Bengal?", o:["1765–67","1767–69","1769–72","1772–74"], a:1, e:"Harry Verelst served as Governor of Bengal from 1767–69."},
+{t:"When was Cartier the Governor of Bengal?", o:["1767–69","1769–72","1772–74","1774–77"], a:1, e:"John Cartier served as Governor of Bengal from 1769–72."},
+{t:"When was Warren Hastings the Governor of Bengal (before becoming Governor-General)?", o:["1765–67","1767–69","1769–72","1772–74"], a:3, e:"Warren Hastings served as Governor of Bengal from 1772–74, just before the post became Governor-General."},
+{t:"Who had control of foreign affairs in the Diarchy?", o:["Nawab","The Company","Mughal Emperor","Landlord"], a:1, e:"Foreign affairs and defence were controlled by the Company."},
+{t:"Under whom was military protection in the Diarchy?", o:["Nawab","The Company","Mughal Emperor","Landlord"], a:1, e:"Military control also rested with the Company."},
+{t:"Which reform related to women was promoted in the Kuka movement?", o:["Tradition of Sati","Abandoning the Veil (Purdah)","Child marriage","Dowry"], a:1, e:"It encouraged women to give up the veil (purdah)."},
+{t:"Where was the headquarters of the Kuka movement?", o:["Amritsar","Lahore","Hazro (Hazara)","Ludhiana"], a:2, e:"Its headquarters was at Hazro in the Hazara region."},
+{t:"Where did Ram Singh hoist the white flag of independence?", o:["Amritsar","Ludhiana","Patiala","Jalandhar"], a:1, e:"Ram Singh hoisted it at Ludhiana."},
+{t:"In which year did Ram Singh hoist the white flag of independence?", o:["1857","1865","1870","1872"], a:0, e:"He raised it in 1857."}
+];
+
+const state = { answers: new Array(Q.length).fill(null), submitted:false };
+
+function optionLetter(i){ return String.fromCharCode(65+i); }
+
+function sectionAt(qNo){ return SECTIONS.find(s=>s.from===qNo); }
+
+function renderCard(q, idx, mode){
+  const answered = state.answers[idx] !== null;
+  const revealed = (mode==='solution') || (mode==='live' && answered);
+  const optsHtml = q.o.map((opt,j)=>{
+    let cls='opt';
+    let icon='';
+    if(revealed){
+      if(j===q.a){ cls+=' correct'; icon='<span class="mark">&#10003;</span>'; }
+      else if(mode==='live' && state.answers[idx]===j){ cls+=' wrong'; icon='<span class="mark">&#10007;</span>'; }
+    }
+    const clickAttr = (mode==='live' && !answered) ? ' onclick="selectOption('+idx+','+j+')"' : '';
+    const disabledAttr = revealed ? ' disabled' : '';
+    return '<button class="'+cls+'" type="button"'+clickAttr+disabledAttr+'>'+
+           '<span class="opt-letter">'+optionLetter(j)+'</span>'+
+           '<span class="opt-text">'+opt+'</span>'+icon+'</button>';
+  }).join('');
+
+  let extra = '';
+  if(revealed){
+    extra += '<div class="insight"><span class="insight-label">Insight</span><p>'+q.e+'</p></div>';
+  }
+
+  return '<div class="q-card" id="'+mode+'-q-'+(idx+1)+'">'+
+    '<div class="q-head"><div class="seal"><span>'+(idx+1)+'</span></div><h3>'+q.t+'</h3></div>'+
+    '<div class="opts">'+optsHtml+'</div>'+extra+
+    '</div>';
+}
+
+function renderAll(containerId, mode){
+  let html='';
+  Q.forEach((q,idx)=>{
+    const sec = sectionAt(idx+1);
+    if(sec){
+      html += '<div class="sec-header" id="'+mode+'-sec-'+sec.from+'"><span class="sec-line"></span><h2>'+sec.title+'</h2><span class="sec-line"></span></div>';
+    }
+    html += renderCard(q, idx, mode);
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function selectOption(idx, j){
+  if(state.answers[idx] !== null) return;
+  state.answers[idx] = j;
+  const card = document.getElementById('live-q-'+(idx+1));
+  if(card){ card.outerHTML = renderCard(Q[idx], idx, 'live'); }
+  updateProgress();
+}
+
+function updateProgress(){
+  const answered = state.answers.filter(a=>a!==null).length;
+  const pct = Math.round(answered/Q.length*100);
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-text').textContent = answered+' / '+Q.length+' Answered';
+}
+
+function getTier(pct){
+  if(pct>=90) return {label:'Maharaja Tier', note:'A commanding grasp of the Darbar — ready for the toughest papers.'};
+  if(pct>=75) return {label:'Sardar Tier', note:'Strong command of the subject — polish the remaining gaps below.'};
+  if(pct>=50) return {label:'Soldier Tier', note:'A solid foundation — revisit the Solutions Chamber below to close the gaps.'};
+  return {label:'Apprentice Tier', note:'Early days — study the detailed solutions below, then reattempt.'};
+}
+
+function submitQuiz(){
+  let correct=0, wrong=0, unattempted=0;
+  state.answers.forEach((a,idx)=>{
+    if(a===null) unattempted++;
+    else if(a===Q[idx].a) correct++;
+    else wrong++;
+  });
+  const attempted = correct+wrong;
+  const pct = attempted ? Math.round(correct/attempted*100) : 0;
+  const tier = getTier(pct);
+
+  const card = document.getElementById('summary-card');
+  card.classList.remove('hidden');
+  card.innerHTML =
+    '<div class="summary-seal"><span>'+pct+'%</span></div>'+
+    '<h3>'+tier.label+'</h3>'+
+    '<div class="summary-stats">'+
+      '<div class="stat correct"><span class="num">'+correct+'</span><span class="lbl">Correct</span></div>'+
+      '<div class="stat wrong"><span class="num">'+wrong+'</span><span class="lbl">Wrong</span></div>'+
+      '<div class="stat unattempted"><span class="num">'+unattempted+'</span><span class="lbl">Skipped</span></div>'+
+    '</div>'+
+    '<p class="summary-note">'+tier.note+'</p>';
+
+  document.getElementById('goto-solutions-btn').style.display='inline-flex';
+  card.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function toggleTheme(){
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('theme-icon').textContent = next==='dark' ? '\u263E' : '\u2600';
+}
+
+renderAll('live-container','live');
+renderAll('solutions-container','solution');
+updateProgress();
+</script>
+</body>
+</html>

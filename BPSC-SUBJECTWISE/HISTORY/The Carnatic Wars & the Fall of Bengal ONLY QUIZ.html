@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIS-3 · Nirmohi Bpsc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d1117;
+  --ink-2:#141b26;
+  --ink-3:#1b2433;
+  --parchment:#f6efdd;
+  --parchment-2:#efe4c9;
+  --ruby:#a81c2c;
+  --ruby-l:#c4283a;
+  --gold:#c9972b;
+  --gold-l:#e0b658;
+  --emerald:#1e6f50;
+  --emerald-l:#268a63;
+  --saffron:#d9711f;
+  --saffron-l:#ec8a3a;
+  --indigo:#1b2a4a;
+  --text-hi:#f3ead2;
+  --text-lo:#a8a394;
+  --border:rgba(201,151,43,0.28);
+  --card:#151c28;
+  --card-2:#1a2333;
+  --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  --font-display:'Cinzel', serif;
+  --font-body:'Cormorant Garamond', serif;
+  --font-ui:'Inter', sans-serif;
+}
+html[data-theme="light"]{
+  --ink:#f6efdd;
+  --ink-2:#efe4c9;
+  --ink-3:#e7d9b6;
+  --text-hi:#2a2114;
+  --text-lo:#6b6250;
+  --border:rgba(168,28,44,0.22);
+  --card:#fffaf0;
+  --card-2:#fbf3df;
+  --shadow: 0 20px 50px -25px rgba(90,60,10,0.35);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(168,28,44,0.10), transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, rgba(30,111,80,0.10), transparent 55%),
+    var(--ink);
+  color:var(--text-hi);
+  font-family:var(--font-body);
+  transition:background .4s ease, color .4s ease;
+  min-height:100vh;
+}
+::selection{background:var(--gold);color:#1a1205;}
+
+/* ---------- Utility ---------- */
+.container{max-width:1000px;margin:0 auto;padding:0 20px;}
+.hidden{display:none !important;}
+button{font-family:var(--font-ui);cursor:pointer;}
+a{color:inherit;}
+
+/* ---------- Seal signature element ---------- */
+.seal{
+  --seal-size:64px;
+  width:var(--seal-size);height:var(--seal-size);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  background:
+    radial-gradient(circle at 35% 30%, var(--gold-l), var(--gold) 45%, #7a5813 100%);
+  box-shadow: 0 6px 18px -4px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.15);
+  flex-shrink:0;
+}
+.seal::before{
+  content:"";
+  position:absolute;inset:6px;
+  border-radius:50%;
+  border:1.5px dashed rgba(20,15,5,0.35);
+}
+.seal .seal-mono{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:calc(var(--seal-size)*0.32);
+  color:#2a1c05;
+  letter-spacing:1px;
+}
+.seal.small{--seal-size:34px;}
+.seal.tiny{--seal-size:22px;}
+.seal.ruby{background:radial-gradient(circle at 35% 30%, var(--ruby-l), var(--ruby) 45%, #4a0e15 100%);}
+.seal.ruby .seal-mono{color:#fbe4e4;}
+.seal.emerald{background:radial-gradient(circle at 35% 30%, var(--emerald-l), var(--emerald) 45%, #0c3524 100%);}
+.seal.emerald .seal-mono{color:#e6fff3;}
+
+/* ---------- Header ---------- */
+.masthead{
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(201,151,43,0.06), transparent);
+}
+.masthead-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 20px;gap:16px;flex-wrap:wrap;
+}
+.brand-block{display:flex;align-items:center;gap:14px;}
+.brand-text .brand-name{
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--gold-l);
+  margin:0;
+}
+.brand-text .brand-tag{
+  font-family:var(--font-ui);
+  font-size:0.68rem;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--text-lo);
+  margin:2px 0 0;
+}
+.theme-toggle{
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:6px 6px;
+}
+.theme-toggle button{
+  border:none;background:transparent;color:var(--text-lo);
+  width:34px;height:34px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all .25s ease;
+}
+.theme-toggle button.active{
+  background:linear-gradient(135deg, var(--gold), var(--saffron));
+  color:#221602;
+  box-shadow:0 4px 12px -4px rgba(201,151,43,0.6);
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:56px 20px 40px;
+  text-align:center;
+  position:relative;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-ui);
+  font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--saffron-l);
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:6px 16px;border-radius:999px;
+  margin-bottom:22px;
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--emerald-l);box-shadow:0 0 8px var(--emerald-l);}
+h1.hero-title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(2.1rem, 5vw, 3.4rem);
+  line-height:1.15;
+  margin:0 0 16px;
+  background:linear-gradient(120deg, var(--gold-l) 0%, var(--saffron) 35%, var(--ruby-l) 65%, var(--gold-l) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:0.5px;
+}
+.hero-sub{
+  font-family:var(--font-body);
+  font-style:italic;
+  font-size:1.25rem;
+  color:var(--text-lo);
+  max-width:620px;margin:0 auto 30px;
+  line-height:1.5;
+}
+.hero-stats{
+  display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
+}
+.stat-chip{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 20px;
+  min-width:120px;
+  box-shadow:var(--shadow);
+}
+.stat-chip .num{
+  font-family:var(--font-display);font-weight:700;font-size:1.4rem;
+  background:linear-gradient(120deg, var(--emerald-l), var(--gold-l));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;
+}
+.stat-chip .lbl{font-family:var(--font-ui);font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-lo);}
+
+/* ---------- Section headers ---------- */
+.section-head{
+  display:flex;align-items:center;gap:16px;
+  margin:64px 0 26px;
+}
+.section-head .line{flex:1;height:1px;background:linear-gradient(90deg, var(--border), transparent);}
+.section-head .line.rev{background:linear-gradient(270deg, var(--border), transparent);}
+.section-head h2{
+  font-family:var(--font-display);
+  font-size:1.5rem;letter-spacing:1px;
+  margin:0;white-space:nowrap;
+  color:var(--text-hi);
+}
+.section-head .eyebrow{
+  display:block;
+  font-family:var(--font-ui);font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--saffron-l);margin-bottom:4px;
+}
+.section-lede{
+  font-family:var(--font-body);font-size:1.08rem;color:var(--text-lo);
+  max-width:680px;margin:-14px 0 24px;
+}
+
+/* ---------- Setup card ---------- */
+.card{
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:28px;
+}
+.setup-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:16px;margin-bottom:24px;
+}
+.setup-item label{
+  display:block;font-family:var(--font-ui);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text-lo);margin-bottom:8px;
+}
+.setup-item select, .setup-item input[type=number]{
+  width:100%;padding:11px 14px;border-radius:10px;
+  background:var(--ink-2);border:1px solid var(--border);color:var(--text-hi);
+  font-family:var(--font-ui);font-size:0.92rem;
+}
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--ink-2);border:1px solid var(--border);
+  border-radius:12px;padding:12px 16px;
+}
+.switch{
+  position:relative;width:46px;height:26px;flex-shrink:0;
+}
+.switch input{opacity:0;width:0;height:0;}
+.switch .slider{
+  position:absolute;inset:0;background:var(--ink-3);border-radius:999px;transition:.25s;border:1px solid var(--border);
+}
+.switch .slider::before{
+  content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;
+  background:var(--text-lo);border-radius:50%;transition:.25s;
+}
+.switch input:checked + .slider{background:linear-gradient(135deg,var(--emerald),var(--emerald-l));}
+.switch input:checked + .slider::before{transform:translateX(20px);background:#eafff3;}
+
+.btn{
+  border:none;border-radius:12px;padding:14px 28px;
+  font-family:var(--font-ui);font-weight:700;font-size:0.95rem;letter-spacing:0.4px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.btn:active{transform:translateY(1px) scale(0.99);}
+.btn-primary{
+  background:linear-gradient(120deg, var(--ruby), var(--saffron));
+  color:#fff5e8;
+  box-shadow:0 10px 24px -8px rgba(217,113,31,0.55);
+}
+.btn-primary:hover{filter:brightness(1.08);box-shadow:0 14px 30px -8px rgba(217,113,31,0.7);}
+.btn-ghost{
+  background:transparent;border:1px solid var(--border);color:var(--text-hi);
+}
+.btn-ghost:hover{background:var(--ink-2);}
+.btn-gold{
+  background:linear-gradient(120deg, var(--gold), var(--gold-l));
+  color:#241a04;
+  box-shadow:0 10px 24px -8px rgba(201,151,43,0.5);
+}
+.btn:disabled{opacity:0.4;cursor:not-allowed;filter:none;box-shadow:none;}
+
+/* ---------- Quiz shell ---------- */
+.quiz-shell{display:none;}
+.quiz-shell.active{display:block;}
+.quiz-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;margin-bottom:18px;
+}
+.timer-box{
+  display:flex;align-items:center;gap:10px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:10px 18px;
+  font-family:var(--font-ui);
+}
+.timer-box .tlabel{font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-lo);}
+.timer-box .tval{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--gold-l);}
+.timer-box.low .tval{color:var(--ruby-l);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}
+
+.progress-wrap{
+  height:8px;border-radius:999px;background:var(--ink-2);
+  overflow:hidden;border:1px solid var(--border);margin-bottom:22px;
+}
+.progress-bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg, var(--emerald), var(--gold), var(--saffron));
+  transition:width .3s ease;
+}
+
+.quiz-layout{display:grid;grid-template-columns:1fr;gap:24px;}
+@media(min-width:860px){.quiz-layout{grid-template-columns:1fr 300px;}}
+
+/* Navigator */
+.navigator{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:18px;box-shadow:var(--shadow);
+  order:2;
+}
+.navigator h3{
+  font-family:var(--font-display);font-size:0.95rem;letter-spacing:1px;margin:0 0 14px;color:var(--text-hi);
+}
+.nav-grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:6px;
+  max-height:260px;overflow-y:auto;padding-right:4px;
+}
+@media(min-width:860px){.nav-grid{grid-template-columns:repeat(6,1fr);max-height:420px;}}
+.nav-dot{
+  aspect-ratio:1;border-radius:8px;border:1px solid var(--border);
+  background:var(--ink-2);color:var(--text-lo);
+  font-family:var(--font-ui);font-size:0.72rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s ease;
+}
+.nav-dot.answered{background:linear-gradient(135deg,var(--emerald),var(--emerald-l));color:#eafff3;border-color:transparent;}
+.nav-dot.wrong{background:linear-gradient(135deg,var(--ruby),var(--ruby-l));color:#fff5e8;border-color:transparent;}
+.nav-dot.marked{background:linear-gradient(135deg,var(--saffron),var(--gold));color:#241a04;border-color:transparent;}
+.nav-dot.current{outline:2px solid var(--ruby-l);outline-offset:2px;}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;font-family:var(--font-ui);font-size:0.68rem;color:var(--text-lo);}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block;}
+
+/* Question card */
+.q-panel{order:1;}
+.q-card{
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  border:1px solid var(--border);border-radius:20px;
+  padding:30px;box-shadow:var(--shadow);
+  animation:fadein .35s ease;
+}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.q-meta{
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+}
+.q-num{
+  font-family:var(--font-display);font-weight:700;font-size:0.85rem;
+  color:#241a04;background:linear-gradient(135deg,var(--gold),var(--gold-l));
+  padding:6px 14px;border-radius:999px;
+}
+.q-topic{font-family:var(--font-ui);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-lo);}
+.q-text{
+  font-family:var(--font-body);font-size:1.4rem;line-height:1.5;
+  color:var(--text-hi);margin:0 0 26px;font-weight:500;
+}
+.opt-list{display:flex;flex-direction:column;gap:12px;}
+.opt{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;border-radius:14px;
+  border:1px solid var(--border);background:var(--ink-2);
+  transition:all .18s ease;text-align:left;width:100%;color:var(--text-hi);
+}
+.opt:hover{border-color:var(--gold);background:var(--ink-3);transform:translateX(3px);}
+.opt .opt-letter{
+  width:30px;height:30px;flex-shrink:0;border-radius:50%;
+  background:var(--ink-3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-weight:700;font-size:0.85rem;color:var(--text-lo);
+}
+.opt .opt-text{font-family:var(--font-body);font-size:1.12rem;}
+.opt.selected{
+  border-color:var(--saffron);
+  background:linear-gradient(90deg, rgba(217,113,31,0.16), rgba(168,28,44,0.10));
+}
+.opt.selected .opt-letter{background:linear-gradient(135deg,var(--saffron),var(--ruby));color:#fff;border-color:transparent;}
+.opt.locked{cursor:default;}
+.opt.correct-answer{
+  border-color:var(--emerald);
+  background:linear-gradient(90deg, rgba(30,111,80,0.24), rgba(30,111,80,0.08));
+  animation:revealPop .35s ease;
+}
+.opt.correct-answer .opt-letter{background:linear-gradient(135deg,var(--emerald),var(--emerald-l));color:#eafff3;border-color:transparent;}
+.opt.wrong-answer{
+  border-color:var(--ruby);
+  background:linear-gradient(90deg, rgba(168,28,44,0.22), rgba(168,28,44,0.07));
+  animation:revealPop .35s ease;
+}
+.opt.wrong-answer .opt-letter{background:linear-gradient(135deg,var(--ruby),var(--ruby-l));color:#fff;border-color:transparent;}
+.opt .opt-badge{margin-left:auto;font-family:var(--font-ui);font-size:0.72rem;font-weight:800;letter-spacing:0.5px;flex-shrink:0;}
+.opt.correct-answer .opt-badge{color:var(--emerald-l);}
+.opt.wrong-answer .opt-badge{color:var(--ruby-l);}
+@keyframes revealPop{from{transform:scale(0.97);}to{transform:scale(1);}}
+.inline-expl{
+  margin-top:20px;padding-top:18px;border-top:1px dashed var(--border);
+  font-family:var(--font-body);font-style:italic;font-size:1.05rem;color:var(--text-lo);
+  line-height:1.6;display:flex;gap:12px;align-items:flex-start;
+  animation:fadein .3s ease;
+}
+.inline-expl .badge-status{
+  flex-shrink:0;font-family:var(--font-ui);font-style:normal;font-weight:800;font-size:0.68rem;
+  letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-top:2px;
+}
+.badge-status.is-correct{background:linear-gradient(120deg,var(--emerald),var(--emerald-l));color:#eafff3;}
+.badge-status.is-wrong{background:linear-gradient(120deg,var(--ruby),var(--ruby-l));color:#fff5e8;}
+
+.q-actions{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:26px;gap:10px;flex-wrap:wrap;
+}
+.q-actions .left-actions, .q-actions .right-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ---------- Result screen ---------- */
+.result-shell{display:none;text-align:center;}
+.result-shell.active{display:block;}
+.result-seal{
+  width:120px;height:120px;margin:0 auto 20px;
+  border-radius:50%;position:relative;
+  background:radial-gradient(circle at 35% 30%, var(--gold-l), var(--gold) 45%, #7a5813 100%);
+  box-shadow:0 20px 50px -10px rgba(201,151,43,0.55), inset 0 0 0 3px rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+  animation:stamp .5s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-14deg);opacity:0;}70%{transform:scale(0.92) rotate(2deg);opacity:1;}100%{transform:scale(1) rotate(0);}}
+.result-seal::before{content:"";position:absolute;inset:9px;border-radius:50%;border:2px dashed rgba(20,15,5,0.35);}
+.result-seal span{font-family:var(--font-display);font-weight:800;font-size:2.1rem;color:#2a1c05;}
+.result-title{font-family:var(--font-display);font-size:1.7rem;color:var(--text-hi);margin:0 0 6px;}
+.result-sub{font-family:var(--font-body);font-style:italic;color:var(--text-lo);font-size:1.1rem;margin-bottom:30px;}
+.score-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:560px;margin:0 auto 30px;
+}
+@media(min-width:600px){.score-grid{grid-template-columns:repeat(4,1fr);}}
+.score-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 10px;box-shadow:var(--shadow);
+}
+.score-card .sc-num{font-family:var(--font-display);font-weight:700;font-size:1.6rem;}
+.score-card .sc-lbl{font-family:var(--font-ui);font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-lo);margin-top:4px;}
+.sc-correct .sc-num{color:var(--emerald-l);}
+.sc-wrong .sc-num{color:var(--ruby-l);}
+.sc-skip .sc-num{color:var(--text-lo);}
+.sc-final .sc-num{background:linear-gradient(120deg,var(--gold-l),var(--saffron));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.result-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+
+/* ---------- Solutions section ---------- */
+.sol-toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;
+}
+.sol-filter{
+  padding:9px 18px;border-radius:999px;border:1px solid var(--border);
+  background:var(--card);color:var(--text-lo);font-family:var(--font-ui);font-size:0.8rem;font-weight:600;
+  transition:all .18s ease;
+}
+.sol-filter.active{background:linear-gradient(120deg,var(--emerald),var(--emerald-l));color:#eafff3;border-color:transparent;}
+.sol-search{
+  flex:1;min-width:180px;padding:9px 16px;border-radius:999px;border:1px solid var(--border);
+  background:var(--ink-2);color:var(--text-hi);font-family:var(--font-ui);font-size:0.85rem;
+}
+.sol-list{display:flex;flex-direction:column;gap:16px;}
+.sol-card{
+  background:linear-gradient(180deg,var(--card),var(--card-2));
+  border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--shadow);
+}
+.sol-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+.sol-q{font-family:var(--font-body);font-size:1.22rem;color:var(--text-hi);margin:0;line-height:1.45;}
+.sol-opts{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:16px;}
+@media(min-width:640px){.sol-opts{grid-template-columns:1fr 1fr;}}
+.sol-opt{
+  display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;
+  border:1px solid var(--border);background:var(--ink-2);font-family:var(--font-ui);font-size:0.92rem;color:var(--text-lo);
+}
+.sol-opt .ol{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;background:var(--ink-3);
+  display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--text-lo);
+}
+.sol-opt.correct{
+  border-color:var(--emerald);background:linear-gradient(90deg, rgba(30,111,80,0.20), rgba(30,111,80,0.06));color:var(--text-hi);
+}
+.sol-opt.correct .ol{background:linear-gradient(135deg,var(--emerald),var(--emerald-l));color:#eafff3;}
+.sol-expl{
+  border-top:1px dashed var(--border);padding-top:14px;
+  font-family:var(--font-body);font-style:italic;font-size:1.05rem;color:var(--text-lo);line-height:1.6;
+  display:flex;gap:10px;
+}
+.sol-expl .expl-icon{flex-shrink:0;margin-top:2px;}
+
+/* ---------- Footer ---------- */
+footer{
+  text-align:center;padding:50px 20px 60px;
+  font-family:var(--font-ui);font-size:0.78rem;color:var(--text-lo);
+  letter-spacing:0.5px;
+}
+footer .fbrand{
+  font-family:var(--font-display);letter-spacing:2px;color:var(--gold-l);text-transform:uppercase;font-size:0.85rem;display:block;margin-bottom:6px;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand-block">
+      <div class="seal"><span class="seal-mono">NB</span></div>
+      <div class="brand-text">
+        <p class="brand-name">Nirmohi Bpsc</p>
+        <p class="brand-tag">Premium Exam Practice</p>
+      </div>
+    </div>
+    <div class="theme-toggle">
+      <button id="btnDark" title="Dark mode">🌙</button>
+      <button id="btnLight" title="Light mode">☀️</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> HIS-3 &nbsp;·&nbsp; Modern History</div>
+  <h1 class="hero-title">The Carnatic Wars &amp; the Fall of Bengal</h1>
+  <p class="hero-sub">130 questions tracing the Anglo-French struggle for the Carnatic and the Company's rise from Plassey to Buxar — sit the live timed quiz, then study every answer in detail below.</p>
+  <div class="hero-stats">
+    <div class="stat-chip"><span class="num">130</span><span class="lbl">Questions</span></div>
+    <div class="stat-chip"><span class="num">4</span><span class="lbl">Options Each</span></div>
+    <div class="stat-chip"><span class="num">100%</span><span class="lbl">Solutions</span></div>
+  </div>
+</section>
+
+<main class="container">
+
+  <!-- ================= LIVE QUIZ ================= -->
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">Part One</span>
+      <h2>Live Timed Quiz</h2>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <!-- Setup card -->
+  <div class="card" id="setupCard">
+    <div class="setup-grid">
+      <div class="setup-item">
+        <label>Duration (minutes)</label>
+        <select id="durationSelect">
+          <option value="20">20 minutes</option>
+          <option value="45">45 minutes</option>
+          <option value="65" selected>65 minutes</option>
+          <option value="100">100 minutes</option>
+          <option value="0">No timer</option>
+        </select>
+      </div>
+      <div class="setup-item">
+        <label>Question order</label>
+        <select id="orderSelect">
+          <option value="seq" selected>Sequential (1 → 130)</option>
+          <option value="shuffle">Shuffled</option>
+        </select>
+      </div>
+      <div class="setup-item">
+        <label>Negative marking</label>
+        <div class="toggle-row">
+          <span style="font-family:var(--font-ui);font-size:0.85rem;">+1 correct / −0.25 wrong</span>
+          <label class="switch"><input type="checkbox" id="negToggle" checked><span class="slider"></span></label>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btnStart">Begin Live Quiz →</button>
+  </div>
+
+  <!-- Quiz in progress -->
+  <div class="quiz-shell" id="quizShell">
+    <div class="quiz-top">
+      <div class="timer-box" id="timerBox">
+        <span class="tlabel">Time Left</span>
+        <span class="tval" id="timerVal">--:--</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" id="btnPause">Pause</button>
+        <button class="btn btn-gold" id="btnSubmit">Submit Quiz</button>
+      </div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="quiz-layout">
+      <div class="q-panel">
+        <div class="q-card" id="qCard">
+          <div class="q-meta">
+            <span class="q-num" id="qNum">Q1 / 130</span>
+            <span class="q-topic">HIS-3 · Carnatic Wars &amp; Bengal</span>
+          </div>
+          <p class="q-text" id="qText"></p>
+          <p style="font-family:var(--font-ui);font-size:0.72rem;letter-spacing:0.5px;color:var(--text-lo);margin:-16px 0 18px;">Tap an option to reveal the answer instantly.</p>
+          <div class="opt-list" id="optList"></div>
+          <div class="q-actions">
+            <div class="left-actions">
+              <button class="btn btn-ghost" id="btnPrev">← Previous</button>
+              <button class="btn btn-ghost" id="btnMark">Mark for Review</button>
+            </div>
+            <div class="right-actions">
+              <button class="btn btn-ghost" id="btnClear">Clear Choice</button>
+              <button class="btn btn-primary" id="btnNext">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="navigator">
+        <h3>Question Navigator</h3>
+        <div class="nav-grid" id="navGrid"></div>
+        <div class="legend">
+          <span><i style="background:linear-gradient(135deg,var(--emerald),var(--emerald-l));"></i>Correct</span>
+          <span><i style="background:linear-gradient(135deg,var(--ruby),var(--ruby-l));"></i>Wrong</span>
+          <span><i style="background:linear-gradient(135deg,var(--saffron),var(--gold));"></i>Marked</span>
+          <span><i style="background:var(--ink-2);border:1px solid var(--border);"></i>Unattempted</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-shell" id="resultShell">
+    <div class="result-seal"><span id="resultPct">0%</span></div>
+    <h2 class="result-title">Quiz Complete</h2>
+    <p class="result-sub">Here is how your attempt at HIS-3 stacks up.</p>
+    <div class="score-grid">
+      <div class="score-card sc-correct"><span class="sc-num" id="scCorrect">0</span><div class="sc-lbl">Correct</div></div>
+      <div class="score-card sc-wrong"><span class="sc-num" id="scWrong">0</span><div class="sc-lbl">Wrong</div></div>
+      <div class="score-card sc-skip"><span class="sc-num" id="scSkip">0</span><div class="sc-lbl">Unattempted</div></div>
+      <div class="score-card sc-final"><span class="sc-num" id="scFinal">0</span><div class="sc-lbl">Final Score</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-primary" id="btnRetake">Retake Quiz</button>
+      <button class="btn btn-ghost" id="btnGoSolutions">Jump to Detailed Solutions ↓</button>
+    </div>
+  </div>
+
+  <!-- ================= SOLUTIONS ================= -->
+  <div class="section-head" id="solutionsAnchor">
+    <div>
+      <span class="eyebrow">Part Two</span>
+      <h2>Detailed Solutions</h2>
+    </div>
+    <div class="line"></div>
+  </div>
+  <p class="section-lede">Every one of the 130 questions with its correct answer and a full explanation — study at your own pace, or search for a specific topic.</p>
+
+  <div class="sol-toolbar">
+    <input class="sol-search" id="solSearch" placeholder="Search a question, name or year…">
+  </div>
+
+  <div class="sol-list" id="solList"></div>
+
+</main>
+
+<footer>
+  <span class="fbrand">Nirmohi Bpsc</span>
+  HIS-3 · The Carnatic Wars &amp; the Fall of Bengal — Premium Practice Set
+</footer>
+
+<script>
+const QUESTIONS = [{"n": 1, "q": "In which year did Bengal's ruler Shah Shuja give trade concessions to the British?", "opts": ["1648 AD", "1651 AD", "1660 AD", "1674 AD"], "ans": 1, "expl": "Shah Shuja, the Mughal governor (subedar) of Bengal, issued a farman in 1651 granting the English East India Company duty-free trading rights in Bengal in exchange for an annual payment of Rs. 3,000."}, {"n": 2, "q": "What was the trade exemption given to the British called?", "opts": ["Decree", "Sanad", "Mark", "Knock"], "ans": 2, "expl": "The privilege granted by Shah Shuja is remembered as the 'Nishan' — an official mark/seal of authorization exempting the Company from customs duties."}, {"n": 3, "q": "In 1698 AD, the British acquired the zamindari of which three villages?", "opts": ["Sutanuti, Calicut, Govindpur", "Hooghly, Bali, Chitpur", "Burdwan, Birbhum, Hooghly", "Patna, Gaya, Munger"], "ans": 0, "expl": "In 1698, the English East India Company purchased zamindari rights over Sutanuti, Kalikata (Calicut/Calcutta), and Gobindapur — the three villages that later grew into Calcutta."}, {"n": 4, "q": "For how much money did the British buy the land of three villages?", "opts": ["800", "1000", "1200", "1500"], "ans": 2, "expl": "The zamindari rights of the three villages were purchased for approximately Rs. 1,200 from the local landholders."}, {"n": 5, "q": "Who was the first President of Fort William?", "opts": ["Robert Clive", "Charles Eyre", "George Charnock", "Stringer Lawrence"], "ans": 1, "expl": "Sir Charles Eyre became the first President of Fort William, Calcutta, after the fort's establishment in 1700."}, {"n": 6, "q": "Who laid the foundation of Calcutta city?", "opts": ["Clive", "Coote (Eyre Coote)", "George Charnock", "Dupleix"], "ans": 2, "expl": "Job Charnock, an English East India Company agent, is traditionally credited with founding Calcutta in 1690 by settling at the village of Sutanuti."}, {"n": 7, "q": "Where was the first French colony established in India?", "opts": ["Madras", "Surat", "Pondicherry", "Chandannagar"], "ans": 1, "expl": "The French East India Company set up its first factory/colony in India at Surat before expanding to Pondicherry and other coastal settlements."}, {"n": 8, "q": "In which year was the first French colony established in India?", "opts": ["1664", "1668", "1670", "1674"], "ans": 1, "expl": "The French established their first trading post in India at Surat in 1668, six years after the founding of the French East India Company in 1664."}, {"n": 9, "q": "By what name was Pondicherry known earlier?", "opts": ["Chandannagar", "Lover", "Balikondapur", "Puducherry"], "ans": 3, "expl": "Pondicherry is the anglicised form of the original name Puducherry (meaning 'new town'), the village acquired by the French in 1674."}, {"n": 10, "q": "From whom was Puducherry village acquired?", "opts": ["Nasir Jung", "Sher Khan Lodi", "Chanda Sahib", "Anwar-ud-din"], "ans": 1, "expl": "Francois Martin acquired the village of Puducherry in 1674 from Sher Khan Lodi, the local Muslim subedar/governor of the Bijapur Sultanate in that region."}, {"n": 11, "q": "By what name is the Anglo-French conflict known in India?", "opts": ["Battle of Plassey", "Battle of Buxar", "Carnatic Wars", "Seven Years' War"], "ans": 2, "expl": "The series of three conflicts fought between the British and French East India Companies in South India (with local allies) are together known as the Carnatic Wars."}, {"n": 12, "q": "What was the time of the first Carnatic War?", "opts": ["1740–45", "1746–48", "1750–52", "1756–60"], "ans": 1, "expl": "The First Carnatic War lasted from 1746 to 1748, running parallel to the War of the Austrian Succession in Europe."}, {"n": 13, "q": "The First Carnatic War was related to which European war?", "opts": ["War of Spanish Succession", "Austrian Succession War", "Napoleonic Wars", "Seven Years' War"], "ans": 1, "expl": "The First Carnatic War (1746–48) was the Indian extension of the War of the Austrian Succession being fought simultaneously in Europe between Britain and France."}, {"n": 14, "q": "In which Carnatic war was the Battle of St. Thome fought?", "opts": ["First", "II", "Third", "Not in any"], "ans": 0, "expl": "The Battle of St. Thome (1746), where a small French force defeated the Nawab of Carnatic's much larger army, was fought during the First Carnatic War."}, {"n": 15, "q": "When was the Treaty of Aix-la-Chapelle?", "opts": ["1740", "1746", "1748", "1750"], "ans": 2, "expl": "The Treaty of Aix-la-Chapelle, signed in 1748, ended the War of the Austrian Succession in Europe and, with it, the First Carnatic War in India."}, {"n": 16, "q": "What was the main reason for the Second Carnatic War?", "opts": ["Tax dispute", "Trade dispute", "Succession dispute between Hyderabad and Karnataka", "Seven Years' War"], "ans": 2, "expl": "The Second Carnatic War (1749–54) arose out of disputed successions to the thrones of Hyderabad and the Carnatic, which the French and British exploited by backing rival claimants."}, {"n": 17, "q": "Whom did Dupleix support in Hyderabad?", "opts": ["Nasir Jung", "Muzaffar Jung", "Shah Alam", "Shuja-ud-Daula"], "ans": 1, "expl": "French Governor Dupleix supported Muzaffar Jung's claim to the throne of Hyderabad against his uncle Nasir Jung."}, {"n": 18, "q": "Whom did Dupleix support in Karnataka?", "opts": ["Anwar-ud-din", "Muhammad Ali", "Chanda Sahib", "Mir Jafar"], "ans": 2, "expl": "In the Carnatic, Dupleix backed Chanda Sahib's claim to the Nawabship against the incumbent Anwar-ud-din."}, {"n": 19, "q": "In which war was Anwar-ud-din killed in 1749?", "opts": ["Plassey", "Arcot", "Trichinopoly", "Kaveri"], "ans": 1, "expl": "Anwar-ud-din, the Nawab of the Carnatic, was defeated and killed in 1749 in the fighting around Arcot during the Second Carnatic War."}, {"n": 20, "q": "Who became the Nawab of Hyderabad after the death of Nasir Jung in 1750?", "opts": ["Muzaffar Jung", "Shah Alam", "Chanda Sahib", "Shuja-ud-Daula"], "ans": 0, "expl": "After Nasir Jung was killed in 1750, Muzaffar Jung — Dupleix's protégé — was installed as the Nawab of Hyderabad."}, {"n": 21, "q": "Where did Muhammad Ali take refuge?", "opts": ["Arcot", "Madras", "Trichinopoly", "Pondicherry"], "ans": 2, "expl": "After Chanda Sahib and the French seized Arcot, Muhammad Ali (Anwar-ud-din's son) took refuge in the fortress of Trichinopoly."}, {"n": 22, "q": "With whom did the French surround the fort of Muhammad Ali?", "opts": ["Mir Qasim", "Chanda Sahib", "Nasir Jung", "Shuja-ud-Daula"], "ans": 1, "expl": "The French, allied with Chanda Sahib, laid siege to Muhammad Ali at Trichinopoly."}, {"n": 23, "q": "Why did the British take over Arcot?", "opts": ["To build the capital", "To reduce French pressure", "For tax collection", "To build a business center"], "ans": 1, "expl": "Robert Clive's famous 1751 expedition to seize Arcot was a diversionary move meant to draw French and Chanda Sahib's forces away from the siege of Trichinopoly, easing pressure on Muhammad Ali."}, {"n": 24, "q": "What was the time of Second Carnatic War?", "opts": ["1746–48", "1749–1754", "1756–1763", "1760–1765"], "ans": 1, "expl": "The Second Carnatic War is dated from 1749 to 1754, ending with the Treaty of Pondicherry."}, {"n": 25, "q": "Who was the French governor at the time of the Second Carnatic War?", "opts": ["Godeheu", "Coote", "Dupleix", "Clive"], "ans": 2, "expl": "Joseph Francois Dupleix was the French Governor-General who directed French strategy for most of the Second Carnatic War until his recall in 1754."}, {"n": 26, "q": "In which year was Dupleix recalled to France?", "opts": ["1750", "1752", "1754", "1756"], "ans": 2, "expl": "Dupleix was recalled by the French authorities in 1754 after his costly and inconclusive campaigns strained French finances."}, {"n": 27, "q": "Who became the next French Governor in place of Dupleix?", "opts": ["Coote", "Godeheu", "Clive", "Lawrence"], "ans": 1, "expl": "Charles Godeheu succeeded Dupleix as French Governor and negotiated peace with the British, ending the Second Carnatic War."}, {"n": 28, "q": "In which year was the Treaty of Pondicherry concluded?", "opts": ["1752", "1754", "1755", "1756"], "ans": 2, "expl": "The Treaty of Pondicherry, negotiated by Godeheu, was concluded in January 1755, ending the Second Carnatic War and restoring a fragile peace between the English and French in the Carnatic."}, {"n": 29, "q": "What was the time of the Third Carnatic War?", "opts": ["1749–1754", "1756–1763", "1760–1765", "1763–1770"], "ans": 1, "expl": "The Third Carnatic War was fought from 1756 to 1763, coinciding with the global Seven Years' War."}, {"n": 30, "q": "Third Carnatic War was a part of which war?", "opts": ["Austrian Succession War", "Battle of Plassey", "Seven Years' War", "Napoleonic Wars"], "ans": 2, "expl": "The Third Carnatic War (1756–63) was the Indian theatre of the global Seven Years' War fought between Britain and France."}, {"n": 31, "q": "Which treaty ended the Third Carnatic War?", "opts": ["Pondicherry", "Paris", "Aix-la-Chapelle", "Allahabad"], "ans": 1, "expl": "The Treaty of Paris (1763), which concluded the Seven Years' War in Europe, also brought the Third Carnatic War in India to an end."}, {"n": 32, "q": "Who saved Trichinopoly in 1752?", "opts": ["Clive", "Coote", "Stringer Lawrence", "Godeheu"], "ans": 2, "expl": "Major Stringer Lawrence, often called the 'father of the Indian Army,' led the relief of Trichinopoly and forced the besieging French-Chanda Sahib forces to surrender in 1752."}, {"n": 33, "q": "In which year did the Battle of Wandiwash take place?", "opts": ["1756", "1758", "1760", "1763"], "ans": 2, "expl": "The decisive Battle of Wandiwash was fought in January 1760, in which the British crushed the French forces under Lally and Bussy."}, {"n": 34, "q": "Who led the English army in the Battle of Wandiwash?", "opts": ["Clive", "Eyre Coote", "Lawrence", "Munro"], "ans": 1, "expl": "Sir Eyre Coote commanded the English forces to a decisive victory over the French at the Battle of Wandiwash in 1760."}, {"n": 35, "q": "In which year did the British take control of Pondicherry?", "opts": ["1758", "1760", "1761", "1763"], "ans": 2, "expl": "Following their victory at Wandiwash, the British besieged and captured Pondicherry, the chief French settlement, in 1761."}, {"n": 36, "q": "In which year was the Treaty of Paris signed?", "opts": ["1755", "1760", "1761", "1763"], "ans": 3, "expl": "The Treaty of Paris was signed in 1763, formally ending the Seven Years' War and the Third Carnatic War."}, {"n": 37, "q": "Which French territory did the British not return after the Treaty of Paris?", "opts": ["Pondicherry", "Lover (Yanam)", "Karaikal", "Chandannagar"], "ans": 3, "expl": "Under the Treaty of Paris (1763), most French settlements including Pondicherry, Karaikal and Yanam were restored to France, but Chandannagar was retained fortified/under restrictions by the British as per the answer key."}, {"n": 38, "q": "How long did they hold the remaining French territories after the Treaty of Paris?", "opts": ["1857", "1905", "Till India's independence", "1942"], "ans": 2, "expl": "The residual French settlements in India (Pondicherry, Karaikal, Mahe, Yanam, Chandannagar) remained under French control until they were merged with India after independence."}, {"n": 39, "q": "Which was the most prosperous province under the Mughal Empire?", "opts": ["Awadh", "Bengal", "Gujarat", "Malwa"], "ans": 1, "expl": "Bengal, known for its fertile land and thriving trade in textiles, was the richest and most prosperous province of the Mughal Empire."}, {"n": 40, "q": "Where did Murshid Quli Khan shift the capital from Dhaka?", "opts": ["Patna", "Munger", "Murshidabad", "Kashi"], "ans": 2, "expl": "Murshid Quli Khan, the Diwan and later Nawab of Bengal, shifted the provincial capital from Dhaka to Murshidabad (named after himself) around 1704."}, {"n": 41, "q": "Which tradition was started by Murshid Quli Khan?", "opts": ["Knock practice", "Ijara (revenue-farming) system", "Decree custom", "Jagirdari system"], "ans": 1, "expl": "Murshid Quli Khan introduced the 'Ijaradari' system of revenue farming, leasing land revenue collection to the highest bidders to maximise state income."}, {"n": 42, "q": "Which loan did Murshid Quli Khan give to the farmers?", "opts": ["Money lending", "Takavi", "Commercial", "Soldier"], "ans": 1, "expl": "Murshid Quli Khan advanced 'Takavi' loans to peasants to help them buy seeds, cattle and equipment, encouraging agricultural production."}, {"n": 43, "q": "Who was the successor of Murshid Quli Khan?", "opts": ["Alivardi Khan", "Shuja-ud-din", "Sarfaraz Khan", "Siraj-ud-Daula"], "ans": 1, "expl": "On Murshid Quli Khan's death in 1727, his son-in-law Shuja-ud-din Muhammad Khan succeeded him as Nawab of Bengal."}, {"n": 44, "q": "In which year did the battle of Giria take place?", "opts": ["1738", "1739", "1740", "1742"], "ans": 2, "expl": "The Battle of Giria was fought in 1740, in which Alivardi Khan defeated and killed Sarfaraz Khan to seize the throne of Bengal."}, {"n": 45, "q": "Whom did Alivardi Khan become Nawab by killing in the battle of Giria?", "opts": ["Shuja-ud-din", "Siraj-ud-Daula", "Sarfaraz Khan", "Mir Jafar"], "ans": 2, "expl": "Alivardi Khan defeated and killed Sarfaraz Khan (Shuja-ud-din's son and successor) at the Battle of Giria in 1740, becoming Nawab of Bengal."}, {"n": 46, "q": "To whom did Alivardi Khan stop paying revenue?", "opts": ["To the British", "To the French", "To the Mughal emperor", "To the Marathas"], "ans": 2, "expl": "Having seized power without Mughal sanction, Alivardi Khan effectively stopped remitting regular tribute/revenue to the weakening Mughal emperor in Delhi."}, {"n": 47, "q": "What was Bengal called during the time of Alivardi Khan?", "opts": ["Crown of India", "Heaven of India (Jannat-ul-Bilad)", "Treasury of India", "Fort of India"], "ans": 1, "expl": "Under Alivardi Khan's stable and prosperous rule, Bengal came to be admired as the 'Paradise/Heaven of Nations' (Jannat-ul-Bilad) owing to its wealth and fertility."}, {"n": 48, "q": "Who became the successor of Alivardi Khan?", "opts": ["Mir Jafar", "Mir Qasim", "Siraj-ud-Daula", "Shuja-ud-Daula"], "ans": 2, "expl": "Alivardi Khan was succeeded by his grandson Siraj-ud-Daula in 1756."}, {"n": 49, "q": "By what name is the tragedy of the dungeon known?", "opts": ["Bengal incident", "Black Hole tragedy", "Plassey incident", "Patna incident"], "ans": 1, "expl": "The incident in which British prisoners were confined in a small cell at Fort William in 1756 is known as the 'Black Hole of Calcutta' tragedy."}, {"n": 50, "q": "In which year did the black hole tragedy occur?", "opts": ["1756", "1757", "1760", "1764"], "ans": 0, "expl": "The Black Hole tragedy occurred in June 1756, after Siraj-ud-Daula captured Fort William, Calcutta."}, {"n": 51, "q": "Who described the black hole tragedy?", "opts": ["Clive", "Mir Jafar", "J.Z. Holwell", "Munro"], "ans": 2, "expl": "John Zephaniah Holwell, one of the survivors, wrote the widely circulated (and much-disputed) account describing the Black Hole tragedy."}, {"n": 52, "q": "How many British people were killed in the black hole tragedy?", "opts": ["120", "140", "146", "160"], "ans": 2, "expl": "According to Holwell's account, 146 British prisoners were confined in the cell, of whom most died overnight from suffocation and heat."}, {"n": 53, "q": "How many people survived the black hole tragedy?", "opts": ["18", "20", "23", "30"], "ans": 2, "expl": "Holwell's account states that only 23 of the 146 confined prisoners survived the night in the Black Hole."}, {"n": 54, "q": "When did the battle of Plassey take place?", "opts": ["20 June 1756", "23 June 1757", "24 June 1758", "22 June 1760"], "ans": 1, "expl": "The Battle of Plassey was fought on 23 June 1757."}, {"n": 55, "q": "Who was the English commander in the battle of Plassey?", "opts": ["Coote", "Lawrence", "Clive", "Munro"], "ans": 2, "expl": "Robert Clive commanded the English East India Company forces at the Battle of Plassey."}, {"n": 56, "q": "Between whom did the Battle of Plassey take place?", "opts": ["Clive and Mir Jafar", "Clive and Siraj-ud-Daula", "Munro and Mir Qasim", "Coote and Siraj-ud-Daula"], "ans": 1, "expl": "The Battle of Plassey (1757) was fought between Robert Clive's English forces and Nawab Siraj-ud-Daula of Bengal."}, {"n": 57, "q": "What was the main reason for Siraj-ud-Daula's defeat in the battle of Plassey?", "opts": ["Army reduction", "Weapons shortage", "Mir Jafar's treachery", "Rain"], "ans": 2, "expl": "Siraj-ud-Daula's defeat at Plassey was largely due to the treachery of his own commander Mir Jafar, who had secretly conspired with Clive and withheld his troops from fighting."}, {"n": 58, "q": "Who did the British make the Nawab of Bengal after Plassey?", "opts": ["Mir Qasim", "Mir Jafar", "Shuja-ud-Daula", "Nizam-ud-Daulah"], "ans": 1, "expl": "After the victory at Plassey, the British installed Mir Jafar, the co-conspirator, as the new (puppet) Nawab of Bengal."}, {"n": 59, "q": "Who was the Nawab's loyal commander in the battle of Plassey?", "opts": ["Mir Jafar", "Mir Madan", "Muhammad Ali", "Coote"], "ans": 1, "expl": "Mir Madan was one of the few commanders who remained loyal to Siraj-ud-Daula and fought resolutely at Plassey."}, {"n": 60, "q": "What happened to Mir Madan in the battle of Plassey?", "opts": ["Got injured", "Ran away", "Was killed", "Became captive"], "ans": 2, "expl": "Mir Madan was mortally wounded by cannon fire and died during the Battle of Plassey, removing Siraj-ud-Daula's most loyal commander from the field."}, {"n": 61, "q": "Plassey is situated on the banks of which river?", "opts": ["Ganges", "Hooghly", "Bhagirathi", "Damodar"], "ans": 2, "expl": "The battlefield of Plassey lies on the banks of the river Bhagirathi (a distributary of the Ganges) in present-day West Bengal."}, {"n": 62, "q": "Who was made Nawab by the British in 1760 by removing Mir Jafar?", "opts": ["Siraj-ud-Daula", "Mir Qasim", "Shaista Khan", "Nizam-ud-Daulah"], "ans": 1, "expl": "In 1760, the British deposed Mir Jafar (who had failed to meet their financial demands) and installed his son-in-law Mir Qasim as Nawab."}, {"n": 63, "q": "Where did Mir Qasim shift the capital?", "opts": ["Dhaka", "Murshidabad", "Munger", "Patna"], "ans": 2, "expl": "Mir Qasim shifted the Bengal capital from Murshidabad to Munger, partly to distance his administration from British influence at Murshidabad."}, {"n": 64, "q": "What is the correct order of the capitals of Bengal?", "opts": ["Munger-Dhaka-Murshidabad", "Dhaka-Munger-Murshidabad", "Dhaka-Murshidabad-Munger", "Murshidabad-Dhaka-Munger"], "ans": 2, "expl": "Bengal's provincial capital moved chronologically from Dhaka, to Murshidabad (under Murshid Quli Khan), and finally to Munger (under Mir Qasim)."}, {"n": 65, "q": "In which year did the battle of Buxar take place?", "opts": ["1757", "1760", "1763", "1764"], "ans": 3, "expl": "The Battle of Buxar was fought on 22 October 1764."}, {"n": 66, "q": "Who was the British commander in the battle of Buxar?", "opts": ["Clive", "Coote", "Hector Munro", "Lawrence"], "ans": 2, "expl": "Major Hector Munro led the British East India Company's forces to victory at the Battle of Buxar in 1764."}, {"n": 67, "q": "Between whom did the battle of Buxar take place?", "opts": ["British and Mir Jafar", "British and Marathas", "British and the combined forces of Mir Qasim, Shuja-ud-Daula and Shah Alam II", "English and French"], "ans": 2, "expl": "The Battle of Buxar (1764) pitted the British East India Company against a combined force of Mir Qasim (deposed Nawab of Bengal), Shuja-ud-Daula (Nawab of Awadh), and the Mughal emperor Shah Alam II."}, {"n": 68, "q": "What was the relationship between Mir Jafar and Mir Qasim?", "opts": ["Father-son", "Brother", "Father-in-law and son-in-law", "Uncle-nephew"], "ans": 2, "expl": "Mir Qasim was Mir Jafar's son-in-law, having married his daughter."}, {"n": 69, "q": "What was the other name of Munger?", "opts": ["Mughalpur", "Mugdalpur", "Murshidpur", "Munropur"], "ans": 1, "expl": "Munger was traditionally also known as 'Mugdalpur' (or Mudgalpuri) in older historical usage."}, {"n": 70, "q": "How was Shah Alam II involved in the Battle of Buxar?", "opts": ["As Awadh Nawab", "As Bengal Nawab", "As Mughal Emperor", "As Maratha commander"], "ans": 2, "expl": "Shah Alam II, the reigning Mughal Emperor, personally joined the allied coalition against the British at the Battle of Buxar."}, {"n": 71, "q": "From whom did Francois Martin acquire Puducherry?", "opts": ["Nasir Jung", "Sher Khan Lodi", "Chanda Sahib", "Anwar-ud-din"], "ans": 1, "expl": "Francois Martin negotiated the acquisition of Puducherry village in 1674 from Sher Khan Lodi, the local Bijapuri subedar."}, {"n": 72, "q": "Francois Martin was the director of which French company?", "opts": ["French East India Company", "French government", "French army", "French trade union"], "ans": 0, "expl": "Francois Martin served as a director/administrator of the French East India Company and became the first Governor of Pondicherry."}, {"n": 73, "q": "In which year did the First Carnatic War begin in India?", "opts": ["1740", "1746", "1748", "1750"], "ans": 1, "expl": "The First Carnatic War began in 1746, when French forces under Dupleix and La Bourdonnais captured Madras from the British."}, {"n": 74, "q": "In which year did the War of the Austrian Succession begin in Europe?", "opts": ["1738", "1740", "1742", "1746"], "ans": 1, "expl": "The War of the Austrian Succession broke out in Europe in 1740, following the death of Emperor Charles VI."}, {"n": 75, "q": "In which battle did the French army win the First Carnatic War?", "opts": ["Arcot", "Wandiwash", "St. Thome", "Trichinopoly"], "ans": 2, "expl": "The French secured a notable victory at the Battle of St. Thome (1746) against the Nawab of Carnatic's forces during the First Carnatic War."}, {"n": 76, "q": "In which month did the Treaty of Pondicherry take place?", "opts": ["January", "March", "June", "December"], "ans": 0, "expl": "The Treaty of Pondicherry, ending the Second Carnatic War, was concluded in January 1755."}, {"n": 77, "q": "Whose nephew was Muzaffar Jung, who became the Nawab of Hyderabad in the Second Carnatic War?", "opts": ["Nasir Jung", "Asaf Jah", "Anwar-ud-din", "Chanda Sahib"], "ans": 1, "expl": "Muzaffar Jung was the grandson of Nizam-ul-Mulk Asaf Jah (founder of the Hyderabad state) and nephew of Nasir Jung, whose throne he contested with French support."}, {"n": 78, "q": "What was the relationship between Anwar-ud-din and Chanda Sahib in Karnataka?", "opts": ["Father-son", "Uncle-nephew", "Brother-in-law", "Brother"], "ans": 2, "expl": "Anwar-ud-din and Chanda Sahib were rival claimants connected by marriage, being related as brothers-in-law within the Carnatic nobility."}, {"n": 79, "q": "Which organisation received the zamindari of the three villages purchased in 1698?", "opts": ["British Government", "East India Company", "French Company", "Dutch Company"], "ans": 1, "expl": "The zamindari of Sutanuti, Kalikata and Gobindapur was acquired in 1698 by the English East India Company, not the British Crown."}, {"n": 80, "q": "What type of concession was given to the British by Shah Shuja?", "opts": ["Military", "Religious", "Commercial", "Administrative"], "ans": 2, "expl": "Shah Shuja's 1651 farman was a commercial concession, exempting the English Company from customs duties on trade in Bengal."}, {"n": 81, "q": "Shah Shuja, as the ruler of which province, gave trade concessions to the British?", "opts": ["Awadh", "Bengal", "Orissa", "Bihar"], "ans": 1, "expl": "Shah Shuja was the Mughal subedar (governor) of Bengal when he issued the 1651 trading concession to the English."}, {"n": 82, "q": "The construction of Fort William became the basis for the development of which city?", "opts": ["Madras", "Bombay", "Calcutta", "Pondicherry"], "ans": 2, "expl": "Fort William, built by the English at Sutanuti-Kalikata-Gobindapur, became the nucleus around which the city of Calcutta developed."}, {"n": 83, "q": "For what purpose was the first French colony established in India?", "opts": ["Administrative", "Religious", "Military", "Commercial"], "ans": 3, "expl": "The French established their early settlements in India, like the British and Dutch before them, primarily for commercial trading purposes."}, {"n": 84, "q": "How did the French develop Puducherry village after acquiring it?", "opts": ["Military camp", "Religious center", "Business center", "Administrative center"], "ans": 2, "expl": "Under Francois Martin, Puducherry was developed into a flourishing trading/business centre and became the headquarters of French commercial activity in India."}, {"n": 85, "q": "How was the Austrian succession dispute resolved at the end of the First Carnatic War?", "opts": ["From war", "By rebellion", "By treaty", "From oppression"], "ans": 2, "expl": "The Austrian Succession dispute in Europe, and with it the First Carnatic War in India, was resolved through the Treaty of Aix-la-Chapelle (1748)."}, {"n": 86, "q": "Whom did the British support in the Second Carnatic War?", "opts": ["Chanda Sahib", "Nasir Jung", "Muzaffar Jung", "Siraj-ud-Daula"], "ans": 1, "expl": "In the Hyderabad succession dispute of the Second Carnatic War, the British backed Nasir Jung against the French-supported claimant Muzaffar Jung."}, {"n": 87, "q": "Who became the Nawab of Karnataka in the Second Carnatic War?", "opts": ["Anwar-ud-din", "Chanda Sahib", "Muhammad Ali", "Shah Alam"], "ans": 1, "expl": "Backed by the French and Muzaffar Jung, Chanda Sahib was proclaimed Nawab of the Carnatic in 1749 after the death of Anwar-ud-din, triggering the Second Carnatic War."}, {"n": 88, "q": "In whose hands did the rule of Bengal go after the battle of Giria?", "opts": ["Mir Jafar", "Alivardi Khan", "Shuja-ud-Daula", "Siraj-ud-Daula"], "ans": 1, "expl": "After defeating Sarfaraz Khan at Giria in 1740, Alivardi Khan seized control of Bengal."}, {"n": 89, "q": "Why did Bengal come to be called 'Paradise of India' during the reign of Alivardi Khan?", "opts": ["Religious influence", "Military power", "Economic prosperity", "Geographical location"], "ans": 2, "expl": "Bengal's reputation as the 'Paradise of Nations' during Alivardi Khan's reign stemmed from its remarkable economic prosperity and thriving trade."}, {"n": 90, "q": "In the Black Hole tragedy, where were the 146 Englishmen confined?", "opts": ["Durg (fort)", "Fort chamber (a small guardroom/dungeon of Fort William)", "Ship", "Jail"], "ans": 1, "expl": "The British prisoners were reportedly crammed into a tiny guardroom/chamber within Fort William, which came to be known as the 'Black Hole.'"}, {"n": 91, "q": "In whose hands did the real power of Bengal come after the Battle of Plassey?", "opts": ["Mir Jafar", "Mir Qasim", "English (East India Company)", "Mughal"], "ans": 2, "expl": "Though Mir Jafar was made titular Nawab, real political and economic power in Bengal passed into the hands of the English East India Company after Plassey."}, {"n": 92, "q": "In which year was Mir Qasim made the Nawab of Bengal?", "opts": ["1757", "1760", "1763", "1765"], "ans": 1, "expl": "Mir Qasim was installed as Nawab of Bengal by the British in 1760 after the deposition of Mir Jafar."}, {"n": 93, "q": "Why did Mir Qasim move the capital from Murshidabad?", "opts": ["Religious reasons", "Business reasons", "For administrative reform", "Cause of war"], "ans": 2, "expl": "Mir Qasim shifted his capital to Munger as part of administrative reforms aimed at strengthening his army and revenue system away from British interference at Murshidabad."}, {"n": 94, "q": "On the banks of which river did Murshid Quli Khan establish his capital?", "opts": ["Ganges", "Hooghly", "Bhagirathi", "Damodar"], "ans": 2, "expl": "Murshidabad, the capital established by Murshid Quli Khan, is situated on the banks of the river Bhagirathi."}, {"n": 95, "q": "For what purpose did Murshid Quli Khan give Takavi loan to the farmers?", "opts": ["Business", "Industry", "Farming", "Soldier"], "ans": 2, "expl": "The Takavi loans issued by Murshid Quli Khan were agricultural loans meant to support farming activities such as buying seeds and cattle."}, {"n": 96, "q": "Why did the influence of the British increase on Bengal after the Battle of Buxar?", "opts": ["By military force", "From tax system", "From political dominance", "Religious reasons"], "ans": 2, "expl": "Victory at Buxar (1764) established unchallenged British political dominance over Bengal, Bihar and Awadh, paving the way for the Diwani grant in 1765."}, {"n": 97, "q": "From which Subedar did Francois Martin acquire the village of Puducherry?", "opts": ["Nasir Jung", "Sher Khan Lodi", "Chanda Sahib", "Anwar-ud-din"], "ans": 1, "expl": "Francois Martin acquired Puducherry from Sher Khan Lodi, the Bijapuri subedar controlling the region in 1674."}, {"n": 98, "q": "Who established the first French colony in Surat?", "opts": ["Dupleix", "Francois Martin", "Francois Caron", "Godeheu"], "ans": 2, "expl": "Francois Caron founded the first French factory in India at Surat in 1668, on behalf of the French East India Company."}, {"n": 99, "q": "How long did French territories remain with France after the Treaty of Paris?", "opts": ["1857", "1905", "Till India's independence", "1942"], "ans": 2, "expl": "France retained its remaining Indian settlements (Pondicherry, Karaikal, Mahe, Yanam, Chandannagar) right up until they were transferred to India after 1947."}, {"n": 100, "q": "Who led the British army in the battle of Buxar?", "opts": ["Clive", "Coote", "Lawrence", "Hector Munro"], "ans": 3, "expl": "Major Hector Munro commanded the British forces at the decisive Battle of Buxar in 1764."}, {"n": 101, "q": "The three villages purchased in 1698 AD became the basis for the development of which city?", "opts": ["Pondicherry", "Madras", "Calcutta", "Bombay"], "ans": 2, "expl": "Sutanuti, Kalikata and Gobindapur, acquired in 1698, formed the foundation on which the city of Calcutta grew."}, {"n": 102, "q": "What was the immediate cause of the First Carnatic War?", "opts": ["Tax dispute in India", "Europe's succession dispute", "Business tax", "Religious conflict"], "ans": 1, "expl": "The First Carnatic War was triggered directly by the outbreak of the War of Austrian Succession in Europe, which set Britain and France against each other worldwide, including in India."}, {"n": 103, "q": "What was the objective of the British in the Second Carnatic War?", "opts": ["Donate land", "Business halt", "Bring their supporter to power", "Tax reduction"], "ans": 2, "expl": "The British aim in the Second Carnatic War was to install their own candidate, Muhammad Ali, on the Carnatic throne to counter growing French influence."}, {"n": 104, "q": "Under whose leadership was Trichinopoly saved in 1752?", "opts": ["Clive", "Coote", "Stringer Lawrence", "Munro"], "ans": 2, "expl": "Major Stringer Lawrence led the relief force that lifted the siege of Trichinopoly in 1752, forcing the French and Chanda Sahib's army to capitulate."}, {"n": 105, "q": "Which army surrendered after saving Trichinopoly?", "opts": ["Maratha", "Mughal", "French", "Mysore"], "ans": 2, "expl": "The besieging French forces (along with Chanda Sahib's troops) were forced to surrender after the relief of Trichinopoly in 1752."}, {"n": 106, "q": "Which French city did the British capture in 1761?", "opts": ["Lover (Yanam)", "Chandannagar", "Karaikal", "Pondicherry"], "ans": 3, "expl": "The British captured Pondicherry, the main French settlement in India, in 1761 following their victory at Wandiwash."}, {"n": 107, "q": "In which year did the Paris Treaty take place?", "opts": ["1755", "1760", "1761", "1763"], "ans": 3, "expl": "The Treaty of Paris was signed in 1763, ending the Seven Years' War and the Third Carnatic War."}, {"n": 108, "q": "Who led the English army in the Battle of Wandiwash in 1760?", "opts": ["Clive", "Eyre Coote", "Munro", "Lawrence"], "ans": 1, "expl": "Sir Eyre Coote led the English army to a decisive victory at the Battle of Wandiwash in 1760."}, {"n": 109, "q": "Against whom was the battle of Wandiwash fought?", "opts": ["Maratha", "French", "Mughal", "Mysore"], "ans": 1, "expl": "The Battle of Wandiwash (1760) was fought between the British East India Company and the French forces under Count Lally."}, {"n": 110, "q": "Which French territory did the British not return after the Treaty of Paris?", "opts": ["Pondicherry", "Lover (Yanam)", "Karaikal", "Chandannagar"], "ans": 3, "expl": "As per the answer key, Chandannagar was the French settlement the British did not restore in the same manner following the Treaty of Paris."}, {"n": 111, "q": "After whose death in the battle of Giria, Alivardi Khan became the Nawab?", "opts": ["Shuja-ud-din", "Siraj-ud-Daula", "Sarfaraz Khan", "Mir Jafar"], "ans": 2, "expl": "Alivardi Khan became Nawab of Bengal after defeating and killing Sarfaraz Khan at the Battle of Giria in 1740."}, {"n": 112, "q": "In which year was Mir Jafar removed?", "opts": ["1757", "1760", "1763", "1765"], "ans": 1, "expl": "The British deposed Mir Jafar in 1760, replacing him with Mir Qasim after Mir Jafar failed to meet their financial and military demands."}, {"n": 113, "q": "Who became the Nawab of Bengal after Mir Jafar?", "opts": ["Shaista Khan", "Mir Qasim", "Nizam-ud-Daulah", "Mubarak-ud-Daulah"], "ans": 1, "expl": "Mir Qasim, Mir Jafar's son-in-law, succeeded him as Nawab of Bengal in 1760."}, {"n": 114, "q": "By what name was Munger also known?", "opts": ["Mughalpur", "Mugdalpur", "Murshidpur", "Munropur"], "ans": 1, "expl": "Munger was also historically known as 'Mugdalpur.'"}, {"n": 115, "q": "How many people survived the black hole tragedy?", "opts": ["18", "20", "23", "30"], "ans": 2, "expl": "According to Holwell's account, only 23 of the 146 prisoners survived the Black Hole tragedy of 1756."}, {"n": 116, "q": "Who were the loyal commanders of the Nawab in the battle of Plassey?", "opts": ["Mir Jafar", "Mir Madan", "Mir Qasim", "Muhammad Ali"], "ans": 1, "expl": "Mir Madan, along with Mohan Lal and the French officer St. Frais, remained genuinely loyal to Siraj-ud-Daula and fought at Plassey while Mir Jafar conspired against him."}, {"n": 117, "q": "Who was the Nawab of Awadh in the battle of Buxar?", "opts": ["Mir Jafar", "Shuja-ud-Daula", "Muhammad Ali", "Chanda Sahib"], "ans": 1, "expl": "Shuja-ud-Daula, the Nawab of Awadh, was one of the three allied rulers who fought the British at the Battle of Buxar in 1764."}, {"n": 118, "q": "What is the correct order of the capitals of Bengal?", "opts": ["Dhaka-Murshidabad-Munger", "Munger-Dhaka-Murshidabad", "Dhaka-Munger-Murshidabad", "Murshidabad-Dhaka-Munger"], "ans": 0, "expl": "Bengal's capital moved in sequence from Dhaka, to Murshidabad, and finally to Munger under successive Nawabs."}, {"n": 119, "q": "In what relationship were Mir Qasim and Mir Jafar?", "opts": ["Brother", "Father-son", "Father-in-law and son-in-law", "Uncle-nephew"], "ans": 2, "expl": "Mir Qasim was the son-in-law of Mir Jafar, having married his daughter."}, {"n": 120, "q": "How was Shah Alam II involved in the Battle of Buxar?", "opts": ["Bengal Nawab", "Awadh Nawab", "Mughal Emperor", "Maratha commander"], "ans": 2, "expl": "Shah Alam II participated in the Battle of Buxar in his capacity as the reigning Mughal Emperor, allied with Mir Qasim and Shuja-ud-Daula."}, {"n": 121, "q": "By what name was the concession given by Shah Shuja to the British known?", "opts": ["Decree", "Sanad", "Mark", "Knock"], "ans": 2, "expl": "The trading privilege granted by Shah Shuja in 1651 is remembered as the 'Nishan' (mark/seal of authority)."}, {"n": 122, "q": "In which currency was the Zamindari of three villages purchased in 1698?", "opts": ["In gold", "In silver", "Cash in rupees", "In copper"], "ans": 2, "expl": "The zamindari rights of the three villages were purchased for approximately Rs. 1,200 paid in cash (rupees)."}, {"n": 123, "q": "Francois Martin was the director of which French company?", "opts": ["French East India Company", "French government", "French army", "French trade union"], "ans": 0, "expl": "Francois Martin administered affairs on behalf of the French East India Company and became the first Governor of Pondicherry."}, {"n": 124, "q": "For what purpose was the first French colony established in India?", "opts": ["Religious", "Military", "Administrative", "Commercial"], "ans": 3, "expl": "Like other European powers, the French established their first Indian settlements chiefly for commercial trading purposes."}, {"n": 125, "q": "The Carnatic Wars took place between which two European powers?", "opts": ["English-Dutch", "English-Portuguese", "English-French", "French-Dutch"], "ans": 2, "expl": "The three Carnatic Wars (1746–63) were fought between the English and French East India Companies for supremacy in South India."}, {"n": 126, "q": "What was the immediate cause of the First Carnatic War?", "opts": ["Tax dispute in India", "Europe's succession dispute", "Business tax", "Religious conflict"], "ans": 1, "expl": "The outbreak of the War of the Austrian Succession in Europe directly triggered hostilities between the English and French Companies in India."}, {"n": 127, "q": "Who became the Nawab of Hyderabad in the Second Carnatic War?", "opts": ["Nasir Jung", "Muzaffar Jung", "Anwar-ud-din", "Shuja-ud-Daula"], "ans": 1, "expl": "Muzaffar Jung, backed by the French, was installed as Nawab of Hyderabad after Nasir Jung's death in 1750."}, {"n": 128, "q": "Who became the Nawab of Karnataka in the Second Carnatic War?", "opts": ["Anwar-ud-din", "Muhammad Ali", "Chanda Sahib", "Shah Alam"], "ans": 2, "expl": "Backed by the French and Muzaffar Jung, Chanda Sahib was proclaimed Nawab of the Carnatic in 1749 after the death of Anwar-ud-din, triggering the Second Carnatic War."}, {"n": 129, "q": "Who became the Nawab of Bengal after the battle of Giria?", "opts": ["Shuja-ud-din", "Alivardi Khan", "Siraj-ud-Daula", "Mir Jafar"], "ans": 1, "expl": "Alivardi Khan became the Nawab of Bengal after his victory at the Battle of Giria in 1740."}, {"n": 130, "q": "What did Bengal come to be called during the reign of Alivardi Khan?", "opts": ["Crown of India", "Heaven of India", "Treasury of India", "Fort of India"], "ans": 1, "expl": "Bengal was celebrated as the 'Heaven/Paradise of India' during Alivardi Khan's prosperous and stable rule."}];
+const LETTERS = ['A','B','C','D'];
+
+/* ---------------- THEME ---------------- */
+const root = document.documentElement;
+function setTheme(t){
+  root.setAttribute('data-theme', t);
+  document.getElementById('btnDark').classList.toggle('active', t==='dark');
+  document.getElementById('btnLight').classList.toggle('active', t==='light');
+}
+document.getElementById('btnDark').onclick = ()=>setTheme('dark');
+document.getElementById('btnLight').onclick = ()=>setTheme('light');
+setTheme('dark');
+
+/* ---------------- STATE ---------------- */
+let order = [];          // array of question indices in play order
+let current = 0;
+let answers = {};         // index -> selected option idx
+let marked = {};          // index -> bool
+let timerInterval = null;
+let timeLeft = 0;
+let paused = false;
+let negMarking = true;
+
+function buildOrder(){
+  order = QUESTIONS.map((q,i)=>i);
+  if(document.getElementById('orderSelect').value === 'shuffle'){
+    for(let i=order.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [order[i],order[j]] = [order[j],order[i]];
+    }
+  }
+}
+
+/* ---------------- START ---------------- */
+document.getElementById('btnStart').onclick = ()=>{
+  buildOrder();
+  current = 0; answers = {}; marked = {};
+  negMarking = document.getElementById('negToggle').checked;
+  const dur = parseInt(document.getElementById('durationSelect').value,10);
+  document.getElementById('setupCard').classList.add('hidden');
+  document.getElementById('resultShell').classList.remove('active');
+  document.getElementById('quizShell').classList.add('active');
+  buildNavigator();
+  renderQuestion();
+  if(dur > 0){
+    timeLeft = dur*60;
+    document.getElementById('timerBox').classList.remove('hidden');
+    startTimer();
+  } else {
+    document.getElementById('timerVal').textContent = '∞';
+  }
+  window.scrollTo({top:document.getElementById('quizShell').offsetTop-90, behavior:'smooth'});
+};
+
+function startTimer(){
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    if(paused) return;
+    timeLeft--;
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      timeLeft = 0;
+      updateTimerDisplay();
+      finishQuiz();
+      return;
+    }
+    updateTimerDisplay();
+  },1000);
+}
+function updateTimerDisplay(){
+  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s = (timeLeft%60).toString().padStart(2,'0');
+  document.getElementById('timerVal').textContent = `${m}:${s}`;
+  document.getElementById('timerBox').classList.toggle('low', timeLeft>0 && timeLeft<=60);
+}
+document.getElementById('btnPause').onclick = (e)=>{
+  paused = !paused;
+  e.target.textContent = paused ? 'Resume' : 'Pause';
+};
+
+/* ---------------- RENDER QUESTION ---------------- */
+function renderQuestion(){
+  const qi = order[current];
+  const q = QUESTIONS[qi];
+  document.getElementById('qNum').textContent = `Q${current+1} / ${order.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const optList = document.getElementById('optList');
+  optList.innerHTML = '';
+  const isAnswered = answers[qi] !== undefined;
+  q.opts.forEach((opt, idx)=>{
+    const btn = document.createElement('button');
+    let cls = 'opt';
+    if(isAnswered){
+      cls += ' locked';
+      if(idx === q.ans) cls += ' correct-answer';
+      else if(idx === answers[qi]) cls += ' wrong-answer';
+    } else if(answers[qi]===idx){
+      cls += ' selected';
+    }
+    btn.className = cls;
+    btn.innerHTML = `<span class="opt-letter">${LETTERS[idx]}</span><span class="opt-text"></span><span class="opt-badge"></span>`;
+    btn.querySelector('.opt-text').textContent = opt;
+    if(isAnswered){
+      const badge = btn.querySelector('.opt-badge');
+      if(idx === q.ans) badge.textContent = '✓ Correct';
+      else if(idx === answers[qi]) badge.textContent = '✕ Your pick';
+    } else {
+      btn.onclick = ()=>{
+        answers[qi] = idx;
+        renderQuestion();
+        updateNavigator();
+        updateProgress();
+      };
+    }
+    optList.appendChild(btn);
+  });
+
+  const oldExpl = document.getElementById('inlineExpl');
+  if(oldExpl) oldExpl.remove();
+  if(isAnswered){
+    const wasCorrect = answers[qi] === q.ans;
+    const expl = document.createElement('div');
+    expl.className = 'inline-expl';
+    expl.id = 'inlineExpl';
+    expl.innerHTML = `<span class="badge-status ${wasCorrect ? 'is-correct' : 'is-wrong'}">${wasCorrect ? 'Correct' : 'Incorrect'}</span><span class="et"></span>`;
+    expl.querySelector('.et').textContent = q.expl;
+    document.getElementById('qCard').appendChild(expl);
+  }
+
+  document.getElementById('btnPrev').disabled = current===0;
+  document.getElementById('btnNext').textContent = current === order.length-1 ? 'Finish →' : 'Next →';
+  document.getElementById('btnMark').classList.toggle('btn-gold', !!marked[qi]);
+  document.getElementById('btnClear').disabled = !isAnswered;
+  updateProgress();
+}
+
+function updateProgress(){
+  const answeredCount = Object.keys(answers).length;
+  document.getElementById('progressBar').style.width = (answeredCount/order.length*100)+'%';
+}
+
+document.getElementById('btnNext').onclick = ()=>{
+  if(current < order.length-1){ current++; renderQuestion(); updateNavigator(); }
+  else { finishQuiz(); }
+};
+document.getElementById('btnPrev').onclick = ()=>{
+  if(current>0){ current--; renderQuestion(); updateNavigator(); }
+};
+document.getElementById('btnClear').onclick = ()=>{
+  const qi = order[current];
+  delete answers[qi];
+  renderQuestion(); updateNavigator();
+};
+document.getElementById('btnMark').onclick = ()=>{
+  const qi = order[current];
+  marked[qi] = !marked[qi];
+  renderQuestion(); updateNavigator();
+};
+document.getElementById('btnSubmit').onclick = ()=>{
+  if(confirm('Submit the quiz now? You will not be able to change your answers.')) finishQuiz();
+};
+
+/* ---------------- NAVIGATOR ---------------- */
+function buildNavigator(){
+  const grid = document.getElementById('navGrid');
+  grid.innerHTML = '';
+  order.forEach((qi, pos)=>{
+    const d = document.createElement('button');
+    d.className = 'nav-dot';
+    d.textContent = pos+1;
+    d.onclick = ()=>{ current = pos; renderQuestion(); updateNavigator(); };
+    grid.appendChild(d);
+  });
+  updateNavigator();
+}
+function updateNavigator(){
+  const dots = document.querySelectorAll('.nav-dot');
+  dots.forEach((d,pos)=>{
+    const qi = order[pos];
+    const ans = answers[qi];
+    const wasCorrect = ans !== undefined && ans === QUESTIONS[qi].ans;
+    d.classList.toggle('answered', ans !== undefined && wasCorrect);
+    d.classList.toggle('wrong', ans !== undefined && !wasCorrect);
+    d.classList.toggle('marked', !!marked[qi] && ans === undefined);
+    d.classList.toggle('current', pos===current);
+  });
+}
+
+/* ---------------- FINISH / SCORE ---------------- */
+function finishQuiz(){
+  clearInterval(timerInterval);
+  let correct=0, wrong=0, skip=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===undefined) skip++;
+    else if(answers[i]===q.ans) correct++;
+    else wrong++;
+  });
+  let final = correct*1 + (negMarking ? wrong*-0.25 : 0);
+  final = Math.round(final*100)/100;
+  document.getElementById('scCorrect').textContent = correct;
+  document.getElementById('scWrong').textContent = wrong;
+  document.getElementById('scSkip').textContent = skip;
+  document.getElementById('scFinal').textContent = final;
+  const pct = Math.round((correct/QUESTIONS.length)*100);
+  document.getElementById('resultPct').textContent = pct+'%';
+  document.getElementById('quizShell').classList.remove('active');
+  document.getElementById('resultShell').classList.add('active');
+  window.scrollTo({top:document.getElementById('resultShell').offsetTop-90, behavior:'smooth'});
+}
+document.getElementById('btnRetake').onclick = ()=>{
+  document.getElementById('resultShell').classList.remove('active');
+  document.getElementById('setupCard').classList.remove('hidden');
+  window.scrollTo({top:document.getElementById('setupCard').offsetTop-90, behavior:'smooth'});
+};
+document.getElementById('btnGoSolutions').onclick = ()=>{
+  document.getElementById('solutionsAnchor').scrollIntoView({behavior:'smooth', block:'start'});
+};
+
+/* ---------------- SOLUTIONS LIST ---------------- */
+function renderSolutions(filter=''){
+  const list = document.getElementById('solList');
+  list.innerHTML = '';
+  const f = filter.trim().toLowerCase();
+  QUESTIONS.forEach((q)=>{
+    if(f && !(q.q.toLowerCase().includes(f) || q.opts.join(' ').toLowerCase().includes(f) || q.expl.toLowerCase().includes(f))) return;
+    const card = document.createElement('div');
+    card.className = 'sol-card';
+    const head = document.createElement('div');
+    head.className = 'sol-head';
+    head.innerHTML = `<span class="q-num" style="flex-shrink:0;">Q${q.n}</span><p class="sol-q"></p>`;
+    head.querySelector('.sol-q').textContent = q.q;
+    card.appendChild(head);
+    const optsWrap = document.createElement('div');
+    optsWrap.className = 'sol-opts';
+    q.opts.forEach((opt, idx)=>{
+      const o = document.createElement('div');
+      o.className = 'sol-opt' + (idx===q.ans ? ' correct' : '');
+      o.innerHTML = `<span class="ol">${LETTERS[idx]}</span><span class="ot"></span>`;
+      o.querySelector('.ot').textContent = opt + (idx===q.ans ? '  ✓' : '');
+      optsWrap.appendChild(o);
+    });
+    card.appendChild(optsWrap);
+    const expl = document.createElement('div');
+    expl.className = 'sol-expl';
+    expl.innerHTML = `<span class="expl-icon seal tiny emerald"><span class="seal-mono" style="font-size:9px;">i</span></span><span class="et"></span>`;
+    expl.querySelector('.et').textContent = q.expl;
+    card.appendChild(expl);
+    list.appendChild(card);
+  });
+}
+document.getElementById('solSearch').addEventListener('input', (e)=>renderSolutions(e.target.value));
+renderSolutions();
+</script>
+</body>
+</html>

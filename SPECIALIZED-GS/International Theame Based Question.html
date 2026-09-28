@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC/BPSC Based 40 Qns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-1:#fff8f0;
+  --bg-2:#fff1e0;
+  --bg-3:#ffe8d1;
+  --card-bg:rgba(255,255,255,0.72);
+  --card-border:rgba(214,90,30,0.18);
+  --text-main:#3a1f0f;
+  --text-soft:#6b4226;
+  --accent-red:#c1272d;
+  --accent-orange:#e8641c;
+  --accent-yellow:#f2a900;
+  --accent-amber:#ffb347;
+  --grad-1:#ff5f6d;
+  --grad-2:#ffc371;
+  --shadow:0 20px 60px -20px rgba(193,39,45,0.25);
+  --shadow-soft:0 10px 30px -12px rgba(232,100,28,0.18);
+  --correct:#1f8a4c;
+  --correct-bg:rgba(31,138,76,0.12);
+  --wrong:#c1272d;
+  --wrong-bg:rgba(193,39,45,0.10);
+  --divider:rgba(193,39,45,0.15);
+  --chip-bg:rgba(242,169,0,0.15);
+  --header-text:#fff;
+}
+[data-theme="dark"]{
+  --bg-1:#1a0f0a;
+  --bg-2:#241209;
+  --bg-3:#2c1508;
+  --card-bg:rgba(38,20,12,0.75);
+  --card-border:rgba(255,140,60,0.22);
+  --text-main:#fdece0;
+  --text-soft:#e0b598;
+  --accent-red:#ff5b52;
+  --accent-orange:#ff8a3d;
+  --accent-yellow:#ffcb47;
+  --accent-amber:#ffb347;
+  --grad-1:#ff5f6d;
+  --grad-2:#ffb347;
+  --shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  --shadow-soft:0 10px 30px -12px rgba(0,0,0,0.5);
+  --correct:#5ddc8f;
+  --correct-bg:rgba(93,220,143,0.14);
+  --wrong:#ff6b64;
+  --wrong-bg:rgba(255,107,100,0.14);
+  --divider:rgba(255,140,60,0.2);
+  --chip-bg:rgba(255,203,71,0.14);
+  --header-text:#fff2e5;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, var(--bg-3), transparent 55%),
+    radial-gradient(circle at 90% 10%, var(--bg-2), transparent 50%),
+    var(--bg-1);
+  color:var(--text-main);
+  min-height:100vh;
+  transition:background .4s ease,color .4s ease;
+  padding-bottom:60px;
+}
+.topbar{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 22px;
+  background:linear-gradient(120deg,var(--accent-red),var(--accent-orange) 55%,var(--accent-yellow));
+  box-shadow:var(--shadow);
+}
+.brand{
+  display:flex; flex-direction:column; line-height:1.1;
+}
+.brand .main{
+  font-family:'Playfair Display',serif;
+  font-weight:800;
+  font-size:19px;
+  color:var(--header-text);
+  letter-spacing:.3px;
+  text-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.brand .tag{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-weight:600;
+  font-size:13px;
+  color:rgba(255,255,255,0.92);
+  margin-top:2px;
+}
+.mode-btn{
+  background:rgba(255,255,255,0.22);
+  border:1px solid rgba(255,255,255,0.5);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:13px;
+  backdrop-filter:blur(6px);
+  transition:all .25s ease;
+  white-space:nowrap;
+}
+.mode-btn:hover{background:rgba(255,255,255,0.35);}
+
+.hero{
+  max-width:900px; margin:34px auto 10px; padding:0 20px; text-align:center;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:clamp(26px,5vw,42px);
+  margin:0 0 10px;
+  background:linear-gradient(100deg,var(--accent-red),var(--accent-orange) 50%,var(--accent-yellow));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:.3px;
+}
+.hero .subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;
+  color:var(--text-soft);
+  font-style:italic;
+  margin-bottom:18px;
+}
+.rambaan-banner{
+  max-width:820px;
+  margin:0 auto 26px;
+  padding:16px 22px;
+  border-radius:18px;
+  background:var(--card-bg);
+  border:1.5px solid var(--accent-red);
+  box-shadow:var(--shadow-soft);
+}
+.rambaan-banner p{
+  margin:0;
+  font-weight:800;
+  font-size:clamp(17px,2.6vw,21px);
+  color:var(--accent-red);
+  text-align:center;
+  line-height:1.5;
+}
+
+.progress-wrap{
+  max-width:900px;margin:0 auto 20px; padding:0 20px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;
+}
+.score-pill,.progress-pill{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  padding:9px 18px;
+  border-radius:30px;
+  font-weight:700;
+  font-size:14px;
+  box-shadow:var(--shadow-soft);
+}
+.score-pill span{color:var(--accent-red);}
+.progress-bar-outer{
+  flex:1 1 220px; height:10px; border-radius:10px;
+  background:rgba(0,0,0,0.08);
+  overflow:hidden;
+  min-width:160px;
+}
+.progress-bar-inner{
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--accent-red),var(--accent-orange),var(--accent-yellow));
+  transition:width .35s ease;
+}
+
+.filters{
+  max-width:900px; margin:0 auto 26px; padding:0 20px;
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+}
+.chip{
+  background:var(--chip-bg);
+  border:1px solid var(--card-border);
+  color:var(--text-main);
+  padding:7px 15px;
+  border-radius:20px;
+  font-size:12.5px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.chip.active,.chip:hover{
+  background:linear-gradient(100deg,var(--accent-red),var(--accent-orange));
+  color:#fff;
+  border-color:transparent;
+}
+
+.container{max-width:900px;margin:0 auto;padding:0 20px;}
+
+.qcard{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:20px;
+  padding:22px 22px 18px;
+  margin-bottom:22px;
+  box-shadow:var(--shadow-soft);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  transition:transform .2s ease;
+}
+.qcard .qmeta{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+}
+.qnum{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:13px;
+  color:#fff;
+  background:linear-gradient(120deg,var(--accent-red),var(--accent-orange));
+  padding:4px 12px;
+  border-radius:20px;
+}
+.section-tag{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--accent-orange);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.qtext{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:17px;
+  line-height:1.5;
+  margin:6px 0 16px;
+  color:var(--text-main);
+}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1.5px solid var(--card-border);
+  background:rgba(255,255,255,0.35);
+  cursor:pointer;
+  font-size:15px;
+  font-weight:500;
+  transition:all .18s ease;
+}
+[data-theme="dark"] .opt{background:rgba(255,255,255,0.03);}
+.opt:hover{border-color:var(--accent-orange); transform:translateX(3px);}
+.opt .optlabel{
+  width:26px;height:26px;flex:0 0 26px;
+  border-radius:50%;
+  border:1.5px solid var(--card-border);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700; font-size:12.5px;
+}
+.opt.correct{
+  background:var(--correct-bg);
+  border-color:var(--correct);
+  color:var(--correct);
+  font-weight:700;
+}
+.opt.correct .optlabel{background:var(--correct);color:#fff;border-color:var(--correct);}
+.opt.wrong{
+  background:var(--wrong-bg);
+  border-color:var(--wrong);
+  color:var(--wrong);
+  font-weight:700;
+}
+.opt.wrong .optlabel{background:var(--wrong);color:#fff;border-color:var(--wrong);}
+.opt.disabled{cursor:default;}
+.opt.disabled:hover{transform:none;}
+
+.explain-btn{
+  margin-top:14px;
+  background:transparent;
+  border:1.5px dashed var(--accent-orange);
+  color:var(--accent-orange);
+  padding:8px 16px;
+  border-radius:30px;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.explain-btn:hover{background:var(--accent-orange);color:#fff;}
+.explain-box{
+  display:none;
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:var(--chip-bg);
+  border-left:4px solid var(--accent-red);
+  font-size:14.5px;
+  line-height:1.6;
+  color:var(--text-soft);
+}
+.explain-box.show{display:block;}
+.explain-box b{color:var(--text-main);}
+
+.result-banner{
+  max-width:900px;margin:10px auto 30px;padding:0 20px;text-align:center;
+}
+.result-card{
+  background:linear-gradient(120deg,var(--accent-red),var(--accent-orange),var(--accent-yellow));
+  color:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  display:none;
+}
+.result-card.show{display:block;}
+.result-card h2{margin:0 0 8px;font-family:'Playfair Display',serif;}
+.reset-btn{
+  margin-top:10px;
+  background:rgba(255,255,255,0.25);
+  border:1px solid rgba(255,255,255,0.6);
+  color:#fff;
+  padding:9px 20px;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.footer{
+  text-align:center;
+  margin-top:30px;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:var(--text-soft);
+  font-size:15px;
+  padding:0 20px;
+}
+.footer .fb{
+  font-weight:700; color:var(--accent-red); font-style:normal;
+  font-family:'Playfair Display',serif;
+}
+@media(max-width:480px){
+  .qtext{font-size:15.5px;}
+  .brand .main{font-size:16px;}
+}
+</style>
+</head>
+<body data-theme="light">
+
+<div class="topbar">
+  <div class="brand">
+    <span class="main">72nd Bihar PCS Hacker</span>
+    <span class="tag">Hack the Syllabus · Crack the PCS</span>
+  </div>
+  <button class="mode-btn" id="themeToggle">🌙 Dark Mode</button>
+</div>
+
+<div class="hero">
+  <h1>UPSC/BPSC Based 40 Qns</h1>
+  <div class="subtitle">Summits &amp; Global Affairs 2024–2026 · BRICS · Raisina · SCO · G7 · G20 · Quad · ASEAN · COP30</div>
+</div>
+
+<div class="rambaan-banner">
+  <p>We have covered Themes wise Quiz on every topic in Rambaan Batch.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="score-pill">Score: <span id="scoreVal">0</span> / 40</div>
+  <div class="progress-bar-outer"><div class="progress-bar-inner" id="progBar"></div></div>
+  <div class="progress-pill"><span id="attemptVal">0</span>/40 Attempted</div>
+</div>
+
+<div class="filters" id="filterBar">
+  <button class="chip active" data-filter="all">All 40</button>
+  <button class="chip" data-filter="BRICS">BRICS (1–8)</button>
+  <button class="chip" data-filter="Raisina">Raisina (9–15)</button>
+  <button class="chip" data-filter="SCO">SCO (16–22)</button>
+  <button class="chip" data-filter="G7">G7 (23–29)</button>
+  <button class="chip" data-filter="G20">G20 (30–35)</button>
+  <button class="chip" data-filter="Other">Other (36–40)</button>
+</div>
+
+<div class="container" id="quizContainer"></div>
+
+<div class="result-banner">
+  <div class="result-card" id="resultCard">
+    <h2 id="resultTitle">Quiz Complete!</h2>
+    <p id="resultText"></p>
+    <button class="reset-btn" id="resetBtn">Retake Quiz</button>
+  </div>
+</div>
+
+<div class="footer">
+  Crafted with precision for <span class="fb">72nd Bihar PCS Hacker</span> aspirants — verified answer key, double-checked.
+</div>
+
+<script>
+const DATA = [
+{s:"BRICS",q:"Indonesia formally became a full member of BRICS in which year?",o:["2023","2024","2025","2026"],a:2,e:"Indonesia became a full BRICS member effective <b>1 January 2025</b>, announced by Brazil (2025 BRICS Chair) on 6 January 2025 — the first Southeast Asian nation admitted to the bloc."},
+{s:"BRICS",q:"The 17th BRICS Summit, held in Rio de Janeiro in July 2025, was conducted under which theme?",o:["BRICS and the New Global Economic Order","Strengthening Global South Cooperation for a More Inclusive and Sustainable Governance","Building a Shared Future through Innovation","BRICS at 20: Peace, Security and Prosperity"],a:1,e:"Brazil's 2025 BRICS Chairship theme was <b>“Strengthening Global South Cooperation for a More Inclusive and Sustainable Governance.”</b>"},
+{s:"BRICS",q:"What was the principal theme adopted for India's BRICS Chairship in 2026?",o:["One Earth, One Family, One Future","Global South First","Building for Resilience, Innovation, Cooperation and Sustainability","Reforming Multilateralism through Development"],a:2,e:"India's 2026 BRICS Chairship theme is <b>“Building for Resilience, Innovation, Cooperation and Sustainability.”</b>"},
+{s:"BRICS",q:"Which group of countries participated in the 2024 Kazan BRICS Summit as newly admitted full members?",o:["Indonesia, Malaysia, Nigeria and Thailand","Egypt, Ethiopia, Iran and UAE","Saudi Arabia, Indonesia, Algeria and Argentina","Belarus, Bolivia, Cuba and Kazakhstan"],a:1,e:"<b>Egypt, Ethiopia, Iran and the UAE</b> became full BRICS members from 1 January 2024, in time for the 16th (Kazan) Summit."},
+{s:"BRICS",q:"Which institutional innovation was introduced by BRICS around the 2024 Kazan Summit?",o:["A permanent BRICS military command","A BRICS common currency","A BRICS Partner Country category","A BRICS parliamentary government"],a:2,e:"The Kazan Declaration created the <b>BRICS Partner Country</b> category — a new tier below full membership adopted by several states (Belarus, Malaysia, Thailand, etc.)."},
+{s:"BRICS",q:"The International Big Cats Alliance initiative, welcomed in the 2024 Kazan BRICS Declaration, was associated particularly with which country?",o:["Brazil","India","Russia","South Africa"],a:1,e:"The <b>International Big Cats Alliance</b> is an India-led initiative for conservation of big cat species, welcomed in the Kazan Declaration."},
+{s:"BRICS",q:"“BRICS Clear”, discussed in the Kazan Declaration, is best described as a proposal concerning:",o:["A common military intelligence system","Cross-border settlement and depository infrastructure","A BRICS satellite navigation system","A common agricultural insurance scheme"],a:1,e:"“BRICS Clear” refers to a proposed independent <b>cross-border settlement and depository infrastructure</b> to facilitate trade and investment among BRICS members."},
+{s:"BRICS",q:"The 2025 Rio BRICS Summit was particularly notable for the adoption of a declaration concerning:",o:["Global governance of artificial intelligence","Creation of a BRICS army","Withdrawal from the IMF","Establishment of a common BRICS currency"],a:0,e:"The Rio Summit adopted the <b>BRICS Leaders' Statement on Global Governance of Artificial Intelligence</b>, alongside a Climate Finance framework declaration."},
+
+{s:"Raisina",q:"The 11th Raisina Dialogue was held in New Delhi from:",o:["1–3 March 2026","5–7 March 2026","10–12 March 2026","15–17 March 2026"],a:1,e:"The 11th Raisina Dialogue was held from <b>5–7 March 2026</b> in New Delhi, inaugurated by PM Narendra Modi."},
+{s:"Raisina",q:"What was the theme of the Raisina Dialogue 2026?",o:["Kālachakra – People, Peace and Planet","Saṁskāra – Assertion, Accommodation, Advancement","Global South – Shared Prosperity","Reimagining Multilateralism"],a:1,e:"The 2026 theme was <b>“Saṁskāra – Assertion, Accommodation, Advancement.”</b>"},
+{s:"Raisina",q:"Who was the Chief Guest and keynote speaker at the inaugural session of Raisina Dialogue 2026?",o:["Christopher Luxon","Alexander Stubb","Emmanuel Macron","Mark Carney"],a:1,e:"Finnish President <b>Alexander Stubb</b> was the Chief Guest and delivered the keynote address at Raisina Dialogue 2026."},
+{s:"Raisina",q:"The Raisina Dialogue is organised by which organisation in partnership with India's Ministry of External Affairs?",o:["India International Centre","Observer Research Foundation","NITI Aayog","Indian Council of World Affairs"],a:1,e:"It is jointly organised by the <b>Observer Research Foundation (ORF)</b> and India's Ministry of External Affairs."},
+{s:"Raisina",q:"Which was the theme of the 2025 Raisina Dialogue?",o:["Kālachakra – People, Peace and Planet","Saṁskāra – Assertion, Accommodation, Advancement","Churning the Global Order","Global South and New Multilateralism"],a:0,e:"The 2025 (10th) edition's theme was <b>“Kālachakra – People, Peace and Planet.”</b>"},
+{s:"Raisina",q:"Who was the Chief Guest at the Raisina Dialogue 2025?",o:["Alexander Stubb","Christopher Luxon","Anthony Albanese","Olaf Scholz"],a:1,e:"New Zealand PM <b>Christopher Luxon</b> was the Chief Guest and keynote speaker at Raisina Dialogue 2025."},
+{s:"Raisina",q:"Approximately how many countries were represented at the 11th Raisina Dialogue in 2026?",o:["50","75","110","150"],a:2,e:"Around <b>110 countries</b> were represented at Raisina Dialogue 2026 (the 2025 edition had seen about 125)."},
+
+{s:"SCO",q:"The 26th meeting of the SCO Council of Heads of State in 2026 was held in:",o:["Astana","Tianjin","Bishkek","Tashkent"],a:2,e:"The 26th SCO Summit was held in <b>Bishkek, Kyrgyzstan</b> on 31 August–1 September 2026, marking the SCO's 25th anniversary."},
+{s:"SCO",q:"At the 2026 Bishkek SCO Summit, the chairmanship for 2026–27 was transferred to:",o:["India","Pakistan","Uzbekistan","Kazakhstan"],a:1,e:"Kyrgyzstan handed over the rotating chairmanship to <b>Pakistan</b>, which will host the 2027 summit in Islamabad."},
+{s:"SCO",q:"Which theme was announced for Pakistan's SCO Chairmanship for 2026–27?",o:["Shanghai Spirit for a New Asia","Turning Vision into Action: Connectivity, Innovation and Shared Prosperity","Building a Secure Eurasia","Together for Sustainable Peace and Development"],a:1,e:"Pakistan announced its chairmanship theme as <b>“Turning Vision into Action: Connectivity, Innovation and Shared Prosperity.”</b>"},
+{s:"SCO",q:"Which city was designated the SCO Tourism and Cultural Capital for 2026–27?",o:["Lahore","Samarkand","Bishkek","Dushanbe"],a:0,e:"<b>Lahore</b> was designated SCO Tourism and Cultural Capital for 2026–27."},
+{s:"SCO",q:"Approximately how many documents were approved following the 26th SCO Council of Heads of State meeting in Bishkek in 2026?",o:["12","18","24","28"],a:3,e:"The summit adopted the Bishkek Declaration along with 27 other documents — <b>28 documents in total</b>."},
+{s:"SCO",q:"Which country became the newest SCO member state in 2024?",o:["Belarus","Iran","Saudi Arabia","Egypt"],a:0,e:"<b>Belarus</b> joined the SCO as its 10th full member in 2024 (Iran had joined in 2023)."},
+{s:"SCO",q:"Which pair correctly identifies the two permanent bodies of the SCO?",o:["SCO Secretariat — Beijing; RATS — Tashkent","SCO Secretariat — Moscow; RATS — Beijing","SCO Secretariat — Astana; RATS — Tashkent","SCO Secretariat — New Delhi; RATS — Moscow"],a:0,e:"The SCO's two permanent bodies are the <b>Secretariat in Beijing</b> and the <b>Regional Anti-Terrorist Structure (RATS) in Tashkent</b>."},
+
+{s:"G7",q:"The 2026 G7 Summit was held in which French location?",o:["Paris","Lyon","Évian-les-Bains","Nice"],a:2,e:"The 2026 (52nd) G7 Summit was held in <b>Évian-les-Bains</b>, France — the second time this town has hosted a G7/G8 summit (after 2003)."},
+{s:"G7",q:"Which country held the G7 Presidency in 2026?",o:["Canada","France","Germany","Italy"],a:1,e:"<b>France</b> held the G7 Presidency in 2026, hosted by President Emmanuel Macron."},
+{s:"G7",q:"The 2026 G7 Summit in Évian was held in:",o:["April 2026","May 2026","June 2026","July 2026"],a:2,e:"The summit was held from <b>15–17 June 2026</b>."},
+{s:"G7",q:"Which of the following countries was invited by France as a partner country for discussions at the 2026 G7 Summit?",o:["India","China","Russia","Iran"],a:0,e:"France invited <b>India</b>, along with Brazil, Egypt, Kenya and South Korea, as partner countries for the Évian Summit."},
+{s:"G7",q:"Which issue was specifically addressed by the G7 in 2026 through cooperation aimed at reducing dependencies?",o:["Rare/critical minerals","Agricultural land","Tourism","Fisheries only"],a:0,e:"The G7 adopted a declaration on <b>critical/rare minerals</b>, aiming to diversify supply chains and reduce dependency on dominant suppliers."},
+{s:"G7",q:"One specific digital/AI concern highlighted in the 2026 G7 outcomes was:",o:["Banning all generative AI","Protecting young people online and adapting AI interactions for children","Creating a single G7 cryptocurrency","Replacing national education systems with AI"],a:1,e:"A dedicated G7 declaration addressed <b>online safety for minors</b> and safe AI interactions for children."},
+{s:"G7",q:"In response to the potential health crisis involving Ebola, the 2026 G7 committed funding of approximately:",o:["$100 million","$500 million","More than $1 billion","$10 billion"],a:2,e:"The G7's coordinated response — combining US, EU and other pledges — committed <b>over $1 billion</b> toward the Bundibugyo Ebola outbreak response in DRC/Uganda."},
+
+{s:"G20",q:"The 2025 G20 Leaders' Summit was historically significant because it was the first G20 Leaders' Summit held on which continent?",o:["Asia","Africa","South America","Europe"],a:1,e:"The 2025 Summit in Johannesburg was the <b>first G20 Leaders' Summit held on the African continent.</b>"},
+{s:"G20",q:"The 2025 G20 Leaders' Summit was held in:",o:["Cape Town","Johannesburg","Pretoria","Durban"],a:1,e:"South Africa hosted the 2025 G20 Summit in <b>Johannesburg</b>."},
+{s:"G20",q:"Which trio formed the central theme of South Africa's 2025 G20 Presidency?",o:["Peace, Security and Development","Solidarity, Equality and Sustainability","Growth, Trade and Technology","Democracy, Security and Prosperity"],a:1,e:"South Africa's presidency theme centred on <b>Solidarity, Equality and Sustainability.</b>"},
+{s:"G20",q:"Which of the following was NOT one of the four principal priorities of South Africa's 2025 G20 Presidency?",o:["Strengthening disaster resilience and response","Ensuring debt sustainability for developing economies","Mobilising finance for a just energy transition","Establishing a single G20 currency"],a:3,e:"South Africa's four priorities were disaster resilience, debt sustainability, just energy transition financing, and critical minerals for inclusive growth — <b>a single G20 currency was never a priority.</b>"},
+{s:"G20",q:"The 2024 G20 Summit in Rio de Janeiro prominently advanced which initiative against hunger and poverty?",o:["Global Alliance Against Hunger and Poverty","Global Food Currency Initiative","Rio Agricultural Union","G20 Food Security Bank"],a:0,e:"Brazil's 2024 G20 Presidency launched the <b>Global Alliance Against Hunger and Poverty.</b>"},
+{s:"G20",q:"The 2026 G20 Leaders' Summit is scheduled to be hosted by:",o:["India in New Delhi","United States in Miami","Japan in Tokyo","Brazil in Brasília"],a:1,e:"The 2026 G20 Presidency belongs to the <b>United States</b>, with Miami designated as the host city."},
+
+{s:"Other",q:"The Quad consists of which four countries?",o:["India, China, Japan and Australia","India, United States, Japan and Australia","India, France, Japan and Australia","India, UK, US and Japan"],a:1,e:"The Quad comprises <b>India, the United States, Japan and Australia.</b>"},
+{s:"Other",q:"The Quad Ports of the Future Partnership Conference hosted by India in 2025 was aimed primarily at strengthening cooperation concerning:",o:["Maritime and port infrastructure","Nuclear weapons","Space exploration only","Agricultural subsidies"],a:0,e:"India hosted this conference in October 2025 to strengthen Quad cooperation on <b>maritime and port infrastructure.</b>"},
+{s:"Other",q:"Which country formally became ASEAN's 11th member at the 47th ASEAN Summit in 2025?",o:["Papua New Guinea","Timor-Leste","Bangladesh","Sri Lanka"],a:1,e:"<b>Timor-Leste</b> was formally admitted as ASEAN's 11th member at the 47th Summit in Kuala Lumpur, chaired by Malaysia."},
+{s:"Other",q:"COP30, held in 2025, took place in which Brazilian city?",o:["Brasília","Rio de Janeiro","São Paulo","Belém"],a:3,e:"COP30 was held in <b>Belém</b>, Brazil, in the Amazon region, in 2025."},
+{s:"Other",q:"Which phrase became closely associated with the COP30 outcome in Belém?",o:["Green Marshall Plan","Global Mutirão","Net Zero Alliance","Belém Security Compact"],a:1,e:"COP30's political outcome package was titled the <b>“Global Mutirão: Uniting humanity in a global mobilization against climate change.”</b>"}
+];
+
+const container = document.getElementById('quizContainer');
+const scoreVal = document.getElementById('scoreVal');
+const attemptVal = document.getElementById('attemptVal');
+const progBar = document.getElementById('progBar');
+const resultCard = document.getElementById('resultCard');
+const resultTitle = document.getElementById('resultTitle');
+const resultText = document.getElementById('resultText');
+let score = 0, attempted = 0;
+let answered = new Array(DATA.length).fill(false);
+
+function letters(i){return ["A","B","C","D"][i];}
+
+function buildCard(item, idx){
+  const card = document.createElement('div');
+  card.className = 'qcard';
+  card.dataset.section = item.s;
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${idx+1}</span><span class="section-tag">${item.s}</span>`;
+  card.appendChild(meta);
+
+  const qtext = document.createElement('div');
+  qtext.className = 'qtext';
+  qtext.textContent = item.q;
+  card.appendChild(qtext);
+
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  item.o.forEach((optText, oi)=>{
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    opt.innerHTML = `<span class="optlabel">${letters(oi)}</span><span>${optText}</span>`;
+    opt.addEventListener('click', ()=>{
+      if(answered[idx]) return;
+      answered[idx] = true;
+      attempted++;
+      const isCorrect = oi === item.a;
+      if(isCorrect) score++;
+      opts.querySelectorAll('.opt').forEach((el,ei)=>{
+        el.classList.add('disabled');
+        if(ei === item.a) el.classList.add('correct');
+        if(ei === oi && !isCorrect) el.classList.add('wrong');
+      });
+      scoreVal.textContent = score;
+      attemptVal.textContent = attempted;
+      progBar.style.width = (attempted/DATA.length*100)+'%';
+      if(attempted === DATA.length) showResult();
+    });
+    opts.appendChild(opt);
+  });
+  card.appendChild(opts);
+
+  const ebtn = document.createElement('button');
+  ebtn.className = 'explain-btn';
+  ebtn.textContent = 'Show Solution';
+  const ebox = document.createElement('div');
+  ebox.className = 'explain-box';
+  ebox.innerHTML = item.e;
+  ebtn.addEventListener('click', ()=>{
+    ebox.classList.toggle('show');
+    ebtn.textContent = ebox.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+  });
+  card.appendChild(ebtn);
+  card.appendChild(ebox);
+
+  return card;
+}
+
+DATA.forEach((item, idx)=> container.appendChild(buildCard(item, idx)));
+
+function showResult(){
+  resultTitle.textContent = "Quiz Complete!";
+  const pct = Math.round(score/DATA.length*100);
+  let remark = pct>=85 ? "Outstanding! Exam-ready performance." : pct>=60 ? "Good work — revise the weak spots." : "Keep practicing — review the solutions carefully.";
+  resultText.textContent = `You scored ${score} out of ${DATA.length} (${pct}%). ${remark}`;
+  resultCard.classList.add('show');
+}
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  location.reload();
+});
+
+// Theme toggle
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', ()=>{
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  themeToggle.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+});
+
+// Filters
+document.getElementById('filterBar').addEventListener('click', (e)=>{
+  if(!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  e.target.classList.add('active');
+  const f = e.target.dataset.filter;
+  document.querySelectorAll('.qcard').forEach(c=>{
+    c.style.display = (f==='all' || c.dataset.section===f) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>
